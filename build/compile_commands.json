@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/john/dev/cpp-game/build",
+  "command": "/usr/bin/c++   -g -I/usr/local/include -o CMakeFiles/cpp-game.dir/main.cpp.o -c /home/john/dev/cpp-game/main.cpp",
+  "file": "/home/john/dev/cpp-game/main.cpp",
+  "output": "CMakeFiles/cpp-game.dir/main.cpp.o"
+}
+]
