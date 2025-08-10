@@ -1,6 +1,6 @@
-CMakeFiles/cpp-game.dir/main.cpp.o: /home/john/dev/cpp-game/main.cpp \
- /usr/include/stdc-predef.h /usr/include/c++/13/iostream \
- /usr/include/c++/13/bits/requires_hosted.h \
+CMakeFiles/cpp-game.dir/src/main.cpp.o: \
+ /home/john/dev/cpp-game/src/main.cpp /usr/include/stdc-predef.h \
+ /usr/include/c++/13/iostream /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -149,4 +149,5 @@ CMakeFiles/cpp-game.dir/main.cpp.o: /home/john/dev/cpp-game/main.cpp \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
  /usr/include/c++/13/bits/istream.tcc /usr/local/include/raylib.h \
- /home/john/dev/cpp-game/./moveable.h
+ /home/john/dev/cpp-game/src/./moveable.h \
+ /home/john/dev/cpp-game/src/./player.h

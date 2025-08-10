@@ -1,8 +1,10 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/cpp-game.dir/main.cpp.o"
-  "CMakeFiles/cpp-game.dir/main.cpp.o.d"
-  "CMakeFiles/cpp-game.dir/moveable.cpp.o"
-  "CMakeFiles/cpp-game.dir/moveable.cpp.o.d"
+  "CMakeFiles/cpp-game.dir/src/main.cpp.o"
+  "CMakeFiles/cpp-game.dir/src/main.cpp.o.d"
+  "CMakeFiles/cpp-game.dir/src/moveable.cpp.o"
+  "CMakeFiles/cpp-game.dir/src/moveable.cpp.o.d"
+  "CMakeFiles/cpp-game.dir/src/player.cpp.o"
+  "CMakeFiles/cpp-game.dir/src/player.cpp.o.d"
   "cpp-game"
   "cpp-game.pdb"
 )

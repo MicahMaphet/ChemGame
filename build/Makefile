@@ -129,53 +129,77 @@ cpp-game/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/build
 .PHONY : cpp-game/fast
 
-main.o: main.cpp.o
-.PHONY : main.o
+src/main.o: src/main.cpp.o
+.PHONY : src/main.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/main.cpp.o
-.PHONY : main.cpp.o
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/main.cpp.i
-.PHONY : main.cpp.i
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/main.cpp.s
-.PHONY : main.cpp.s
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
-moveable.o: moveable.cpp.o
-.PHONY : moveable.o
+src/moveable.o: src/moveable.cpp.o
+.PHONY : src/moveable.o
 
 # target to build an object file
-moveable.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/moveable.cpp.o
-.PHONY : moveable.cpp.o
+src/moveable.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/src/moveable.cpp.o
+.PHONY : src/moveable.cpp.o
 
-moveable.i: moveable.cpp.i
-.PHONY : moveable.i
+src/moveable.i: src/moveable.cpp.i
+.PHONY : src/moveable.i
 
 # target to preprocess a source file
-moveable.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/moveable.cpp.i
-.PHONY : moveable.cpp.i
+src/moveable.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/src/moveable.cpp.i
+.PHONY : src/moveable.cpp.i
 
-moveable.s: moveable.cpp.s
-.PHONY : moveable.s
+src/moveable.s: src/moveable.cpp.s
+.PHONY : src/moveable.s
 
 # target to generate assembly for a file
-moveable.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/moveable.cpp.s
-.PHONY : moveable.cpp.s
+src/moveable.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/src/moveable.cpp.s
+.PHONY : src/moveable.cpp.s
+
+src/player.o: src/player.cpp.o
+.PHONY : src/player.o
+
+# target to build an object file
+src/player.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/src/player.cpp.o
+.PHONY : src/player.cpp.o
+
+src/player.i: src/player.cpp.i
+.PHONY : src/player.i
+
+# target to preprocess a source file
+src/player.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/src/player.cpp.i
+.PHONY : src/player.cpp.i
+
+src/player.s: src/player.cpp.s
+.PHONY : src/player.s
+
+# target to generate assembly for a file
+src/player.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp-game.dir/build.make CMakeFiles/cpp-game.dir/src/player.cpp.s
+.PHONY : src/player.cpp.s
 
 # Help Target
 help:
@@ -186,12 +210,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... cpp-game"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
-	@echo "... moveable.o"
-	@echo "... moveable.i"
-	@echo "... moveable.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
+	@echo "... src/moveable.o"
+	@echo "... src/moveable.i"
+	@echo "... src/moveable.s"
+	@echo "... src/player.o"
+	@echo "... src/player.i"
+	@echo "... src/player.s"
 .PHONY : help
 
 

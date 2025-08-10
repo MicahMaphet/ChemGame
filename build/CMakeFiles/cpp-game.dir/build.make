@@ -69,48 +69,64 @@ include CMakeFiles/cpp-game.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/cpp-game.dir/flags.make
 
-CMakeFiles/cpp-game.dir/main.cpp.o: CMakeFiles/cpp-game.dir/flags.make
-CMakeFiles/cpp-game.dir/main.cpp.o: /home/john/dev/cpp-game/main.cpp
-CMakeFiles/cpp-game.dir/main.cpp.o: CMakeFiles/cpp-game.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/john/dev/cpp-game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cpp-game.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpp-game.dir/main.cpp.o -MF CMakeFiles/cpp-game.dir/main.cpp.o.d -o CMakeFiles/cpp-game.dir/main.cpp.o -c /home/john/dev/cpp-game/main.cpp
+CMakeFiles/cpp-game.dir/src/main.cpp.o: CMakeFiles/cpp-game.dir/flags.make
+CMakeFiles/cpp-game.dir/src/main.cpp.o: /home/john/dev/cpp-game/src/main.cpp
+CMakeFiles/cpp-game.dir/src/main.cpp.o: CMakeFiles/cpp-game.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/john/dev/cpp-game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cpp-game.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpp-game.dir/src/main.cpp.o -MF CMakeFiles/cpp-game.dir/src/main.cpp.o.d -o CMakeFiles/cpp-game.dir/src/main.cpp.o -c /home/john/dev/cpp-game/src/main.cpp
 
-CMakeFiles/cpp-game.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpp-game.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/john/dev/cpp-game/main.cpp > CMakeFiles/cpp-game.dir/main.cpp.i
+CMakeFiles/cpp-game.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpp-game.dir/src/main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/john/dev/cpp-game/src/main.cpp > CMakeFiles/cpp-game.dir/src/main.cpp.i
 
-CMakeFiles/cpp-game.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpp-game.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/john/dev/cpp-game/main.cpp -o CMakeFiles/cpp-game.dir/main.cpp.s
+CMakeFiles/cpp-game.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpp-game.dir/src/main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/john/dev/cpp-game/src/main.cpp -o CMakeFiles/cpp-game.dir/src/main.cpp.s
 
-CMakeFiles/cpp-game.dir/moveable.cpp.o: CMakeFiles/cpp-game.dir/flags.make
-CMakeFiles/cpp-game.dir/moveable.cpp.o: /home/john/dev/cpp-game/moveable.cpp
-CMakeFiles/cpp-game.dir/moveable.cpp.o: CMakeFiles/cpp-game.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/john/dev/cpp-game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cpp-game.dir/moveable.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpp-game.dir/moveable.cpp.o -MF CMakeFiles/cpp-game.dir/moveable.cpp.o.d -o CMakeFiles/cpp-game.dir/moveable.cpp.o -c /home/john/dev/cpp-game/moveable.cpp
+CMakeFiles/cpp-game.dir/src/moveable.cpp.o: CMakeFiles/cpp-game.dir/flags.make
+CMakeFiles/cpp-game.dir/src/moveable.cpp.o: /home/john/dev/cpp-game/src/moveable.cpp
+CMakeFiles/cpp-game.dir/src/moveable.cpp.o: CMakeFiles/cpp-game.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/john/dev/cpp-game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cpp-game.dir/src/moveable.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpp-game.dir/src/moveable.cpp.o -MF CMakeFiles/cpp-game.dir/src/moveable.cpp.o.d -o CMakeFiles/cpp-game.dir/src/moveable.cpp.o -c /home/john/dev/cpp-game/src/moveable.cpp
 
-CMakeFiles/cpp-game.dir/moveable.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpp-game.dir/moveable.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/john/dev/cpp-game/moveable.cpp > CMakeFiles/cpp-game.dir/moveable.cpp.i
+CMakeFiles/cpp-game.dir/src/moveable.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpp-game.dir/src/moveable.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/john/dev/cpp-game/src/moveable.cpp > CMakeFiles/cpp-game.dir/src/moveable.cpp.i
 
-CMakeFiles/cpp-game.dir/moveable.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpp-game.dir/moveable.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/john/dev/cpp-game/moveable.cpp -o CMakeFiles/cpp-game.dir/moveable.cpp.s
+CMakeFiles/cpp-game.dir/src/moveable.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpp-game.dir/src/moveable.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/john/dev/cpp-game/src/moveable.cpp -o CMakeFiles/cpp-game.dir/src/moveable.cpp.s
+
+CMakeFiles/cpp-game.dir/src/player.cpp.o: CMakeFiles/cpp-game.dir/flags.make
+CMakeFiles/cpp-game.dir/src/player.cpp.o: /home/john/dev/cpp-game/src/player.cpp
+CMakeFiles/cpp-game.dir/src/player.cpp.o: CMakeFiles/cpp-game.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/john/dev/cpp-game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cpp-game.dir/src/player.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpp-game.dir/src/player.cpp.o -MF CMakeFiles/cpp-game.dir/src/player.cpp.o.d -o CMakeFiles/cpp-game.dir/src/player.cpp.o -c /home/john/dev/cpp-game/src/player.cpp
+
+CMakeFiles/cpp-game.dir/src/player.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpp-game.dir/src/player.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/john/dev/cpp-game/src/player.cpp > CMakeFiles/cpp-game.dir/src/player.cpp.i
+
+CMakeFiles/cpp-game.dir/src/player.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpp-game.dir/src/player.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/john/dev/cpp-game/src/player.cpp -o CMakeFiles/cpp-game.dir/src/player.cpp.s
 
 # Object files for target cpp-game
 cpp__game_OBJECTS = \
-"CMakeFiles/cpp-game.dir/main.cpp.o" \
-"CMakeFiles/cpp-game.dir/moveable.cpp.o"
+"CMakeFiles/cpp-game.dir/src/main.cpp.o" \
+"CMakeFiles/cpp-game.dir/src/moveable.cpp.o" \
+"CMakeFiles/cpp-game.dir/src/player.cpp.o"
 
 # External object files for target cpp-game
 cpp__game_EXTERNAL_OBJECTS =
 
-cpp-game: CMakeFiles/cpp-game.dir/main.cpp.o
-cpp-game: CMakeFiles/cpp-game.dir/moveable.cpp.o
+cpp-game: CMakeFiles/cpp-game.dir/src/main.cpp.o
+cpp-game: CMakeFiles/cpp-game.dir/src/moveable.cpp.o
+cpp-game: CMakeFiles/cpp-game.dir/src/player.cpp.o
 cpp-game: CMakeFiles/cpp-game.dir/build.make
 cpp-game: /usr/local/lib/libraylib.a
 cpp-game: CMakeFiles/cpp-game.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/john/dev/cpp-game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable cpp-game"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/john/dev/cpp-game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable cpp-game"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cpp-game.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
