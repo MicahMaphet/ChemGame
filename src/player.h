@@ -1,9 +1,9 @@
 #pragma once
 
 #include "raylib.h"
-#include "./moveable.h"
+#include "./character.h"
 
-class Player: public Moveable {
+class Player: public Character {
 public:
     void KeyListen();
 };

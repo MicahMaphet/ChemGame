@@ -4,8 +4,11 @@
 
 class Moveable {
 public:
+    Moveable(int x, int y, int width, int height);
     Moveable();
     int x, y;
-    Texture2D texture;
+    int width, height;
+    bool ShowBox;
+    bool IsTouching(Moveable moveable);
     void Render();
 };
