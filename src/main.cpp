@@ -4,7 +4,7 @@
 #include "moveable.h"
 
 int main(int, char**){
-    std::cout << "Hello, from cpp-game!\n";
+    std::cout << "Hello, from ChemGame!\n";
     InitWindow(1000, 500, "Game");
     SetWindowState(FLAG_VSYNC_HINT);
     Player player(0, 0, 100, 150);
