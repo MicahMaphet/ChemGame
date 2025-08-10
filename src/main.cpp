@@ -1,20 +1,17 @@
 #include <iostream>
 #include "raylib.h"
 #include "player.h"
-#include "moveable.h"
+#include "level.h"
 
 int main(int, char**){
     std::cout << "Hello, from ChemGame!\n";
-    InitWindow(1000, 500, "Game");
+    InitWindow(2000, 1000, "ChemGame");
     SetWindowState(FLAG_VSYNC_HINT);
+
     Player player(0, 0, 100, 150);
-    player.x = 0;
-    player.y = 0;
-    player.width = 100;
-    player.height = 150;
     player.ShowBox = true;
     
-    Moveable level(200, 200, 50, 50);
+    Level level;
     level.ShowBox = true;
     
     while (!WindowShouldClose()) {
@@ -24,7 +21,7 @@ int main(int, char**){
         player.Render();
         level.Render();
         if (level.IsTouching(player))
-            break;
+            level.NextLevel();
         EndDrawing();
     }
     CloseWindow();
