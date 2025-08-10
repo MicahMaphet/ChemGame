@@ -1,1 +1,0 @@
-/usr/bin/c++ "CMakeFiles/cpp-game.dir/main.cpp.o" -o cpp-game  /usr/local/lib/libraylib.a -L/usr/local/lib -lraylib 

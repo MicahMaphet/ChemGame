@@ -1,3 +1,0 @@
-/home/john/dev/cpp-game/CMakeFiles/cpp-game.dir
-/home/john/dev/cpp-game/CMakeFiles/edit_cache.dir
-/home/john/dev/cpp-game/CMakeFiles/rebuild_cache.dir
