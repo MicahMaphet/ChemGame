@@ -7,8 +7,8 @@
 },
 {
   "directory": "/home/john/dev/cpp-game/build",
-  "command": "/usr/bin/c++   -g -I/usr/local/include -o CMakeFiles/cpp-game.dir/player.cpp.o -c /home/john/dev/cpp-game/player.cpp",
-  "file": "/home/john/dev/cpp-game/player.cpp",
-  "output": "CMakeFiles/cpp-game.dir/player.cpp.o"
+  "command": "/usr/bin/c++   -g -I/usr/local/include -o CMakeFiles/cpp-game.dir/moveable.cpp.o -c /home/john/dev/cpp-game/moveable.cpp",
+  "file": "/home/john/dev/cpp-game/moveable.cpp",
+  "output": "CMakeFiles/cpp-game.dir/moveable.cpp.o"
 }
 ]

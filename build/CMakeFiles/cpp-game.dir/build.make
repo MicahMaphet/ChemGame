@@ -83,30 +83,30 @@ CMakeFiles/cpp-game.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpp-game.dir/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/john/dev/cpp-game/main.cpp -o CMakeFiles/cpp-game.dir/main.cpp.s
 
-CMakeFiles/cpp-game.dir/player.cpp.o: CMakeFiles/cpp-game.dir/flags.make
-CMakeFiles/cpp-game.dir/player.cpp.o: /home/john/dev/cpp-game/player.cpp
-CMakeFiles/cpp-game.dir/player.cpp.o: CMakeFiles/cpp-game.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/john/dev/cpp-game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cpp-game.dir/player.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpp-game.dir/player.cpp.o -MF CMakeFiles/cpp-game.dir/player.cpp.o.d -o CMakeFiles/cpp-game.dir/player.cpp.o -c /home/john/dev/cpp-game/player.cpp
+CMakeFiles/cpp-game.dir/moveable.cpp.o: CMakeFiles/cpp-game.dir/flags.make
+CMakeFiles/cpp-game.dir/moveable.cpp.o: /home/john/dev/cpp-game/moveable.cpp
+CMakeFiles/cpp-game.dir/moveable.cpp.o: CMakeFiles/cpp-game.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/john/dev/cpp-game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cpp-game.dir/moveable.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cpp-game.dir/moveable.cpp.o -MF CMakeFiles/cpp-game.dir/moveable.cpp.o.d -o CMakeFiles/cpp-game.dir/moveable.cpp.o -c /home/john/dev/cpp-game/moveable.cpp
 
-CMakeFiles/cpp-game.dir/player.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpp-game.dir/player.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/john/dev/cpp-game/player.cpp > CMakeFiles/cpp-game.dir/player.cpp.i
+CMakeFiles/cpp-game.dir/moveable.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpp-game.dir/moveable.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/john/dev/cpp-game/moveable.cpp > CMakeFiles/cpp-game.dir/moveable.cpp.i
 
-CMakeFiles/cpp-game.dir/player.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpp-game.dir/player.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/john/dev/cpp-game/player.cpp -o CMakeFiles/cpp-game.dir/player.cpp.s
+CMakeFiles/cpp-game.dir/moveable.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpp-game.dir/moveable.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/john/dev/cpp-game/moveable.cpp -o CMakeFiles/cpp-game.dir/moveable.cpp.s
 
 # Object files for target cpp-game
 cpp__game_OBJECTS = \
 "CMakeFiles/cpp-game.dir/main.cpp.o" \
-"CMakeFiles/cpp-game.dir/player.cpp.o"
+"CMakeFiles/cpp-game.dir/moveable.cpp.o"
 
 # External object files for target cpp-game
 cpp__game_EXTERNAL_OBJECTS =
 
 cpp-game: CMakeFiles/cpp-game.dir/main.cpp.o
-cpp-game: CMakeFiles/cpp-game.dir/player.cpp.o
+cpp-game: CMakeFiles/cpp-game.dir/moveable.cpp.o
 cpp-game: CMakeFiles/cpp-game.dir/build.make
 cpp-game: /usr/local/lib/libraylib.a
 cpp-game: CMakeFiles/cpp-game.dir/link.txt

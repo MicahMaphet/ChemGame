@@ -131,7 +131,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "player.cpp",
+			"path" : "moveable.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

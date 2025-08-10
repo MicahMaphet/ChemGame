@@ -1,6 +1,6 @@
-CMakeFiles/cpp-game.dir/player.cpp.o: /home/john/dev/cpp-game/player.cpp \
- /usr/include/stdc-predef.h /home/john/dev/cpp-game/player.h \
- /usr/local/include/raylib.h \
+CMakeFiles/cpp-game.dir/moveable.cpp.o: \
+ /home/john/dev/cpp-game/moveable.cpp /usr/include/stdc-predef.h \
+ /home/john/dev/cpp-game/moveable.h /usr/local/include/raylib.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
  /usr/include/c++/13/string /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
