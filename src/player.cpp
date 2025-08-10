@@ -1,19 +1,63 @@
 #include "player.h"
+#include "raylib.h"
+#include <cmath>
+
+Player::Player(int x, int y, int width, int height) : Moveable(x, y, width, height) {
+    texture = LoadTexture("./image.png");
+    maxSpeed = 10;
+    acceleration = 0.5;
+}
 
 void Player::KeyListen() {
+    double speedXIncrease, speedYIncrease = 0;
+
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) {
-        x -= 1;
+        speedXIncrease = -acceleration;
+    }
+    
+    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) {
+        speedXIncrease = acceleration;
     }
 
     if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) {
-        y -= 1;
+        speedYIncrease = -acceleration;
     }
 
     if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)) {
-        y += 1;
+        speedYIncrease = acceleration;
     }
 
-    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) {
-        x += 1;
+    if (speedXIncrease && speedYIncrease) {
+        speedXIncrease /= sqrt(2);
+        speedYIncrease /= sqrt(2);
     }
+    // if no input was provided and speed speed is essentially 0, just stop moving
+    if (speed < speedDeadband && !speedXIncrease && !speedYIncrease) {
+        speedX = speedY = 0;
+    } else {
+        if (!speedXIncrease)
+             speedX -= cos(heading) * abs(speedX) / 5;
+        else speedX += speedXIncrease;
+        
+        if (!speedYIncrease)
+             speedY -= sin(heading) * abs(speedY) / 5;
+        else speedY += speedYIncrease;
+
+    }
+    speed = hypot(speedX, speedY);
+    heading = atan2(speedY, speedX);
+
+    if (speed > maxSpeed) {
+        speedX = cos(heading) * maxSpeed;
+        speedY = sin(heading) * maxSpeed;
+        speed = maxSpeed;
+    }
+}
+
+void Player::Render() {
+    Moveable::Render();
+    // DrawTexture(texture, x, y, WHITE);
+    DrawText(TextFormat("X & Y Speed: %f %f", speedX, speedY), 10, 10, 20, BLACK);
+    x += speedX;
+    y += speedY;
 }

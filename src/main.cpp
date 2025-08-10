@@ -1,24 +1,20 @@
 #include <iostream>
 #include "raylib.h"
-#include "./player.h"
-#include "./level.h"
+#include "player.h"
+#include "moveable.h"
 
 int main(int, char**){
     std::cout << "Hello, from cpp-game!\n";
     InitWindow(1000, 500, "Game");
     SetWindowState(FLAG_VSYNC_HINT);
-    Player player;
+    Player player(0, 0, 100, 150);
     player.x = 0;
     player.y = 0;
     player.width = 100;
     player.height = 150;
     player.ShowBox = true;
     
-    Level level;
-    level.x = 200;
-    level.y = 200;
-    level.width = 50;
-    level.height = 50;
+    Moveable level(200, 200, 50, 50);
     level.ShowBox = true;
     
     while (!WindowShouldClose()) {

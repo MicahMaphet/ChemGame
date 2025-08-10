@@ -6,16 +6,13 @@ bool Moveable::IsTouching(Moveable moveable) {
 }
 
 void Moveable::Render() {
-    DrawRectangle(x, y, width, height, RED);
+    if (ShowBox)
+        DrawRectangle(x, y, width, height, RED);
 }
 
-Moveable::Moveable(int _x, int _y, int _width, int _height) {
-    x = _x;
-    y = _y;
-    width = _width;
-    height = _height;
-}
-Moveable::Moveable() {
-    x, y = 0;
+Moveable::Moveable(int x, int y, int width, int height) : x(x), y(y), width(width), height(height),
+    heading(0), speed(0), speedX(0), speedY(0), maxSpeed(0), speedDeadband(2), acceleration(0) {}
+
+Moveable::Moveable() : Moveable(0, 0, 0, 0) {
     ShowBox = false;
 }
