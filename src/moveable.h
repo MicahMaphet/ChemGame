@@ -10,5 +10,8 @@ public:
     double heading, speed, speedX, speedY, maxSpeed, speedDeadband, acceleration;
     bool ShowBox;
     bool IsTouching(Moveable moveable);
+    bool MouseHover();
+    bool Clicked();
     void Render();
+    void RenderImage(Texture2D image);
 };

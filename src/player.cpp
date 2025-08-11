@@ -3,7 +3,7 @@
 #include <cmath>
 
 Player::Player(int x, int y, int width, int height) : Moveable(x, y, width, height) {
-    texture = LoadTexture("./image.png");
+    texture = LoadTexture("images/WalterWhiteCat.png");
     maxSpeed = 10;
     acceleration = 0.5;
 }
@@ -11,21 +11,14 @@ Player::Player(int x, int y, int width, int height) : Moveable(x, y, width, heig
 void Player::KeyListen() {
     double speedXIncrease, speedYIncrease = 0;
 
-    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) {
+    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
         speedXIncrease = -acceleration;
-    }
-    
-    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) {
+    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
         speedXIncrease = acceleration;
-    }
-
-    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) {
+    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
         speedYIncrease = -acceleration;
-    }
-
-    if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)) {
+    if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
         speedYIncrease = acceleration;
-    }
 
     if (speedXIncrease && speedYIncrease) {
         speedXIncrease /= sqrt(2);
@@ -56,8 +49,7 @@ void Player::KeyListen() {
 
 void Player::Render() {
     Moveable::Render();
-    // DrawTexture(texture, x, y, WHITE);
-    DrawText(TextFormat("X & Y Speed: %f %f", speedX, speedY), 10, 10, 20, BLACK);
+    RenderImage(texture);
     x += speedX;
     y += speedY;
 }

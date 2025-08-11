@@ -4,17 +4,18 @@ using std::vector;
 
 Level::Level() : level(0) {
     positions = {
-        {0, 0, 50, 50},
-        {100, 300, 100, 50},
-        {200, 500, 20, 20}
+        {1900, 500, 100, 200},
+        {300, 900, 100, 100},
+        {1900, 800, 100, 200},
+        {300, 900, 100, 200},
     };
-    Moveable(positions[level][0], positions[level][1], positions[level][2], positions[level][3]);
+    NextLevel();
 }
 
 void Level::NextLevel() {
-    level++;
     x = positions[level][0];
     y = positions[level][1];
     width = positions[level][2];
     height = positions[level][3];
+    level++;
 }
