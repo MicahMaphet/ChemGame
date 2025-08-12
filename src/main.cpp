@@ -14,16 +14,50 @@ int main(int, char**){
     Level level;
     level.ShowBox = true;
 
+    Moveable completeButton(GetScreenWidth() - 200, GetScreenHeight() - 200, 100, 100);
+
+    struct CompleteButtonImages {
+        Texture2D idle = LoadTexture("images/CompleteButton.png");
+        Texture2D highlight = LoadTexture("images/CompleteButtonHighlight.png");
+    };
+    CompleteButtonImages completeButtonImages;
+
+
     WorkBench workBench(1000, 800, 150, 100);
+
+    enum GameState {
+        Moving,
+        Labing
+    };
+    GameState gameState = Moving;
     
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
-        player.KeyListen();
         player.Render();
         level.Render();
         workBench.Render();
-        DrawText(TextFormat("Mouse %f %f", GetMousePosition().x, GetMousePosition().y), 150, 0, 20, BLACK);
+        switch (gameState) {
+            case Moving: {
+                player.KeyListen();
+                if (workBench.Clicked()) {
+                    gameState = Labing;
+                    workBench.Display();
+                }
+                break;
+            }
+            case Labing: {
+                if (completeButton.MouseHover()) {
+                    completeButton.RenderImage(completeButtonImages.highlight);
+                    if (IsMouseButtonReleased(0)) {
+                        gameState = Moving;
+                        workBench.EndDisplay();
+                    }
+                }
+                else completeButton.RenderImage(completeButtonImages.idle);
+                break;
+            }
+        }
         if (level.IsTouching(player)) {
             level.NextLevel();
             player.x = 0;

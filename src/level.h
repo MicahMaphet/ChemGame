@@ -10,5 +10,5 @@ public:
     Level();
     void NextLevel();
     int level;
-    vector<vector<int>> positions;
+    vector<State2D> positions;
 };

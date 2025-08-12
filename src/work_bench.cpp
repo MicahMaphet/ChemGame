@@ -3,16 +3,26 @@
 #include <iostream>
 
 WorkBench::WorkBench(int x, int y, int width, int height) : Moveable(x, y, width, height) {
+    realState2D.Set(x, y, width, height);
+    displayState2D.Set(GetScreenWidth()/2, GetScreenHeight()/2, GetScreenWidth() - 100, GetScreenHeight() - 100);
+    state = NotDisplaying;
     image = LoadTexture("images/ChemBoard.png");
     highlightedImage = LoadTexture("images/HighlightedChemBoard.png");
 }
 
 void WorkBench::Render() {
     Moveable::Render();
-    Rectangle rect = {0.0f, 0.0f, 100, 100};
-    Vector2 pos = {100, 300};
-    if (MouseHover())
+    if (MouseHover() && state == NotDisplaying)
         RenderImage(highlightedImage);
-    else
-        RenderImage(image);
+    else RenderImage(image);
+}
+
+void WorkBench::Display() {
+    state = Displaying;
+    SetByState2D(displayState2D);
+}
+
+void WorkBench::EndDisplay() {
+    state = NotDisplaying;
+    SetByState2D(realState2D);
 }

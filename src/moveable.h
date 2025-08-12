@@ -4,6 +4,16 @@
 
 class Moveable {
 public:
+    struct Position { int x, y; };
+    struct Dimentions { int width, height; };
+    struct State2D { 
+        Position pose; 
+        Dimentions dims;
+        void Set(int x, int y, int width, int height);
+    };
+    void SetByState2D(State2D state2D);
+    void SetByPose(Position pose);
+    void SetByDims(Dimentions pose);
     Moveable(int x, int y, int width, int height);
     Moveable();
     int x, y, width, height;

@@ -30,3 +30,25 @@ Moveable::Moveable(int x, int y, int width, int height) : x(x), y(y), width(widt
     heading(0), speed(0), speedX(0), speedY(0), maxSpeed(0), speedDeadband(2), acceleration(0), ShowBox(false) {}
 
 Moveable::Moveable() : Moveable(0, 0, 0, 0) {}
+
+void Moveable::SetByPose(Position pose) {
+    x = pose.x;
+    y = pose.y;
+}
+
+void Moveable::SetByDims(Dimentions pose) {
+    width = pose.width;
+    height = pose.height;
+}
+
+void Moveable::SetByState2D(State2D state2D) {
+    SetByPose(state2D.pose);
+    SetByDims(state2D.dims);
+}
+
+void Moveable::State2D::Set(int x, int y, int width, int height) {
+    pose.x = x;
+    pose.y = y;
+    dims.width = width;
+    dims.height = height;
+}
