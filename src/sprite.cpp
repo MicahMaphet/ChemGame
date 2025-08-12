@@ -20,9 +20,9 @@ void Sprite::Render() {
         DrawRectangle(x - width/2, y - height/2, width, height, RED);
 }
 
-void Sprite::RenderImage(Texture2D image) {
+void Sprite::RenderImage(Texture2D image, float scale) {
     Rectangle srcRect = { 0.0f, 0.0f, (float)image.width, (float)image.height };
-    Rectangle destRect = { (float)x, (float)y, (float)width, (float)height };
+    Rectangle destRect = { (float)x, (float)y, (float)width * scale, (float)height * scale };
     DrawTexturePro(image, srcRect, destRect, (Vector2){(float)width/2, (float)height/2}, 0, WHITE);
 }
 

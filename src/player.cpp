@@ -3,7 +3,7 @@
 #include <cmath>
 
 Player::Player(int x, int y, int width, int height) : Sprite(x, y, width, height) {
-    texture = LoadTexture("images/WalterWhiteCat.png");
+    texture = LoadTexture("images/LuSuit.png");
     maxSpeed = 10;
     acceleration = 0.5;
 }
@@ -49,7 +49,7 @@ void Player::KeyListen() {
 
 void Player::Render() {
     Sprite::Render();
-    RenderImage(texture);
+    RenderImage(texture, 1.1);
     x += speedX;
     y += speedY;
 }

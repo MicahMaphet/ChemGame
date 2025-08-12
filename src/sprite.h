@@ -23,5 +23,5 @@ public:
     bool MouseHover();
     bool Clicked();
     void Render();
-    void RenderImage(Texture2D image);
+    void RenderImage(Texture2D image, float scale = 1);
 };

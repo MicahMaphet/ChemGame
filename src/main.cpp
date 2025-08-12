@@ -9,7 +9,7 @@ int main(int, char**){
     InitWindow(2000, 1000, "ChemGame");
     SetWindowState(FLAG_VSYNC_HINT);
 
-    Player player(0, 0, 84, 140);
+    Player player(0, 0, 120, 180);
     
     Level level;
     level.ShowBox = true;
