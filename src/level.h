@@ -1,11 +1,11 @@
 #pragma once
 
-#include "moveable.h"
+#include "sprite.h"
 #include <vector>
 
 using std::vector;
 
-class Level : public Moveable {
+class Level : public Sprite {
 public:
     Level();
     void NextLevel();

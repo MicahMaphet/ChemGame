@@ -1,9 +1,9 @@
 #pragma once
 
-#include "moveable.h"
+#include "sprite.h"
 #include "raylib.h"
 
-class WorkBench : public Moveable {
+class WorkBench : public Sprite {
 private:
     Texture2D image;
     Texture2D highlightedImage;

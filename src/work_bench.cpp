@@ -2,7 +2,7 @@
 #include "raylib.h"
 #include <iostream>
 
-WorkBench::WorkBench(int x, int y, int width, int height) : Moveable(x, y, width, height) {
+WorkBench::WorkBench(int x, int y, int width, int height) : Sprite(x, y, width, height) {
     realState2D.Set(x, y, width, height);
     displayState2D.Set(GetScreenWidth()/2, GetScreenHeight()/2, GetScreenWidth() - 100, GetScreenHeight() - 100);
     state = NotDisplaying;
@@ -11,7 +11,7 @@ WorkBench::WorkBench(int x, int y, int width, int height) : Moveable(x, y, width
 }
 
 void WorkBench::Render() {
-    Moveable::Render();
+    Sprite::Render();
     if (MouseHover() && state == NotDisplaying)
         RenderImage(highlightedImage);
     else RenderImage(image);

@@ -14,7 +14,7 @@ int main(int, char**){
     Level level;
     level.ShowBox = true;
 
-    Moveable completeButton(GetScreenWidth() - 200, GetScreenHeight() - 200, 100, 100);
+    Sprite completeButton(GetScreenWidth() - 200, GetScreenHeight() - 200, 100, 100);
 
     struct CompleteButtonImages {
         Texture2D idle = LoadTexture("images/CompleteButton.png");

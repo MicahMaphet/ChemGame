@@ -1,9 +1,9 @@
 #pragma once
 
 #include "raylib.h"
-#include "moveable.h"
+#include "sprite.h"
 
-class Player: public Moveable {
+class Player: public Sprite {
 private:
     Texture2D texture;
 public:

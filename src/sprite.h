@@ -2,7 +2,7 @@
 
 #include "raylib.h"
 
-class Moveable {
+class Sprite {
 public:
     struct Position { int x, y; };
     struct Dimentions { int width, height; };
@@ -14,12 +14,12 @@ public:
     void SetByState2D(State2D state2D);
     void SetByPose(Position pose);
     void SetByDims(Dimentions pose);
-    Moveable(int x, int y, int width, int height);
-    Moveable();
+    Sprite(int x, int y, int width, int height);
+    Sprite();
     int x, y, width, height;
     double heading, speed, speedX, speedY, maxSpeed, speedDeadband, acceleration;
     bool ShowBox;
-    bool IsTouching(Moveable moveable);
+    bool IsTouching(Sprite sprite);
     bool MouseHover();
     bool Clicked();
     void Render();

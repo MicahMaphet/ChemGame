@@ -2,7 +2,7 @@
 #include "raylib.h"
 #include <cmath>
 
-Player::Player(int x, int y, int width, int height) : Moveable(x, y, width, height) {
+Player::Player(int x, int y, int width, int height) : Sprite(x, y, width, height) {
     texture = LoadTexture("images/WalterWhiteCat.png");
     maxSpeed = 10;
     acceleration = 0.5;
@@ -48,7 +48,7 @@ void Player::KeyListen() {
 }
 
 void Player::Render() {
-    Moveable::Render();
+    Sprite::Render();
     RenderImage(texture);
     x += speedX;
     y += speedY;
