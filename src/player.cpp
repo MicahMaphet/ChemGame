@@ -61,8 +61,8 @@ void Player::Render() {
 
 void Player::Hold() {
     double angle = GetMouseAngle();
-    double holdDistance = GetMouseDistance() < 200 ? GetMouseDistance() 
-                          : sigmoid(GetMouseDistance() / 300) * 300;
+    double holdDistance = GetMouseDistance() < 130 ? GetMouseDistance() 
+                          : sigmoid(GetMouseDistance() / 200) * 200;
     item.x = x + cos(angle) * holdDistance;
     item.y = y + sin(angle) * holdDistance;
     item.RenderImage(itemImage);
