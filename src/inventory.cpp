@@ -26,12 +26,12 @@ void Inventory::Render() {
     float originY = GetScreenHeight()/2 - height/2;
     for (int row = 0; row < numBoxs; row++) {
         for (int col = 0; col < numBoxs; col++) {
-            DrawRectangleLinesEx(
-                Rectangle{originX + padding + row * (boxWidth + padding),
-                          originY + padding + col * (boxWidth + padding), 
-                          (float)boxWidth, (float)boxWidth},
-                10, WHITE
-            );
+            Rectangle rect{originX + padding + row * (boxWidth + padding),
+                           originY + padding + col * (boxWidth + padding), 
+                           (float)boxWidth, (float)boxWidth};
+            bool hover = rect.x < GetMousePosition().x && rect.x + rect.width > GetMousePosition().x &&
+                         rect.y < GetMousePosition().y && rect.y + rect.height > GetMousePosition().y;
+            DrawRectangleLinesEx(rect, 10, hover ? WHITE : GRAY);
             Sprite item = items[row + col * numBoxs];
             Texture2D image = itemImages[row + col * numBoxs];
             item.x = originX + padding + row * (boxWidth + padding) + boxWidth/2;
