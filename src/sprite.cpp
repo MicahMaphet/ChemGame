@@ -30,15 +30,7 @@ void Sprite::Render() {
 }
 
 void Sprite::RenderImage(Texture2D image, float scale) {
-    DrawTexturePro(image, 
-        // initial dimentions of the circle as a rectangle
-        Rectangle{ 0.0f, 0.0f, (float)image.width, (float)image.height }, 
-        // final position and dimentions of the image
-        Rectangle{ (float)x, (float)y, (float)width*scale, (float)height*scale },
-        // define the origin of the image to be the center
-        Vector2{(float)width*scale/2, (float)height*scale/2}, 
-        rotation, WHITE
-    );
+    Util::RenderImage(image, x, y, width, height, rotation, scale);
 }
 
 Sprite::Sprite(int x, int y, int width, int height) : x(x), y(y), width(width), height(height),
@@ -70,12 +62,4 @@ void Sprite::SetByState2D(State2D state2D) {
 void Sprite::SetByVector2(Vector2 vector2) {
     x = vector2.x;
     y = vector2.y;
-}
-
-void State2D::Set(int x, int y, int width, int height, float rot) {
-    pose.x = x;
-    pose.y = y;
-    dims.width = width;
-    dims.height = height;
-    rotation = rot;
 }

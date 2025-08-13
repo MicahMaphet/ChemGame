@@ -1,15 +1,7 @@
 #pragma once
 
 #include "raylib.h"
-
-struct Position { int x, y; };
-struct Dimentions { int width, height; };
-struct State2D { 
-    Position pose; 
-    Dimentions dims;
-    float rotation;
-    void Set(int x, int y, int width, int height, float rot = 0);
-};
+#include "util.h"
 
 class Sprite {
 public:
