@@ -50,17 +50,20 @@ void Player::KeyListen() {
         speed = maxSpeed;
     }
 }
+
 void Player::Render() {
     Sprite::Render();
     RenderImage(texture, 1.1);
     x += speedX;
     y += speedY;
+    Hold();
+}
 
-    // for whatever reason storing the mouse angle in a variable fixes things
-    GetMouseAngle();
+void Player::Hold() {
     double angle = GetMouseAngle();
-
-    item.x = x + cos(angle) * 300;
-    item.y = y + sin(angle) * 300;
+    double holdDistance = GetMouseDistance() < 200 ? GetMouseDistance() 
+                          : sigmoid(GetMouseDistance() / 300) * 300;
+    item.x = x + cos(angle) * holdDistance;
+    item.y = y + sin(angle) * holdDistance;
     item.RenderImage(itemImage);
 }

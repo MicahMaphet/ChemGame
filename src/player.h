@@ -10,6 +10,7 @@ public:
     Player(int x, int y, int width, int height);
     void KeyListen();
     void Render();
+    void Hold();
     Sprite item;
     Texture2D itemImage;
 };
