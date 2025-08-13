@@ -64,10 +64,16 @@ int main(int, char**){
             }
             case Inventory: {
                 inventory.Render();
-                if (IsKeyPressed(KEY_E))
+                player.itemImage = inventory.GetSelectedItemImage();
+                if (IsKeyPressed(KEY_E)) {
                     gameState = Moving;
+                }
                 break;
             }
+        }
+
+        if (gameState != Moving) {
+            player.Deaccelerate();
         }
 
         if (level.IsTouching(player)) {

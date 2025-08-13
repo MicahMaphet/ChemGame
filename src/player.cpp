@@ -31,15 +31,11 @@ void Player::KeyListen() {
     // if no input was provided and speed speed is essentially 0, just stop moving
     if (speed < speedDeadband && !speedXIncrease && !speedYIncrease) {
         speedX = speedY = 0;
+    } else if (!speedXIncrease && !speedYIncrease) {
+        Deaccelerate();
     } else {
-        if (!speedXIncrease)
-             speedX -= cos(heading) * abs(speedX) / 5;
-        else speedX += speedXIncrease;
-        
-        if (!speedYIncrease)
-             speedY -= sin(heading) * abs(speedY) / 5;
-        else speedY += speedYIncrease;
-
+        speedX += speedXIncrease;
+        speedY += speedYIncrease;
     }
     speed = hypot(speedX, speedY);
     heading = atan2(speedY, speedX);
@@ -66,4 +62,9 @@ void Player::Hold() {
     item.x = x + cos(angle) * holdDistance;
     item.y = y + sin(angle) * holdDistance;
     item.RenderImage(itemImage);
+}
+
+void Player::Deaccelerate() {
+    speedX -= cos(heading) * abs(speedX) / 5;
+    speedY -= sin(heading) * abs(speedY) / 5;
 }

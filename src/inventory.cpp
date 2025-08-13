@@ -11,6 +11,7 @@ Inventory::Inventory(int width, int height) : Sprite(width, height) {
         LoadTexture("images/C.png"),
         LoadTexture("images/S.png")
     };
+    selectedItemIndex = 0;
 }
 
 void Inventory::Render() {
@@ -30,11 +31,23 @@ void Inventory::Render() {
             bool hover = rect.x < GetMouseX() && rect.x + rect.width > GetMouseX() &&
                          rect.y < GetMouseY() && rect.y + rect.height > GetMouseY();
             DrawRectangleLinesEx(rect, 10, hover ? WHITE : GRAY);
-            Sprite item = items[row + col * numBoxs];
-            Texture2D image = itemImages[row + col * numBoxs];
+            int itemIndex = row + col * numBoxs;
+            Sprite item = items[itemIndex];
+            Texture2D image = itemImages[itemIndex];
             item.x = shell.x + padding + row * (boxWidth + padding) + boxWidth/2;
             item.y = shell.y + padding + col * (boxWidth + padding) + boxWidth/2;
             item.RenderImage(image);
+            if (hover && IsMouseButtonReleased(0)) {
+                selectedItemIndex = itemIndex;
+            }
         }
     }
+}
+
+Sprite Inventory::GetSelectedItem() {
+    return items[selectedItemIndex];
+}
+
+Texture2D Inventory::GetSelectedItemImage() {
+    return itemImages[selectedItemIndex];
 }
