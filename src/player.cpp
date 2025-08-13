@@ -1,6 +1,7 @@
 #include "player.h"
 #include "raylib.h"
 #include <cmath>
+#include <iostream>
 
 Player::Player(int x, int y, int width, int height) : Sprite(x, y, width, height) {
     texture = LoadTexture("images/LuSuit.png");
@@ -26,6 +27,7 @@ void Player::KeyListen() {
         speedXIncrease /= sqrt(2);
         speedYIncrease /= sqrt(2);
     }
+
     // if no input was provided and speed speed is essentially 0, just stop moving
     if (speed < speedDeadband && !speedXIncrease && !speedYIncrease) {
         speedX = speedY = 0;
@@ -48,13 +50,17 @@ void Player::KeyListen() {
         speed = maxSpeed;
     }
 }
-
 void Player::Render() {
     Sprite::Render();
     RenderImage(texture, 1.1);
     x += speedX;
     y += speedY;
-    item.x = x + 200;
-    item.y = y;
+
+    // for whatever reason storing the mouse angle in a variable fixes things
+    GetMouseAngle();
+    double angle = GetMouseAngle();
+
+    item.x = x + cos(angle) * 300;
+    item.y = y + sin(angle) * 300;
     item.RenderImage(itemImage);
 }

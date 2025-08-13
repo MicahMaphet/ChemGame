@@ -43,7 +43,7 @@ int main(int, char**){
         switch (gameState) {
             case Moving: {
                 player.KeyListen();
-                if (workBench.Clicked()) {
+                if (workBench.IsClicked()) {
                     gameState = Labing;
                     workBench.Display();
                 }
@@ -52,7 +52,7 @@ int main(int, char**){
                 break;
             }
             case Labing: {
-                if (completeButton.MouseHover()) {
+                if (completeButton.IsMouseHover()) {
                     completeButton.RenderImage(completeButtonImages.highlight);
                     if (IsMouseButtonReleased(0)) {
                         gameState = Moving;

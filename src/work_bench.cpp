@@ -12,7 +12,7 @@ WorkBench::WorkBench(int x, int y, int width, int height) : Sprite(x, y, width, 
 
 void WorkBench::Render() {
     Sprite::Render();
-    if (MouseHover() && state == NotDisplaying)
+    if (IsMouseHover() && state == NotDisplaying)
         RenderImage(highlightedImage);
     else RenderImage(image);
 }

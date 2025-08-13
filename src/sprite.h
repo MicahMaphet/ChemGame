@@ -16,9 +16,11 @@ public:
     double heading, rotation, speed, speedX, speedY, maxSpeed, speedDeadband, acceleration;
     bool ShowBox;
     bool IsTouching(Sprite sprite);
-    bool MouseHover();
-    bool Clicked();
+    bool IsMouseHover();
+    bool IsClicked();
     void MouseDragListen();
+    double GetMouseAngle();
+    double GetMouseDistance();
     void Render();
     void RenderImage(Texture2D image, float scale = 1);
 };

@@ -27,8 +27,8 @@ void Inventory::Render() {
             Rectangle rect{shell.x + padding + row * (boxWidth + padding),
                            shell.y + padding + col * (boxWidth + padding), 
                            (float)boxWidth, (float)boxWidth};
-            bool hover = rect.x < GetMousePosition().x && rect.x + rect.width > GetMousePosition().x &&
-                         rect.y < GetMousePosition().y && rect.y + rect.height > GetMousePosition().y;
+            bool hover = rect.x < GetMouseX() && rect.x + rect.width > GetMouseX() &&
+                         rect.y < GetMouseY() && rect.y + rect.height > GetMouseY();
             DrawRectangleLinesEx(rect, 10, hover ? WHITE : GRAY);
             Sprite item = items[row + col * numBoxs];
             Texture2D image = itemImages[row + col * numBoxs];

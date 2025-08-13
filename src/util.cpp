@@ -20,3 +20,7 @@ void State2D::Set(int x, int y, int width, int height, float rot) {
     dims.height = height;
     rotation = rot;
 }
+
+double sigmoid(double k) {
+    return 1/(1 + pow(M_E, -k));
+}
