@@ -18,6 +18,7 @@ public:
     void SetByDims(Dimentions pose);
     void SetByVector2(Vector2 vector2);
     Sprite(int x, int y, int width, int height);
+    Sprite(int width, int height);
     Sprite();
     int x, y, width, height;
     double heading, rotation, speed, speedX, speedY, maxSpeed, speedDeadband, acceleration;

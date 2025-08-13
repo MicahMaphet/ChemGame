@@ -6,10 +6,10 @@ using std::vector;
 Level::Level() : level(0) {
     defaultImage = LoadTexture("images/Door.png");
     positions = {
-        State2D{1900, 500, 40, 120, 0},
-        State2D{300, 900, 40, 120, 90},
-        State2D{1900, 800, 40, 120, 180},
-        State2D{300, 900, 40, 120, 360},
+        State2D{1900, 500, 120, 40, 90},
+        State2D{300, 900, 120, 40, 0},
+        State2D{1900, 800, 120, 40, 360},
+        State2D{300, 900, 120, 40, 180},
     };
     NextLevel();
 }

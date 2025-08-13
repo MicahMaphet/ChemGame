@@ -44,6 +44,8 @@ void Sprite::RenderImage(Texture2D image, float scale) {
 Sprite::Sprite(int x, int y, int width, int height) : x(x), y(y), width(width), height(height),
     heading(0), rotation(0), speed(0), speedX(0), speedY(0), maxSpeed(0), speedDeadband(2), acceleration(0), ShowBox(false) {}
 
+Sprite::Sprite(int width, int height) : Sprite(0, 0, width, height) {}
+
 Sprite::Sprite() : Sprite(0, 0, 0, 0) {}
 
 /** Set the x and y coardanites of the sprite via Position argument */

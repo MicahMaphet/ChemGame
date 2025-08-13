@@ -6,6 +6,8 @@ Player::Player(int x, int y, int width, int height) : Sprite(x, y, width, height
     texture = LoadTexture("images/LuSuit.png");
     maxSpeed = 10;
     acceleration = 0.5;
+    item = Sprite(100, 100);
+    itemImage = LoadTexture("images/KNO3.png");
 }
 
 void Player::KeyListen() {
@@ -52,4 +54,7 @@ void Player::Render() {
     RenderImage(texture, 1.1);
     x += speedX;
     y += speedY;
+    item.x = x + 200;
+    item.y = y;
+    item.RenderImage(itemImage);
 }
