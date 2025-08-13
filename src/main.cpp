@@ -34,13 +34,6 @@ int main(int, char**){
     };
     GameState gameState = Moving;
 
-    Sprite KNO3(200, 200, 200, 200);
-    Texture2D KNO3img = LoadTexture("images/KNO3.png");
-    Sprite C(200, 400, 100, 100);
-    Texture2D Cimg = LoadTexture("images/C.png");
-    Sprite S(200, 600, 100, 100);
-    Texture2D Simg = LoadTexture("images/S.png");
-    
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
@@ -67,12 +60,6 @@ int main(int, char**){
                     }
                 }
                 else completeButton.RenderImage(completeButtonImages.idle);
-                KNO3.MouseDragListen();
-                C.MouseDragListen();
-                S.MouseDragListen();
-                KNO3.RenderImage(KNO3img);
-                C.RenderImage(Cimg);
-                S.RenderImage(Simg);
                 break;
             }
             case Inventory: {

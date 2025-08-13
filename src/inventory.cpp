@@ -1,6 +1,17 @@
 #include "inventory.h"
 
-Inventory::Inventory(int width, int height) : Sprite(0, 0, width, height) {}
+Inventory::Inventory(int width, int height) : Sprite(0, 0, width, height) {
+    items = {
+        Sprite{0, 0, 200, 200},
+        Sprite{0, 0, 100, 100},
+        Sprite{0, 0, 100, 100}
+    };
+    itemImages = {
+        LoadTexture("images/KNO3.png"),
+        LoadTexture("images/C.png"),
+        LoadTexture("images/S.png")
+    };
+}
 
 void Inventory::Render() {
     Sprite::Render();
@@ -21,6 +32,11 @@ void Inventory::Render() {
                           (float)boxWidth, (float)boxWidth},
                 10, WHITE
             );
+            Sprite item = items[row + col * numBoxs];
+            Texture2D image = itemImages[row + col * numBoxs];
+            item.x = originX + padding + row * (boxWidth + padding) + boxWidth/2;
+            item.y = originY + padding + col * (boxWidth + padding) + boxWidth/2;
+            item.RenderImage(image);
         }
     }
 }
