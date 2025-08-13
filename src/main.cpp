@@ -12,7 +12,6 @@ int main(int, char**){
     Player player(0, 0, 120, 180);
     
     Level level;
-    level.ShowBox = true;
 
     Sprite completeButton(GetScreenWidth() - 200, GetScreenHeight() - 200, 100, 100);
 
@@ -30,6 +29,13 @@ int main(int, char**){
         Labing
     };
     GameState gameState = Moving;
+
+    Sprite KNO3(200, 200, 200, 200);
+    Texture2D KNO3img = LoadTexture("images/KNO3.png");
+    Sprite C(200, 400, 100, 100);
+    Texture2D Cimg = LoadTexture("images/C.png");
+    Sprite S(200, 600, 100, 100);
+    Texture2D Simg = LoadTexture("images/S.png");
     
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -55,6 +61,12 @@ int main(int, char**){
                     }
                 }
                 else completeButton.RenderImage(completeButtonImages.idle);
+                KNO3.MouseDragListen();
+                C.MouseDragListen();
+                S.MouseDragListen();
+                KNO3.RenderImage(KNO3img);
+                C.RenderImage(Cimg);
+                S.RenderImage(Simg);
                 break;
             }
         }
