@@ -3,6 +3,7 @@
 #include "player.h"
 #include "level.h"
 #include "work_bench.h"
+#include "inventory.h"
 
 int main(int, char**){
     std::cout << "Hello, from ChemGame!\n";
@@ -22,11 +23,14 @@ int main(int, char**){
     CompleteButtonImages completeButtonImages;
 
 
-    WorkBench workBench(1000, 800, 150, 100);
+    WorkBench workBench(1000, 800, 175, 100);
+
+    Inventory inventory(800, 800);
 
     enum GameState {
         Moving,
-        Labing
+        Labing,
+        Inventory
     };
     GameState gameState = Moving;
 
@@ -50,6 +54,8 @@ int main(int, char**){
                     gameState = Labing;
                     workBench.Display();
                 }
+                if (IsKeyPressed(KEY_E))
+                    gameState = Inventory;
                 break;
             }
             case Labing: {
@@ -69,7 +75,14 @@ int main(int, char**){
                 S.RenderImage(Simg);
                 break;
             }
+            case Inventory: {
+                inventory.Render();
+                if (IsKeyPressed(KEY_E))
+                    gameState = Moving;
+                break;
+            }
         }
+
         if (level.IsTouching(player)) {
             level.NextLevel();
             player.x = 0;

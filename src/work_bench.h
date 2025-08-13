@@ -16,7 +16,7 @@ private:
     State2D displayState2D;
 public:
     WorkBench(int x, int y, int width, int height);
-    void Render();
+    void Render();  
     void Display();
     void EndDisplay();
 };
