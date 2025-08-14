@@ -4,7 +4,7 @@
 using std::vector;
 
 Level::Level() : level(0) {
-    defaultImage = LoadTexture("images/Door.png");
+    image = LoadTexture("images/Door.png");
     positions = {
         State2D{1900, 500, 120, 40, 90},
         State2D{300, 900, 120, 40, 0},
@@ -16,7 +16,7 @@ Level::Level() : level(0) {
 
 void Level::Render() {
     Sprite::Render();
-    RenderImage(defaultImage);
+    RenderImage(image);
 }
 
 void Level::NextLevel() {

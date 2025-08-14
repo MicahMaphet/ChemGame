@@ -3,16 +3,11 @@
 
 Inventory::Inventory(int width, int height) : Sprite(width, height) {
     items = {
-        Sprite{200, 200, "KNO3"},
-        Sprite{100, 100, "C"},
-        Sprite{100, 100, "S"}
+        Sprite{200, 200, LoadTexture("images/KNO3.png"), "KNO3"},
+        Sprite{100, 100, LoadTexture("images/C.png"), "C"},
+        Sprite{100, 100, LoadTexture("images/S.png"), "S"}
     };
 
-    itemImages = {
-        LoadTexture("images/KNO3.png"),
-        LoadTexture("images/C.png"),
-        LoadTexture("images/S.png")
-    };
     noitem.name = "noitem";
     selectedItemIndex = 0;
 }
@@ -37,10 +32,9 @@ void Inventory::Render() {
             int itemIndex = row + col * numBoxs;
             if (itemIndex < items.size()) {
                 Sprite item = items.at(itemIndex);
-                Texture2D image = itemImages.at(itemIndex);
                 item.x = shell.x + padding + row * (boxWidth + padding) + boxWidth/2;
                 item.y = shell.y + padding + col * (boxWidth + padding) + boxWidth/2;
-                item.RenderImage(image);
+                item.RenderImage(item.image);
                 if (hover && IsMouseButtonReleased(0)) {
                     selectedItemIndex = itemIndex;
                 }
@@ -57,13 +51,6 @@ Sprite Inventory::GetSelectedItem() {
     return items.at(selectedItemIndex);
 }
 
-Texture2D Inventory::GetSelectedItemImage() {
-    if (selectedItemIndex < 0)
-        return noimage;
-    return itemImages.at(selectedItemIndex);
-}
-
-void Inventory::AddItem(Sprite sprite, Texture2D image) {
+void Inventory::AddItem(Sprite sprite) {
     items.push_back(sprite);
-    itemImages.push_back(image);
 }

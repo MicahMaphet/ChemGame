@@ -13,6 +13,10 @@ Sprite::Sprite(int x, int y, int width, int height) : Sprite(x, y, width, height
 
 Sprite::Sprite(int width, int height) : Sprite(0, 0, width, height) {}
 
+Sprite::Sprite(int width, int height, Texture2D img, string name="") : Sprite(0, 0, width, height, name) {
+    image = img;
+}
+
 Sprite::Sprite(int width, int height, string name) : Sprite(0, 0, width, height, name) {}
 
 Sprite::Sprite() : Sprite(0, 0, 0, 0) {}

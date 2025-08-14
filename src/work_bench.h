@@ -5,7 +5,6 @@
 
 class WorkBench : public Sprite {
 private:
-    Texture2D image;
     Texture2D highlightedImage;
     enum State {
         Displaying,

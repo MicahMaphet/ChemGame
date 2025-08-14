@@ -69,7 +69,7 @@ int main(int, char**){
             }
             case Inventory: {
                 inventory.Render();
-                player.itemImage = inventory.GetSelectedItemImage();
+                player.item.image = inventory.GetSelectedItem().image;
                 player.item.name = inventory.GetSelectedItem().name;
                 if (IsKeyPressed(KEY_E)) {
                     gameState = Moving;
@@ -98,7 +98,7 @@ int main(int, char**){
             }
         }
         if (blackPowderFactory.IsClicked()) {
-            inventory.AddItem({100, 100, "Black Powder"}, blackPowderFactory.blackPowderImage);
+            inventory.AddItem({100, 100, blackPowderFactory.blackPowderImage, "Black Powder"});
         }
 
         EndDrawing();

@@ -7,9 +7,8 @@ Player::Player(int x, int y, int width, int height) : Sprite(x, y, width, height
     texture = LoadTexture("images/LuSuit.png");
     maxSpeed = 10;
     acceleration = 0.5;
-    item = Sprite(100, 100, "KNO3");
+    item = Sprite(100, 100, LoadTexture("images/KNO3.png"), "KNO3");
     std::cout << "initial item name " << item.name << '\n';
-    itemImage = LoadTexture("images/KNO3.png");
 }
 
 void Player::KeyListen() {
@@ -63,7 +62,7 @@ void Player::Hold() {
     item.x = x + cos(angle) * holdDistance;
     item.y = y + sin(angle) * holdDistance;
     if (item.name.compare("noitem") != 0)
-        item.RenderImage(itemImage);
+        item.RenderImage(item.image);
 }
 
 void Player::Deaccelerate() {

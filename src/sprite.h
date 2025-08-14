@@ -14,12 +14,14 @@ public:
     Sprite(int x, int y, int width, int height, string name);
     Sprite(int x, int y, int width, int height);
     Sprite(int width, int height);
+    Sprite(int width, int height, Texture2D img, string name);
     Sprite(int width, int height, string name);
     Sprite();
     int x, y, width, height;
     double heading, rotation, speed, speedX, speedY, maxSpeed, speedDeadband, acceleration;
     bool ShowBox;
     string name;
+    Texture2D image;
     bool IsTouching(Sprite sprite);
     bool IsMouseHover();
     bool IsClicked();

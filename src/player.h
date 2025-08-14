@@ -13,5 +13,4 @@ public:
     void Render();
     void Deaccelerate();
     Sprite item;
-    Texture2D itemImage;
 };
