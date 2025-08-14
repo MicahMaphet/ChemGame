@@ -25,10 +25,11 @@ int main(int, char**){
     };
     CompleteButtonImages completeButtonImages;
 
-
     WorkBench workBench(1000, 800, 175, 100);
 
     Inventory inventory(800, 800);
+    inventory.AddItem({200, 200, LoadTexture("images/KNO3.png"), "KNO3"});
+    inventory.AddItem({100, 100, LoadTexture("images/Carbon.png"), "C"});
 
     BlackPowderFactory blackPowderFactory;
 
@@ -40,6 +41,7 @@ int main(int, char**){
     GameState gameState = Moving;
 
     vector<Item> placedItems;
+    placedItems.push_back({700, 400, 100, 100, "images/Sulfer.png", "S"});
 
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -114,15 +116,29 @@ int main(int, char**){
                 player.item.name = "noitem";
             }
         }
-        if (blackPowderFactory.IsClicked() && !blackPowderFactory.pickedUp) {
+        if (blackPowderFactory.IsClicked() && !blackPowderFactory.pickedUp && blackPowderFactory.filled == 3) {
             inventory.AddItem({100, 100, blackPowderFactory.blackPowderImage, "blackpowder"});
             blackPowderFactory.pickedUp = true;
         }
         if (player.item.name.compare("blackpowder") == 0 && IsMouseButtonPressed(0)) {
-            placedItems.push_back({GetMouseX(), GetMouseY(), 100, 100, player.item.image, 
-                LoadTexture("images/BlackPowderHighlighted.png"), player.item.name});
+            placedItems.push_back({GetMouseX(), GetMouseY(), 100, 100, "images/BlackPowder.png", player.item.name});
             player.item.name = "noitem";
             inventory.PopItem("blackpowder");
+        }
+        if (player.item.name.compare("S") == 0 && IsMouseButtonPressed(0)) {
+            placedItems.push_back({GetMouseX(), GetMouseY(), 100, 100, "images/Sulfer.png", player.item.name});
+            player.item.name = "noitem";
+            inventory.PopItem("S");
+        }
+        if (player.item.name.compare("C") == 0 && IsMouseButtonPressed(0)) {
+            placedItems.push_back({GetMouseX(), GetMouseY(), 100, 100, "images/Carbon.png", player.item.name});
+            player.item.name = "noitem";
+            inventory.PopItem("C");
+        }
+        if (player.item.name.compare("KNO3") == 0 && IsMouseButtonPressed(0)) {
+            placedItems.push_back({GetMouseX(), GetMouseY(), 100, 100, "images/KNO3.png", player.item.name});
+            player.item.name = "noitem";
+            inventory.PopItem("KNO3");
         }
 
         EndDrawing();

@@ -2,7 +2,7 @@
 
 class Item : public Sprite {
 public:
-    Item(int x, int y, int width, int height, Texture2D image, Texture2D highlightedImage, string name);
+    Item(int x, int y, int width, int height, string image, string name);
     void Render();
     Texture2D highlightedImage;
 };

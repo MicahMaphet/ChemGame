@@ -2,12 +2,6 @@
 #include <iostream>
 
 Inventory::Inventory(int width, int height) : Sprite(width, height) {
-    items = {
-        Sprite{200, 200, LoadTexture("images/KNO3.png"), "KNO3"},
-        Sprite{100, 100, LoadTexture("images/C.png"), "C"},
-        Sprite{100, 100, LoadTexture("images/S.png"), "S"}
-    };
-
     noitem.name = "noitem";
     selectedItemIndex = 0;
 }
