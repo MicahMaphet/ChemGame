@@ -91,10 +91,16 @@ int main(int, char**){
         if (blackPowderFactory.IsTouching(player.item)) {
             if (player.item.name.compare("KNO3") == 0) {
                 blackPowderFactory.hasKNO3 = true;
+                inventory.PopItem("KNO3");
+                player.item.name = "noitem";
             } else if (player.item.name.compare("C") == 0) {
                 blackPowderFactory.hasC = true;
+                inventory.PopItem("C");
+                player.item.name = "noitem";
             } else if (player.item.name.compare("S") == 0) {
                 blackPowderFactory.hasS = true;
+                inventory.PopItem("S");
+                player.item.name = "noitem";
             }
         }
         if (blackPowderFactory.IsClicked()) {

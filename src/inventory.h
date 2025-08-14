@@ -13,4 +13,5 @@ public:
     void Render();
     Sprite GetSelectedItem();
     void AddItem(Sprite sprite);
+    void PopItem(string item_name);
 };

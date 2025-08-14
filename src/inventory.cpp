@@ -54,3 +54,15 @@ Sprite Inventory::GetSelectedItem() {
 void Inventory::AddItem(Sprite sprite) {
     items.push_back(sprite);
 }
+
+void Inventory::PopItem(string item_name) {
+    for (int i = 0; i < items.size(); i++) {
+        if (items.at(i).name.compare(item_name) == 0) {
+            // unselect item if removing the selected item
+            if (i == selectedItemIndex)
+                selectedItemIndex = -1;
+            items.erase(items.begin() + i);
+            return;
+        }
+    }
+}
