@@ -2,6 +2,8 @@
 
 #include "raylib.h"
 #include "util.h"
+#include <string>
+using std::string;
 
 class Sprite {
 public:
@@ -9,12 +11,15 @@ public:
     void SetByPose(Position pose);
     void SetByDims(Dimentions pose);
     void SetByVector2(Vector2 vector2);
+    Sprite(int x, int y, int width, int height, string name);
     Sprite(int x, int y, int width, int height);
     Sprite(int width, int height);
+    Sprite(int width, int height, string name);
     Sprite();
     int x, y, width, height;
     double heading, rotation, speed, speedX, speedY, maxSpeed, speedDeadband, acceleration;
     bool ShowBox;
+    string name;
     bool IsTouching(Sprite sprite);
     bool IsMouseHover();
     bool IsClicked();

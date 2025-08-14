@@ -1,11 +1,19 @@
 #include "sprite.h"
 #include "raylib.h"
 #include <cmath>
+#include <string>
+using std::string;
 
-Sprite::Sprite(int x, int y, int width, int height) : x(x), y(y), width(width), height(height),
-    heading(0), rotation(0), speed(0), speedX(0), speedY(0), maxSpeed(0), speedDeadband(2), acceleration(0), ShowBox(false) {}
+Sprite::Sprite(int x, int y, int width, int height, string _name) : x(x), y(y), width(width), height(height),
+    heading(0), rotation(0), speed(0), speedX(0), speedY(0), maxSpeed(0), speedDeadband(2), acceleration(0), ShowBox(false) {
+    name = _name;
+}
+
+Sprite::Sprite(int x, int y, int width, int height) : Sprite(x, y, width, height, "") {}
 
 Sprite::Sprite(int width, int height) : Sprite(0, 0, width, height) {}
+
+Sprite::Sprite(int width, int height, string name) : Sprite(0, 0, width, height, name) {}
 
 Sprite::Sprite() : Sprite(0, 0, 0, 0) {}
 

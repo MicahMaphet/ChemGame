@@ -1,11 +1,13 @@
 #include "inventory.h"
+#include <iostream>
 
 Inventory::Inventory(int width, int height) : Sprite(width, height) {
     items = {
-        Sprite{200, 200},
-        Sprite{100, 100},
-        Sprite{100, 100}
+        Sprite{200, 200, "KNO3"},
+        Sprite{100, 100, "C"},
+        Sprite{100, 100, "S"}
     };
+
     itemImages = {
         LoadTexture("images/KNO3.png"),
         LoadTexture("images/C.png"),
@@ -32,13 +34,15 @@ void Inventory::Render() {
                          rect.y < GetMouseY() && rect.y + rect.height > GetMouseY();
             DrawRectangleLinesEx(rect, 10, hover ? WHITE : GRAY);
             int itemIndex = row + col * numBoxs;
-            Sprite item = items[itemIndex];
-            Texture2D image = itemImages[itemIndex];
-            item.x = shell.x + padding + row * (boxWidth + padding) + boxWidth/2;
-            item.y = shell.y + padding + col * (boxWidth + padding) + boxWidth/2;
-            item.RenderImage(image);
-            if (hover && IsMouseButtonReleased(0)) {
-                selectedItemIndex = itemIndex;
+            if (itemIndex < items.size()) {
+                Sprite item = items[itemIndex];
+                Texture2D image = itemImages[itemIndex];
+                item.x = shell.x + padding + row * (boxWidth + padding) + boxWidth/2;
+                item.y = shell.y + padding + col * (boxWidth + padding) + boxWidth/2;
+                item.RenderImage(image);
+                if (hover && IsMouseButtonReleased(0)) {
+                    selectedItemIndex = itemIndex;
+                }
             }
         }
     }
