@@ -98,8 +98,7 @@ int main(int, char**){
             }
         }
         if (blackPowderFactory.IsClicked()) {
-            player.itemImage = blackPowderFactory.blackPowderImage;
-            player.item.name = "black powder";
+            inventory.AddItem({100, 100, "Black Powder"}, blackPowderFactory.blackPowderImage);
         }
 
         EndDrawing();

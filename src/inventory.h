@@ -12,4 +12,5 @@ public:
     void Render();
     Sprite GetSelectedItem();
     Texture2D GetSelectedItemImage();
+    void AddItem(Sprite sprite, Texture2D image);
 };

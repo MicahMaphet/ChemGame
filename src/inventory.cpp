@@ -35,8 +35,8 @@ void Inventory::Render() {
             DrawRectangleLinesEx(rect, 10, hover ? WHITE : GRAY);
             int itemIndex = row + col * numBoxs;
             if (itemIndex < items.size()) {
-                Sprite item = items[itemIndex];
-                Texture2D image = itemImages[itemIndex];
+                Sprite item = items.at(itemIndex);
+                Texture2D image = itemImages.at(itemIndex);
                 item.x = shell.x + padding + row * (boxWidth + padding) + boxWidth/2;
                 item.y = shell.y + padding + col * (boxWidth + padding) + boxWidth/2;
                 item.RenderImage(image);
@@ -49,9 +49,14 @@ void Inventory::Render() {
 }
 
 Sprite Inventory::GetSelectedItem() {
-    return items[selectedItemIndex];
+    return items.at(selectedItemIndex);
 }
 
 Texture2D Inventory::GetSelectedItemImage() {
-    return itemImages[selectedItemIndex];
+    return itemImages.at(selectedItemIndex);
+}
+
+void Inventory::AddItem(Sprite sprite, Texture2D image) {
+    items.push_back(sprite);
+    itemImages.push_back(image);
 }
