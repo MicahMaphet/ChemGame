@@ -13,6 +13,7 @@ public:
     void SetByVector2(Vector2 vector2);
     Sprite(int x, int y, int width, int height, string name);
     Sprite(int x, int y, int width, int height);
+    Sprite(int x, int y, int width, int height, Texture2D img, string name);
     Sprite(int width, int height);
     Sprite(int width, int height, Texture2D img, string name);
     Sprite(int width, int height, string name);
@@ -30,4 +31,5 @@ public:
     double GetMouseDistance();
     void Render();
     void RenderImage(Texture2D image, float scale = 1);
+    void RenderImage(float scale = 1);
 };

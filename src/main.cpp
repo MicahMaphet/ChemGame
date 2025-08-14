@@ -38,6 +38,8 @@ int main(int, char**){
     };
     GameState gameState = Moving;
 
+    vector<Sprite> items;
+
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
@@ -45,6 +47,8 @@ int main(int, char**){
         player.Render();
         level.Render();
         workBench.Render();
+        for (Sprite item : items)
+            item.RenderImage();
         switch (gameState) {
             case Moving: {
                 player.KeyListen();
@@ -104,8 +108,13 @@ int main(int, char**){
             }
         }
         if (blackPowderFactory.IsClicked() && !blackPowderFactory.pickedUp) {
-            inventory.AddItem({100, 100, blackPowderFactory.blackPowderImage, "Black Powder"});
+            inventory.AddItem({100, 100, blackPowderFactory.blackPowderImage, "blackpowder"});
             blackPowderFactory.pickedUp = true;
+        }
+        if (player.item.name.compare("blackpowder") == 0 && IsMouseButtonPressed(0)) {
+            items.push_back({GetMouseX(), GetMouseY(), 100, 100, player.item.image, player.item.name});
+            player.item.name = "noitem";
+            inventory.PopItem("blackpowder");
         }
 
         EndDrawing();

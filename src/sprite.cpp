@@ -5,7 +5,8 @@
 using std::string;
 
 Sprite::Sprite(int x, int y, int width, int height, string _name) : x(x), y(y), width(width), height(height),
-    heading(0), rotation(0), speed(0), speedX(0), speedY(0), maxSpeed(0), speedDeadband(2), acceleration(0), ShowBox(false) {
+    heading(0), rotation(0), speed(0), speedX(0), speedY(0), maxSpeed(0), speedDeadband(2), acceleration(0),
+    ShowBox(false) {
     name = _name;
 }
 
@@ -13,9 +14,11 @@ Sprite::Sprite(int x, int y, int width, int height) : Sprite(x, y, width, height
 
 Sprite::Sprite(int width, int height) : Sprite(0, 0, width, height) {}
 
-Sprite::Sprite(int width, int height, Texture2D img, string name="") : Sprite(0, 0, width, height, name) {
+Sprite::Sprite(int x, int y, int width, int height, Texture2D img, string name="") : Sprite(x, y, width, height, name) {
     image = img;
 }
+
+Sprite::Sprite(int width, int height, Texture2D img, string name="") : Sprite(0, 0, width, height, img, name) {}
 
 Sprite::Sprite(int width, int height, string name) : Sprite(0, 0, width, height, name) {}
 
@@ -59,6 +62,11 @@ void Sprite::Render() {
 
 void Sprite::RenderImage(Texture2D image, float scale) {
     Util::RenderImage(image, x, y, width, height, rotation, scale);
+}
+
+/** Render default image of sprite */
+void Sprite::RenderImage(float scale) {
+    RenderImage(image, scale);
 }
 
 /** Set the x and y coardanites of the sprite via Position argument */
