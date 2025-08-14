@@ -8,6 +8,7 @@ public:
     BlackPowderFactory();
     void Render();
     bool hasKNO3, hasC, hasS;
+    bool pickedUp;
     int filled;
     Texture2D blackPowderImage;
     Texture2D blackPowderHighlightedImage;

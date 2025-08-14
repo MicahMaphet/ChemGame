@@ -103,8 +103,9 @@ int main(int, char**){
                 player.item.name = "noitem";
             }
         }
-        if (blackPowderFactory.IsClicked()) {
+        if (blackPowderFactory.IsClicked() && !blackPowderFactory.pickedUp) {
             inventory.AddItem({100, 100, blackPowderFactory.blackPowderImage, "Black Powder"});
+            blackPowderFactory.pickedUp = true;
         }
 
         EndDrawing();

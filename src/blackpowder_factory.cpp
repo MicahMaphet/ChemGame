@@ -1,12 +1,14 @@
 #include "blackpowder_factory.h"
 
 BlackPowderFactory::BlackPowderFactory() : Sprite(1500, 700, 100, 100) {
-    hasKNO3 = hasC = hasS = false;
+    pickedUp = hasKNO3 = hasC = hasS = false;
     blackPowderImage = LoadTexture("images/BlackPowder.png");
     blackPowderHighlightedImage = LoadTexture("images/BlackPowderHighlighted.png");
 }
 
 void BlackPowderFactory::Render() {
+    if (pickedUp)
+        return;
     filled = hasKNO3 + hasC + hasS;
     switch (filled) {
         case 0:
