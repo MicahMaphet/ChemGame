@@ -4,6 +4,9 @@
 #include "raylib.h"
 
 class BlackPowderFactory : public Sprite {
+private:
+    Texture2D blackPowderImage;
+    Texture2D blackPowderHighlightedImage;
 public:
     BlackPowderFactory();
     void Render();
