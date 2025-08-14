@@ -6,6 +6,7 @@
 #include "work_bench.h"
 #include "inventory.h"
 #include "blackpowder_factory.h"
+#include "item.h"
 
 int main(int, char**){
     std::cout << "Hello, from ChemGame!\n";
@@ -38,7 +39,7 @@ int main(int, char**){
     };
     GameState gameState = Moving;
 
-    vector<Sprite> items;
+    vector<Item> placedItems;
 
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -47,8 +48,14 @@ int main(int, char**){
         player.Render();
         level.Render();
         workBench.Render();
-        for (Sprite item : items)
-            item.RenderImage();
+        for (int i = 0; i < placedItems.size(); i++) {
+            Item item = placedItems[i];
+            if (item.IsMouseHover() && IsMouseButtonPressed(0)) {
+                inventory.AddItem({item.width, item.height, item.image, item.name});
+                placedItems.erase(placedItems.begin() + i);
+            }
+            item.Render();
+        }
         switch (gameState) {
             case Moving: {
                 player.KeyListen();
@@ -112,7 +119,8 @@ int main(int, char**){
             blackPowderFactory.pickedUp = true;
         }
         if (player.item.name.compare("blackpowder") == 0 && IsMouseButtonPressed(0)) {
-            items.push_back({GetMouseX(), GetMouseY(), 100, 100, player.item.image, player.item.name});
+            placedItems.push_back({GetMouseX(), GetMouseY(), 100, 100, player.item.image, 
+                LoadTexture("images/BlackPowderHighlighted.png"), player.item.name});
             player.item.name = "noitem";
             inventory.PopItem("blackpowder");
         }
