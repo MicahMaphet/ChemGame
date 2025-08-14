@@ -13,7 +13,7 @@ Player::Player(int x, int y, int width, int height) : Sprite(x, y, width, height
 }
 
 void Player::KeyListen() {
-    double speedXIncrease, speedYIncrease = 0;
+    double speedXIncrease = 0, speedYIncrease = 0;
 
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
         speedXIncrease = -acceleration;
