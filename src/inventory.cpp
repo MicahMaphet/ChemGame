@@ -43,16 +43,22 @@ void Inventory::Render() {
                 if (hover && IsMouseButtonReleased(0)) {
                     selectedItemIndex = itemIndex;
                 }
+            } else if (hover && IsMouseButtonReleased(0)) {
+                selectedItemIndex = -1;
             }
         }
     }
 }
 
 Sprite Inventory::GetSelectedItem() {
+    if (selectedItemIndex < 0)
+        return noitem;
     return items.at(selectedItemIndex);
 }
 
 Texture2D Inventory::GetSelectedItemImage() {
+    if (selectedItemIndex < 0)
+        return noimage;
     return itemImages.at(selectedItemIndex);
 }
 
