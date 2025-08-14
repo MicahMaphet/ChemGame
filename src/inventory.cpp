@@ -13,6 +13,7 @@ Inventory::Inventory(int width, int height) : Sprite(width, height) {
         LoadTexture("images/C.png"),
         LoadTexture("images/S.png")
     };
+    noitem.name = "noitem";
     selectedItemIndex = 0;
 }
 

@@ -62,7 +62,8 @@ void Player::Hold() {
                           : sigmoid(GetMouseDistance() / 200) * 200;
     item.x = x + cos(angle) * holdDistance;
     item.y = y + sin(angle) * holdDistance;
-    item.RenderImage(itemImage);
+    if (item.name.compare("noitem") != 0)
+        item.RenderImage(itemImage);
 }
 
 void Player::Deaccelerate() {
