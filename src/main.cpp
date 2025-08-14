@@ -41,6 +41,7 @@ int main(int, char**){
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
+        blackPowderFactory.Render();
         player.Render();
         level.Render();
         workBench.Render();
@@ -88,19 +89,18 @@ int main(int, char**){
         }
 
         if (blackPowderFactory.IsTouching(player.item)) {
-            std::cout << player.item.name << "\n";
             if (player.item.name.compare("KNO3") == 0) {
                 blackPowderFactory.hasKNO3 = true;
-            }
-            else if (player.item.name.compare("C") == 0) {
+            } else if (player.item.name.compare("C") == 0) {
                 blackPowderFactory.hasC = true;
-                std::cout << "carbon\n";
-            }
-            else if (player.item.name.compare("S") == 0)
+            } else if (player.item.name.compare("S") == 0) {
                 blackPowderFactory.hasS = true;
+            }
         }
-
-        blackPowderFactory.Render();
+        if (blackPowderFactory.IsClicked()) {
+            player.itemImage = blackPowderFactory.blackPowderImage;
+            player.item.name = "black powder";
+        }
 
         EndDrawing();
     }

@@ -7,8 +7,8 @@ BlackPowderFactory::BlackPowderFactory() : Sprite(1500, 700, 100, 100) {
 }
 
 void BlackPowderFactory::Render() {
-    int fill = hasKNO3 + hasC + hasS;
-    switch (fill) {
+    filled = hasKNO3 + hasC + hasS;
+    switch (filled) {
         case 0:
             DrawRectanglePro(
                 Rectangle{ (float)-width/2, (float)-height/2, (float)width, (float)height },
@@ -31,5 +31,4 @@ void BlackPowderFactory::Render() {
             RenderImage(IsMouseHover() ? blackPowderHighlightedImage : blackPowderImage);
         break;
     }
-
 }
