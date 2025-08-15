@@ -7,11 +7,21 @@
 #include "inventory.h"
 #include "blackpowder_factory.h"
 #include "item.h"
+#include <map>
+using std::map;
+using std::cout;
 
 int main(int, char**){
     std::cout << "Hello, from ChemGame!\n";
     InitWindow(2000, 1000, "ChemGame");
     SetWindowState(FLAG_VSYNC_HINT);
+
+    map<string, ItemData> items{
+        {"KNO3", {"images/KNO3.png", "KNO3"}},
+        {"C", {"images/Carbon.png", "C"}},
+        {"S", {"images/Sulfer.png", "S"}},
+        {"blackpowder", {"images/BlackPowder.png", "blackpowder"}}
+    };
 
     Player player(0, 0, 120, 180);
     
@@ -41,7 +51,7 @@ int main(int, char**){
     GameState gameState = Moving;
 
     vector<Item> placedItems;
-    placedItems.push_back({700, 400, 100, 100, "images/Sulfer.png", "S"});
+    placedItems.push_back({700, 400, items.at("S")});
 
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -51,7 +61,7 @@ int main(int, char**){
         level.Render();
         workBench.Render();
         for (int i = 0; i < placedItems.size(); i++) {
-            Item item = placedItems[i];
+            Item &item = placedItems.at(i);
             if (item.IsMouseHover() && IsMouseButtonPressed(0)) {
                 inventory.AddItem({item.width, item.height, item.image, item.name});
                 placedItems.erase(placedItems.begin() + i);
@@ -120,25 +130,14 @@ int main(int, char**){
             inventory.AddItem({100, 100, blackPowderFactory.blackPowderImage, "blackpowder"});
             blackPowderFactory.pickedUp = true;
         }
-        if (player.item.name.compare("blackpowder") == 0 && IsMouseButtonPressed(0)) {
-            placedItems.push_back({GetMouseX(), GetMouseY(), 100, 100, "images/BlackPowder.png", player.item.name});
-            player.item.name = "noitem";
-            inventory.PopItem("blackpowder");
-        }
-        if (player.item.name.compare("S") == 0 && IsMouseButtonPressed(0)) {
-            placedItems.push_back({GetMouseX(), GetMouseY(), 100, 100, "images/Sulfer.png", player.item.name});
-            player.item.name = "noitem";
-            inventory.PopItem("S");
-        }
-        if (player.item.name.compare("C") == 0 && IsMouseButtonPressed(0)) {
-            placedItems.push_back({GetMouseX(), GetMouseY(), 100, 100, "images/Carbon.png", player.item.name});
-            player.item.name = "noitem";
-            inventory.PopItem("C");
-        }
-        if (player.item.name.compare("KNO3") == 0 && IsMouseButtonPressed(0)) {
-            placedItems.push_back({GetMouseX(), GetMouseY(), 100, 100, "images/KNO3.png", player.item.name});
-            player.item.name = "noitem";
-            inventory.PopItem("KNO3");
+        if (IsMouseButtonPressed(0)) {
+            for (string name : {"blackpowder", "S", "C", "KNO3"}) {
+                if (player.item.name.compare(name) == 0) {
+                    placedItems.push_back({GetMousePosition(), items.at(name)});
+                    inventory.PopItem(name);
+                    player.item.name = "noitem";
+                }
+            }
         }
 
         EndDrawing();
