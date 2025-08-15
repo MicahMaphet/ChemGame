@@ -69,8 +69,37 @@ int main(int, char**){
             item.Render();
         }
         switch (gameState) {
-            case Moving: {
+            case Moving:
                 player.KeyListen();
+                if (blackPowderFactory.IsTouching(player.item)) {
+                    if (player.item.name.compare("KNO3") == 0) {
+                        blackPowderFactory.hasKNO3 = true;
+                        inventory.PopItem("KNO3");
+                        player.item.name = "noitem";
+                    } else if (player.item.name.compare("C") == 0) {
+                        blackPowderFactory.hasC = true;
+                        inventory.PopItem("C");
+                        player.item.name = "noitem";
+                    } else if (player.item.name.compare("S") == 0) {
+                        blackPowderFactory.hasS = true;
+                        inventory.PopItem("S");
+                        player.item.name = "noitem";
+                    }
+                }
+                if (blackPowderFactory.IsClicked() && !blackPowderFactory.pickedUp && blackPowderFactory.filled == 3) {
+                    inventory.AddItem({100, 100, blackPowderFactory.blackPowderImage, "blackpowder"});
+                    blackPowderFactory.pickedUp = true;
+                }
+                if (IsMouseButtonPressed(0)) {
+                    for (string name : {"blackpowder", "S", "C", "KNO3"}) {
+                        if (player.item.name.compare(name) == 0) {
+                            placedItems.push_back({GetMousePosition(), items.at(name)});
+                            inventory.PopItem(name);
+                            player.item.name = "noitem";
+                        }
+                    }
+                }
+
                 if (workBench.IsClicked()) {
                     gameState = Labing;
                     workBench.Display();
@@ -78,8 +107,7 @@ int main(int, char**){
                 if (IsKeyPressed(KEY_E))
                     gameState = Inventory;
                 break;
-            }
-            case Labing: {
+            case Labing:
                 if (completeButton.IsMouseHover()) {
                     completeButton.RenderImage(completeButtonImages.highlight);
                     if (IsMouseButtonReleased(0)) {
@@ -89,14 +117,12 @@ int main(int, char**){
                 }
                 else completeButton.RenderImage(completeButtonImages.idle);
                 break;
-            }
-            case Inventory: {
+            case Inventory:
                 inventory.Render();
                 player.item.image = inventory.GetSelectedItem().image;
                 player.item.name = inventory.GetSelectedItem().name;
                 if (IsKeyPressed(KEY_E)) {
                     gameState = Moving;
-                }
                 break;
             }
         }
@@ -109,35 +135,6 @@ int main(int, char**){
             level.NextLevel();
             player.x = 0;
             player.y = 0;
-        }
-
-        if (blackPowderFactory.IsTouching(player.item)) {
-            if (player.item.name.compare("KNO3") == 0) {
-                blackPowderFactory.hasKNO3 = true;
-                inventory.PopItem("KNO3");
-                player.item.name = "noitem";
-            } else if (player.item.name.compare("C") == 0) {
-                blackPowderFactory.hasC = true;
-                inventory.PopItem("C");
-                player.item.name = "noitem";
-            } else if (player.item.name.compare("S") == 0) {
-                blackPowderFactory.hasS = true;
-                inventory.PopItem("S");
-                player.item.name = "noitem";
-            }
-        }
-        if (blackPowderFactory.IsClicked() && !blackPowderFactory.pickedUp && blackPowderFactory.filled == 3) {
-            inventory.AddItem({100, 100, blackPowderFactory.blackPowderImage, "blackpowder"});
-            blackPowderFactory.pickedUp = true;
-        }
-        if (IsMouseButtonPressed(0)) {
-            for (string name : {"blackpowder", "S", "C", "KNO3"}) {
-                if (player.item.name.compare(name) == 0) {
-                    placedItems.push_back({GetMousePosition(), items.at(name)});
-                    inventory.PopItem(name);
-                    player.item.name = "noitem";
-                }
-            }
         }
 
         EndDrawing();
