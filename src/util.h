@@ -3,10 +3,9 @@
 #include "raylib.h"
 #include <cmath>
 
-struct Position { int x, y; };
 struct Dimentions { int width, height; };
 struct State2D { 
-    Position pose; 
+    Vector2 pose;
     Dimentions dims;
     float rotation;
     void Set(int x, int y, int width, int height, float rot = 0);

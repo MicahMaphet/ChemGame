@@ -12,7 +12,6 @@ using std::map;
 using std::cout;
 
 int main(int, char**){
-    std::cout << "Hello, from ChemGame!\n";
     InitWindow(2000, 1000, "ChemGame");
     SetWindowState(FLAG_VSYNC_HINT);
 

@@ -40,7 +40,7 @@ bool Sprite::IsClicked() {
 
 void Sprite::MouseDragListen() {
     if (IsMouseHover() && IsMouseButtonDown(0))
-        SetByVector2(GetMousePosition());
+        SetByPose(GetMousePosition());
 }
 
 double Sprite::GetMouseAngle() {
@@ -70,7 +70,7 @@ void Sprite::RenderImage(float scale) {
 }
 
 /** Set the x and y coardanites of the sprite via Position argument */
-void Sprite::SetByPose(Position pose) {
+void Sprite::SetByPose(Vector2 pose) {
     x = pose.x;
     y = pose.y;
 }
@@ -86,9 +86,4 @@ void Sprite::SetByState2D(State2D state2D) {
     SetByPose(state2D.pose);
     SetByDims(state2D.dims);
     rotation = state2D.rotation;
-}
-
-void Sprite::SetByVector2(Vector2 vector2) {
-    x = vector2.x;
-    y = vector2.y;
 }

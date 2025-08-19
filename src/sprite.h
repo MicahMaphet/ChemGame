@@ -8,9 +8,8 @@ using std::string;
 class Sprite {
 public:
     void SetByState2D(State2D state2D);
-    void SetByPose(Position pose);
+    void SetByPose(Vector2 pose);
     void SetByDims(Dimentions pose);
-    void SetByVector2(Vector2 vector2);
     Sprite(int x, int y, int width, int height, string name);
     Sprite(int x, int y, int width, int height);
     Sprite(int x, int y, int width, int height, Texture2D img, string name);
