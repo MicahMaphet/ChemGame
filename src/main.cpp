@@ -44,35 +44,59 @@ int main(int, char**){
 
     Sprite* spriteReferences[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&blackPowderFactory};
 
-    vector<map<Sprite*, Vector2>> levelPositions{
-        { // Level 1
+    vector<map<Sprite*, Vector2>> levelPositions;
+    vector<map<Sprite*, float>> levelRotations;
+    /** A position must be set for the sprite to appear on the level */
+    // Level 1
+    levelPositions.push_back({
             {&player, {100, 100}},
             {&door, {1000, 500}}
-        },
-        { // Level 2
-            {&player, {0, 0}},
-            {&door, {500, 500}},
-            {&workBench, {1000, 700}}
-        },
-        {
-            {&player, {500, 500}},
-            {&door, {1700, 500}},
-            {&blackPowderFactory, {1000, 500}}
-        },
-        {
-            {&player, {600, 200}},
-            {&door, {1500, 700}}
-        },
-        {
-            {&player, {100, 500}},
-            {&door, {50, 500}}
-        }
-    };
+    });
+    levelRotations.push_back({
+        {&door, 90}
+    });
+    // Level 2
+    levelPositions.push_back({ 
+        {&player, {0, 0}},
+        {&door, {500, 500}},
+        {&workBench, {1000, 700}}
+    });
+    levelRotations.push_back({
+        {&door, 90}
+    });
+    // Level 3
+    levelPositions.push_back({ 
+        {&player, {500, 500}},
+        {&door, {1700, 500}},
+        {&blackPowderFactory, {1000, 500}}
+    });
+    levelRotations.push_back({
+        {&door, 0}
+    });
+    // Level 4
+    levelPositions.push_back({ 
+        {&player, {600, 200}},
+        {&door, {1500, 700}}
+    });
+    levelRotations.push_back({
+        {&door, 90}
+    });
+    // Level 5;
+    levelPositions.push_back({ 
+        {&player, {100, 500}},
+        {&door, {50, 500}}
+    });
+    levelRotations.push_back({
+        {&door, 0}
+    });
 
     // set up first level
     for (Sprite* ref : spriteReferences) {
-        if (levelPositions.at(level).count(ref) != 0)
+        if (levelPositions.at(level).count(ref) != 0) {
             (*ref).SetByPose(levelPositions.at(level).at(ref));
+            if (levelRotations.at(level).count(ref) != 0)
+                (*ref).rotation = levelRotations.at(level).at(ref);
+        }
         else
             (*ref).SetByPose({-INFINITY, -INFINITY});
     }
@@ -174,6 +198,8 @@ int main(int, char**){
                     break;
                 if (levelPositions.at(level - 1).count(ref) != 0) {
                     (*ref).SetByPose(levelPositions.at(level - 1).at(ref));
+                    if (levelRotations.at(level).count(ref) != 0)
+                        (*ref).rotation = levelRotations.at(level).at(ref);
                 } else {
                     (*ref).SetByPose({-INFINITY, -INFINITY});
                 }
