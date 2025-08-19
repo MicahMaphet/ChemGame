@@ -93,3 +93,7 @@ void Sprite::SetByState2D(State2D state2D) {
 bool Sprite::GetOffScreen() {
     return x == -INFINITY && y == -INFINITY;
 }
+
+Vector2 Sprite::GetPosition() {
+    return {(float)x, (float)y};
+}

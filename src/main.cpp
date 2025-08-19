@@ -135,13 +135,12 @@ int main(int, char**){
                             blackPowderFactory.Place(ingredient);
                             inventory.PopItem(ingredient);
                             player.item.name = "noitem";
+                            if (blackPowderFactory.IsFilled())
+                                placedItems.push_back({blackPowderFactory.GetPosition(), items.at("blackpowder")});
                         }
                     }
                 }
-                if (blackPowderFactory.IsClicked() && !blackPowderFactory.pickedUp && blackPowderFactory.filled == 3) {
-                    inventory.AddItem(items.at("blackpowder"));
-                    blackPowderFactory.pickedUp = true;
-                }
+
                 if (IsMouseButtonPressed(0)) {
                     for (string name : {"blackpowder", "S", "C", "KNO3"}) {
                         if (player.item.name.compare(name) == 0) {

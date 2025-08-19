@@ -16,9 +16,8 @@ public:
         {"S", false}, {"C", false}, {"KNO3", false}
     };
     vector<string> ingredients;
-    bool pickedUp;
     int filled;
+    bool IsFilled();
     void Place(string ingredient);
     Texture2D blackPowderImage;
-    Texture2D blackPowderHighlightedImage;
 };

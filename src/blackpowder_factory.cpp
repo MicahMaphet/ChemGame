@@ -1,17 +1,15 @@
 #include "blackpowder_factory.h"
 
 BlackPowderFactory::BlackPowderFactory() : Sprite(1500, 700, 100, 100) {
-    pickedUp = false;
     filled = 0;
     for (auto x : ingredientStatuses)
         ingredients.push_back(x.first);
 
     blackPowderImage = LoadTexture("images/BlackPowder.png");
-    blackPowderHighlightedImage = LoadTexture("images/BlackPowderHighlighted.png");
 }
 
 void BlackPowderFactory::Render() {
-    if (pickedUp)
+    if (IsFilled())
         return;
 
     switch (filled) {
@@ -33,10 +31,11 @@ void BlackPowderFactory::Render() {
                 Vector2{ (float)-x, (float)-y }, rotation, RED
             );
         break;
-        default:
-            RenderImage(IsMouseHover() ? blackPowderHighlightedImage : blackPowderImage);
-        break;
     }
+}
+
+bool BlackPowderFactory::IsFilled() {
+    return filled == ingredients.size();
 }
 
 void BlackPowderFactory::Place(string ingredient) {

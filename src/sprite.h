@@ -28,6 +28,7 @@ public:
     void MouseDragListen();
     double GetMouseAngle();
     double GetMouseDistance();
+    Vector2 GetPosition();
     void Render();
     void RenderImage(Texture2D image, float scale = 1);
     void RenderImage(float scale = 1);
