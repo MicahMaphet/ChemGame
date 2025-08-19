@@ -68,3 +68,9 @@ void Player::Deaccelerate() {
     speedX -= cos(heading) * abs(speedX) / 5;
     speedY -= sin(heading) * abs(speedY) / 5;
 }
+
+
+void Player::SelectItem(Sprite newItem) {
+    item.name = newItem.name;
+    item.image = newItem.image;
+}

@@ -1,4 +1,5 @@
 #include "sprite.h"
+#include "item.h"
 #include <vector>
 using std::vector;
 
@@ -13,5 +14,7 @@ public:
     void Render();
     Sprite GetSelectedItem();
     void AddItem(Sprite sprite);
+    void AddItem(Item item);
+    void AddItem(ItemData itemd);
     void PopItem(string item_name);
 };

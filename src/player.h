@@ -12,5 +12,6 @@ public:
     void KeyListen();
     void Render();
     void Deaccelerate();
+    void SelectItem(Sprite item);
     Sprite item;
 };

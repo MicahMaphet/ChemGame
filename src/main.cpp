@@ -38,7 +38,7 @@ int main(int, char**){
     WorkBench workBench(1000, 800, 175, 100);
 
     Inventory inventory(800, 800);
-    inventory.AddItem({200, 200, LoadTexture("images/KNO3.png"), "KNO3"});
+    inventory.AddItem(items.at("KNO3"));
 
     BlackPowderFactory blackPowderFactory;
 
@@ -121,7 +121,7 @@ int main(int, char**){
         for (int i = 0; i < placedItems.size(); i++) {
             Item &item = placedItems.at(i);
             if (item.IsMouseHover() && IsMouseButtonPressed(0)) {
-                inventory.AddItem({item.width, item.height, item.image, item.name});
+                inventory.AddItem(item);
                 placedItems.erase(placedItems.begin() + i);
             }
             item.Render();
@@ -130,22 +130,16 @@ int main(int, char**){
             case Moving:
                 player.KeyListen();
                 if (blackPowderFactory.IsTouching(player.item)) {
-                    if (player.item.name.compare("KNO3") == 0) {
-                        blackPowderFactory.hasKNO3 = true;
-                        inventory.PopItem("KNO3");
-                        player.item.name = "noitem";
-                    } else if (player.item.name.compare("C") == 0) {
-                        blackPowderFactory.hasC = true;
-                        inventory.PopItem("C");
-                        player.item.name = "noitem";
-                    } else if (player.item.name.compare("S") == 0) {
-                        blackPowderFactory.hasS = true;
-                        inventory.PopItem("S");
-                        player.item.name = "noitem";
+                    for (string ingredient : blackPowderFactory.ingredients) {
+                        if (player.item.name.compare(ingredient) == 0) {
+                            blackPowderFactory.Place(ingredient);
+                            inventory.PopItem(ingredient);
+                            player.item.name = "noitem";
+                        }
                     }
                 }
                 if (blackPowderFactory.IsClicked() && !blackPowderFactory.pickedUp && blackPowderFactory.filled == 3) {
-                    inventory.AddItem({100, 100, blackPowderFactory.blackPowderImage, "blackpowder"});
+                    inventory.AddItem(items.at("blackpowder"));
                     blackPowderFactory.pickedUp = true;
                 }
                 if (IsMouseButtonPressed(0)) {
@@ -177,8 +171,7 @@ int main(int, char**){
                 break;
             case Inventory:
                 inventory.Render();
-                player.item.image = inventory.GetSelectedItem().image;
-                player.item.name = inventory.GetSelectedItem().name;
+                player.SelectItem(inventory.GetSelectedItem());
                 if (IsKeyPressed(KEY_E)) {
                     gameState = Moving;
                 break;

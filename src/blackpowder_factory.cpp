@@ -1,7 +1,11 @@
 #include "blackpowder_factory.h"
 
 BlackPowderFactory::BlackPowderFactory() : Sprite(1500, 700, 100, 100) {
-    pickedUp = hasKNO3 = hasC = hasS = false;
+    pickedUp = false;
+    filled = 0;
+    for (auto x : ingredientStatuses)
+        ingredients.push_back(x.first);
+
     blackPowderImage = LoadTexture("images/BlackPowder.png");
     blackPowderHighlightedImage = LoadTexture("images/BlackPowderHighlighted.png");
 }
@@ -9,7 +13,7 @@ BlackPowderFactory::BlackPowderFactory() : Sprite(1500, 700, 100, 100) {
 void BlackPowderFactory::Render() {
     if (pickedUp)
         return;
-    filled = hasKNO3 + hasC + hasS;
+
     switch (filled) {
         case 0:
             DrawRectanglePro(
@@ -32,5 +36,12 @@ void BlackPowderFactory::Render() {
         default:
             RenderImage(IsMouseHover() ? blackPowderHighlightedImage : blackPowderImage);
         break;
+    }
+}
+
+void BlackPowderFactory::Place(string ingredient) {
+    if (!ingredientStatuses.at(ingredient)) {
+        ingredientStatuses.at(ingredient) = true;
+        filled++;
     }
 }

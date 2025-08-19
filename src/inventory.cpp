@@ -49,6 +49,14 @@ void Inventory::AddItem(Sprite sprite) {
     items.push_back(sprite);
 }
 
+void Inventory::AddItem(ItemData itemd) {
+    items.push_back({itemd.width, itemd.height, itemd.image, itemd.name});
+}
+
+void Inventory::AddItem(Item item) {
+    items.push_back({item.width, item.height, item.image, item.name});
+}
+
 void Inventory::PopItem(string item_name) {
     for (int i = 0; i < items.size(); i++) {
         if (items.at(i).name.compare(item_name) == 0) {
