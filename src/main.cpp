@@ -39,24 +39,25 @@ int main(int, char**){
 
     Inventory inventory(800, 800);
     inventory.AddItem({200, 200, LoadTexture("images/KNO3.png"), "KNO3"});
-    inventory.AddItem({100, 100, LoadTexture("images/Carbon.png"), "C"});
 
     BlackPowderFactory blackPowderFactory;
 
+    Sprite* spriteReferences[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&blackPowderFactory};
+
     vector<map<Sprite*, Vector2>> levelPositions{
-        {
+        { // Level 1
             {&player, {100, 100}},
             {&door, {1000, 500}}
+        },
+        { // Level 2
+            {&player, {0, 0}},
+            {&door, {500, 500}},
+            {&workBench, {1000, 700}}
         },
         {
             {&player, {500, 500}},
             {&door, {1700, 500}},
             {&blackPowderFactory, {1000, 500}}
-        },
-        {
-            {&player, {0, 0}},
-            {&door, {500, 500}},
-            {&workBench, {1000, 700}}
         },
         {
             {&player, {600, 200}},
@@ -68,6 +69,15 @@ int main(int, char**){
         }
     };
 
+    // set up first level
+    for (Sprite* ref : spriteReferences) {
+        if (levelPositions.at(level).count(ref) != 0)
+            (*ref).SetByPose(levelPositions.at(level).at(ref));
+        else
+            (*ref).SetByPose({-INFINITY, -INFINITY});
+    }
+    level = 1;
+
     enum GameState {
         Moving,
         Labing,
@@ -76,8 +86,6 @@ int main(int, char**){
     GameState gameState = Moving;
 
     vector<Item> placedItems;
-    placedItems.push_back({700, 400, items.at("S")});
-
 
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -158,18 +166,27 @@ int main(int, char**){
         }
 
         if (door.IsTouching(player)) {
+            level++;
             cout << '\n' << level;
-            for (Sprite* ref : {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&blackPowderFactory}) {
+            placedItems.clear();
+            for (Sprite* ref : spriteReferences) {
                 if (level >= levelPositions.size())
                     break;
-                if (levelPositions.at(level).count(ref) != 0) {
-                    (*ref).SetByPose(levelPositions.at(level).at(ref));
+                if (levelPositions.at(level - 1).count(ref) != 0) {
+                    (*ref).SetByPose(levelPositions.at(level - 1).at(ref));
                 } else {
                     (*ref).SetByPose({-INFINITY, -INFINITY});
                 }
             }
             cout << std::endl;
-            level++;
+            switch (level) {
+                case 2:
+                placedItems.push_back({1000, 700, items.at("S")});
+                break;
+                case 3:
+                placedItems.push_back({500, 900, items.at("C")});
+                break;
+            }
         }
 
         EndDrawing();
