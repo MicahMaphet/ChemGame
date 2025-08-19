@@ -53,6 +53,7 @@ double Sprite:: GetMouseDistance() {
 
 /** Sprite rendering default: draw hitbox if ShowBox is true */
 void Sprite::Render() {
+    if (GetOffScreen()) return;
     if (ShowBox)
         DrawRectanglePro(
             Rectangle{ (float)-width/2, (float)-height/2, (float)width, (float)height },
@@ -61,6 +62,7 @@ void Sprite::Render() {
 }
 
 void Sprite::RenderImage(Texture2D image, float scale) {
+    if (GetOffScreen()) return;
     Util::RenderImage(image, x, y, width, height, rotation, scale);
 }
 
@@ -86,4 +88,8 @@ void Sprite::SetByState2D(State2D state2D) {
     SetByPose(state2D.pose);
     SetByDims(state2D.dims);
     rotation = state2D.rotation;
+}
+
+bool Sprite::GetOffScreen() {
+    return x == -INFINITY && y == -INFINITY;
 }

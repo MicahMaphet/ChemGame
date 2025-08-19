@@ -2,7 +2,6 @@
 #include <string.h>
 #include "raylib.h"
 #include "player.h"
-#include "level.h"
 #include "work_bench.h"
 #include "inventory.h"
 #include "blackpowder_factory.h"
@@ -24,7 +23,9 @@ int main(int, char**){
 
     Player player(0, 0, 120, 180);
     
-    Level level;
+    Sprite door{1000, 200, 120, 40};
+    door.image = LoadTexture("images/Door.png");
+    int level = 0;
 
     Sprite completeButton(GetScreenWidth() - 200, GetScreenHeight() - 200, 100, 100);
 
@@ -42,6 +43,31 @@ int main(int, char**){
 
     BlackPowderFactory blackPowderFactory;
 
+    vector<map<Sprite*, Vector2>> levelPositions{
+        {
+            {&player, {100, 100}},
+            {&door, {1000, 500}}
+        },
+        {
+            {&player, {500, 500}},
+            {&door, {1700, 500}},
+            {&blackPowderFactory, {1000, 500}}
+        },
+        {
+            {&player, {0, 0}},
+            {&door, {500, 500}},
+            {&workBench, {1000, 700}}
+        },
+        {
+            {&player, {600, 200}},
+            {&door, {1500, 700}}
+        },
+        {
+            {&player, {100, 500}},
+            {&door, {50, 500}}
+        }
+    };
+
     enum GameState {
         Moving,
         Labing,
@@ -52,12 +78,13 @@ int main(int, char**){
     vector<Item> placedItems;
     placedItems.push_back({700, 400, items.at("S")});
 
+
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
         blackPowderFactory.Render();
         player.Render();
-        level.Render();
+        door.RenderImage();
         workBench.Render();
         for (int i = 0; i < placedItems.size(); i++) {
             Item &item = placedItems.at(i);
@@ -130,10 +157,19 @@ int main(int, char**){
             player.Deaccelerate();
         }
 
-        if (level.IsTouching(player)) {
-            level.NextLevel();
-            player.x = 0;
-            player.y = 0;
+        if (door.IsTouching(player)) {
+            cout << '\n' << level;
+            for (Sprite* ref : {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&blackPowderFactory}) {
+                if (level >= levelPositions.size())
+                    break;
+                if (levelPositions.at(level).count(ref) != 0) {
+                    (*ref).SetByPose(levelPositions.at(level).at(ref));
+                } else {
+                    (*ref).SetByPose({-INFINITY, -INFINITY});
+                }
+            }
+            cout << std::endl;
+            level++;
         }
 
         EndDrawing();
