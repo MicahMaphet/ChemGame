@@ -14,12 +14,22 @@ int main(int, char**){
     InitWindow(2000, 1000, "ChemGame");
     SetWindowState(FLAG_VSYNC_HINT);
 
-    map<string, ItemData> items{
-        {"Potasium Nitrate", {"images/KNO3.png", "Potasium Nitrate"}},
-        {"Carbon", {"images/Carbon.png", "Carbon"}},
-        {"Sulfer", {"images/Sulfer.png", "Sulfer"}},
-        {"Black Powder", {"images/BlackPowder.png", "Black Powder"}}
+    vector<ItemData>itemVector{
+        {"images/Carbon.png", "Carbon"},
+        {"images/Sulfer.png", "Sulfer"},
+        {"images/KNO3.png", "Potasium Nitrate"},
+        {"images/BlackPowder.png", "Black Powder"},
+        {"images/Glycerol.png", "Glycerol"},
+        {"images/HNO3.png", "Nitric Acid"},
+        {"images/H2SO4.png", "Sulfuric Acid"},
+        {"images/Nitroglycerin.png", "Nitroglycerin"}
     };
+    vector<string>itemNames;
+    map<string, ItemData> items;
+    for (ItemData item : itemVector) {
+        items.insert({item.name, item});
+        itemNames.push_back(item.name);
+    }
 
     Player player(0, 0, 120, 180);
     
@@ -39,9 +49,12 @@ int main(int, char**){
 
     Inventory inventory(800, 800);
 
-    Factory blackPowderFactory{{"Potasium Nitrate", "Carbon", "Sulfer"}};
+    Factory blackPowderFactory{{"Potasium Nitrate", "Carbon", "Sulfer"}, "Black Powder"};
+    Factory nitroglycerinFactory{{"Sulfuric Acid", "Nitric Acid", "Glycerol"}, "Nitroglycerin"};
 
-    Sprite* spriteReferences[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&blackPowderFactory};
+    Factory* factoryRefs[] = {&blackPowderFactory, &nitroglycerinFactory};
+
+    Sprite* spriteReferences[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&blackPowderFactory, (Sprite*)&nitroglycerinFactory};
 
     vector<map<Sprite*, Vector2>> levelPositions;
     vector<map<Sprite*, float>> levelRotations;
@@ -58,7 +71,7 @@ int main(int, char**){
     levelPositions.push_back({ 
         {&player, {0, 0}},
         {&door, {500, 500}},
-        {&workBench, {1000, 700}}
+        {&nitroglycerinFactory, {1000, 700}}
     });
     levelRotations.push_back({
         {&door, 90}
@@ -114,6 +127,7 @@ int main(int, char**){
         BeginDrawing();
         ClearBackground(BLACK);
         blackPowderFactory.Render();
+        nitroglycerinFactory.Render();
         player.Render();
         door.RenderImage();
         workBench.Render();
@@ -128,23 +142,25 @@ int main(int, char**){
         switch (gameState) {
             case Moving:
                 player.KeyListen();
-                if (blackPowderFactory.IsTouching(player.item)) {
-                    for (string ingredient : blackPowderFactory.ingredients) {
-                        if (player.item.name.compare(ingredient) == 0) {
-                            blackPowderFactory.Place(ingredient);
-                            inventory.PopItem(ingredient);
-                            player.item.name = "noitem";
-                            if (blackPowderFactory.IsFilled())
-                                placedItems.push_back({blackPowderFactory.GetPosition(), items.at("Black Powder")});
+                for (Factory* ref : factoryRefs) {
+                    if ((*ref).IsTouching(player.item)) {
+                        for (string reactant : (*ref).reactants) {
+                            if (player.item.name.compare(reactant) == 0) {
+                                (*ref).Place(reactant);
+                                inventory.PopItem(reactant);
+                                player.item.name = "noitem";
+                                if ((*ref).IsFilled())
+                                    placedItems.push_back({(*ref).GetPosition(), items.at((*ref).product)});
+                            }
                         }
                     }
                 }
 
                 if (IsMouseButtonPressed(0)) {
-                    for (string name : {"Black Powder", "Sulfer", "Carbon", "Potasium Nitrate"}) {
-                        if (player.item.name.compare(name) == 0) {
-                            placedItems.push_back({GetMousePosition(), items.at(name)});
-                            inventory.PopItem(name);
+                    for (string item_name : itemNames) {
+                        if (player.item.name.compare(item_name) == 0) {
+                            placedItems.push_back({GetMousePosition(), items.at(item_name)});
+                            inventory.PopItem(item_name);
                             player.item.name = "noitem";
                         }
                     }
@@ -199,11 +215,16 @@ int main(int, char**){
             switch (level) {
                 case 2:
                 placedItems.push_back({1000, 100, items.at("Sulfer")});
-                placedItems.push_back({30, 200, items.at("Potasium Nitrate")});
+                placedItems.push_back({30, 200, items.at("Glycerol")});
                 placedItems.push_back({300, 900, items.at("Potasium Nitrate")});
+                placedItems.push_back({1500, 200, items.at("Sulfuric Acid")});
+                placedItems.push_back({1500, 400, items.at("Nitric Acid")});
                 break;
                 case 3:
                 placedItems.push_back({500, 900, items.at("Carbon")});
+                placedItems.push_back({300, 600, items.at("Potasium Nitrate")});
+                placedItems.push_back({120, 100, items.at("Potasium Nitrate")});
+
                 break;
             }
         }

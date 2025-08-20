@@ -10,13 +10,15 @@ using std::map;
 
 class Factory : public Sprite {
 public:
-    Factory(vector<string> ingredientsList);
+    Factory(vector<string> reactantsList, string product);
     void Render();
-    map<string, bool> ingredientStatuses;
-    vector<string> ingredients;
+    map<string, bool> reactantStatuses;
+    vector<string> reactants;
     bool IsFilled();
     int filled;
     float timeFilled;
     float timeToFade = 5;
-    void Place(string ingredient);
+    string product;
+    void Place(string reactant);
+    bool SniffItem(Sprite &item);
 };
