@@ -9,4 +9,4 @@ Chemicals can be used to make other chemicals
 <br />
 <img src="images/demo/placing_glycerol.png" width=300px/>
 <img src="images/demo/nitroglycerin_product.png" width=300px/>
-<img src="images/demo/nitroglycerin_in_inventory.png" width=300/>
+<img src="images/demo/nitroglycerin_in_inventory.png" width=250px/>
