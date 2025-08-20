@@ -16,5 +16,6 @@ public:
     vector<string> ingredients;
     bool IsFilled();
     int filled;
+    time_t timeFilled;
     void Place(string ingredient);
 };
