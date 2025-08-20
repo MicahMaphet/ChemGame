@@ -15,10 +15,10 @@ int main(int, char**){
     SetWindowState(FLAG_VSYNC_HINT);
 
     map<string, ItemData> items{
-        {"KNO3", {"images/KNO3.png", "KNO3"}},
-        {"C", {"images/Carbon.png", "C"}},
-        {"S", {"images/Sulfer.png", "S"}},
-        {"blackpowder", {"images/BlackPowder.png", "blackpowder"}}
+        {"Potasium Nitrate", {"images/KNO3.png", "Potasium Nitrate"}},
+        {"Carbon", {"images/Carbon.png", "Carbon"}},
+        {"Sulfer", {"images/Sulfer.png", "Sulfer"}},
+        {"Black Powder", {"images/BlackPowder.png", "Black Powder"}}
     };
 
     Player player(0, 0, 120, 180);
@@ -38,9 +38,9 @@ int main(int, char**){
     WorkBench workBench(1000, 800, 175, 100);
 
     Inventory inventory(800, 800);
-    inventory.AddItem(items.at("KNO3"));
+    inventory.AddItem(items.at("Potasium Nitrate"));
 
-    Factory blackPowderFactory{{"KNO3", "C", "S"}};
+    Factory blackPowderFactory{{"Potasium Nitrate", "Carbon", "Sulfer"}};
 
     Sprite* spriteReferences[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&blackPowderFactory};
 
@@ -136,13 +136,13 @@ int main(int, char**){
                             inventory.PopItem(ingredient);
                             player.item.name = "noitem";
                             if (blackPowderFactory.IsFilled())
-                                placedItems.push_back({blackPowderFactory.GetPosition(), items.at("blackpowder")});
+                                placedItems.push_back({blackPowderFactory.GetPosition(), items.at("Black Powder")});
                         }
                     }
                 }
 
                 if (IsMouseButtonPressed(0)) {
-                    for (string name : {"blackpowder", "S", "C", "KNO3"}) {
+                    for (string name : {"Black Powder", "Sulfer", "Carbon", "Potasium Nitrate"}) {
                         if (player.item.name.compare(name) == 0) {
                             placedItems.push_back({GetMousePosition(), items.at(name)});
                             inventory.PopItem(name);
@@ -199,10 +199,10 @@ int main(int, char**){
             cout << std::endl;
             switch (level) {
                 case 2:
-                placedItems.push_back({1000, 700, items.at("S")});
+                placedItems.push_back({1000, 700, items.at("Sulfer")});
                 break;
                 case 3:
-                placedItems.push_back({500, 900, items.at("C")});
+                placedItems.push_back({500, 900, items.at("Carbon")});
                 break;
             }
         }

@@ -26,11 +26,17 @@ void Inventory::Render() {
             int itemIndex = row + col * numBoxs;
             if (itemIndex < items.size()) {
                 Sprite item = items.at(itemIndex);
-                item.x = shell.x + padding + row * (boxWidth + padding) + boxWidth/2;
-                item.y = shell.y + padding + col * (boxWidth + padding) + boxWidth/2;
+                item.x = rect.x + boxWidth/2;
+                item.y = rect.y + boxWidth/2;
                 item.RenderImage(item.image);
-                if (hover && IsMouseButtonReleased(0)) {
-                    selectedItemIndex = itemIndex;
+                if (hover) {
+                    Vector2 labelOrigin = {-rect.x-10, -rect.y-boxWidth*0.8f+10};
+                    DrawRectanglePro(Rectangle{0, 0, (float)boxWidth-20, (float)boxWidth*0.2f}, 
+                                 labelOrigin, 0, {50, 50, 50, 200});
+                    DrawText(item.name.c_str(), -labelOrigin.x+10, -labelOrigin.y+10, 16, WHITE);
+                    if (IsMouseButtonReleased(0)) {
+                        selectedItemIndex = itemIndex;
+                    }
                 }
             } else if (hover && IsMouseButtonReleased(0)) {
                 selectedItemIndex = -1;
