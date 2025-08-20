@@ -7,7 +7,7 @@ using std::string;
 
 class ItemData {
 public:
-    ItemData(string fileName, string name);
+    ItemData(string fileName, string name, string label="");
     ItemData();
     Dimentions GetDims();
     int width, height;

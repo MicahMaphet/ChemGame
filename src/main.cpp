@@ -22,7 +22,7 @@ int main(int, char**){
         {"images/Glycerol.png", "Glycerol"},
         {"images/HNO3.png", "Nitric Acid"},
         {"images/H2SO4.png", "Sulfuric Acid"},
-        {"images/Nitroglycerin.png", "Nitroglycerin"}
+        {"images/Default.png", "Nitroglycerin", "C3H5N3O"}
     };
     vector<string>itemNames;
     map<string, ItemData> items;
