@@ -1,7 +1,6 @@
 #include "factory.h"
 #include <iostream>
-#include <ctime>
-using std::cout, std::time_t;
+using std::cout;
 
 Factory::Factory(vector<string> ingredientsList) : Sprite(1500, 700, 100, 100) {
     filled = 0;
@@ -13,18 +12,18 @@ Factory::Factory(vector<string> ingredientsList) : Sprite(1500, 700, 100, 100) {
 }
 
 void Factory::Render() {
-    if (IsFilled() && time(NULL) - timeFilled > 5)
+    if (IsFilled() && GetTime() - timeFilled > timeToFade)
         return;
-
     unsigned char brightness = 100 + 155 * filled/ingredients.size();
-    unsigned char alpha = timeFilled == 0 ? 255 : 255 * (5 - time(NULL) - timeFilled)/5;
+    unsigned char alpha = timeFilled == 0 ? 255 : 255 * (timeToFade - GetTime() + timeFilled)/timeToFade;
+    if (alpha < 0) alpha = 0;
     DrawRectanglePro(
         Rectangle{ (float)-width/2, (float)-height/2, (float)width, (float)height },
         Vector2{ (float)-x, (float)-y }, rotation, Color{brightness, brightness, brightness, alpha}
     );
     DrawRectanglePro(
         Rectangle{ (float)0, (float)0, (float)(width*0.8*filled/ingredients.size()), (float)(height*0.1) },
-        Vector2{ (float)(-x+0.4*width), (float)(-y-0.3*height) }, rotation, BLACK
+        Vector2{ (float)(-x+0.4*width), (float)(-y-0.3*height) }, rotation, {0, 0, 0, alpha}
     );
 }
 
@@ -38,6 +37,6 @@ void Factory::Place(string ingredient) {
         ingredientStatuses.at(ingredient) = true;
         filled++;
         if (IsFilled())
-            time(&timeFilled);
+            timeFilled = GetTime();
     }
 }

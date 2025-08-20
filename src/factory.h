@@ -16,6 +16,7 @@ public:
     vector<string> ingredients;
     bool IsFilled();
     int filled;
-    time_t timeFilled;
+    float timeFilled;
+    float timeToFade = 5;
     void Place(string ingredient);
 };
