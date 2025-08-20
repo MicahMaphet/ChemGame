@@ -38,7 +38,6 @@ int main(int, char**){
     WorkBench workBench(1000, 800, 175, 100);
 
     Inventory inventory(800, 800);
-    inventory.AddItem(items.at("Potasium Nitrate"));
 
     Factory blackPowderFactory{{"Potasium Nitrate", "Carbon", "Sulfer"}};
 
@@ -199,7 +198,9 @@ int main(int, char**){
             cout << std::endl;
             switch (level) {
                 case 2:
-                placedItems.push_back({1000, 700, items.at("Sulfer")});
+                placedItems.push_back({1000, 100, items.at("Sulfer")});
+                placedItems.push_back({30, 200, items.at("Potasium Nitrate")});
+                placedItems.push_back({300, 900, items.at("Potasium Nitrate")});
                 break;
                 case 3:
                 placedItems.push_back({500, 900, items.at("Carbon")});

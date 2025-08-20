@@ -1,11 +1,13 @@
 #include "sprite.h"
 #include "item.h"
 #include <vector>
-using std::vector;
+#include <map>
+using std::vector, std::map;
 
 class Inventory : public Sprite {
 private:
     vector<Sprite> items;
+    map<string, int> itemCounts;
     Sprite noitem;
     Texture2D noimage;
     int selectedItemIndex;

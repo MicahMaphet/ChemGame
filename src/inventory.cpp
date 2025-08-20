@@ -3,7 +3,7 @@
 
 Inventory::Inventory(int width, int height) : Sprite(width, height) {
     noitem.name = "noitem";
-    selectedItemIndex = 0;
+    selectedItemIndex = -1;
 }
 
 void Inventory::Render() {
@@ -29,6 +29,8 @@ void Inventory::Render() {
                 item.x = rect.x + boxWidth/2;
                 item.y = rect.y + boxWidth/2;
                 item.RenderImage(item.image);
+                if (itemCounts.at(item.name) > 1)
+                    DrawText(TextFormat("x%i", itemCounts.at(item.name)), rect.x+boxWidth-50, rect.y+15, 30, hover ? WHITE : GRAY);
                 if (hover) {
                     Vector2 labelOrigin = {-rect.x-10, -rect.y-boxWidth*0.8f+10};
                     DrawRectanglePro(Rectangle{0, 0, (float)boxWidth-20, (float)boxWidth*0.2f}, 
@@ -52,18 +54,30 @@ Sprite Inventory::GetSelectedItem() {
 }
 
 void Inventory::AddItem(Sprite sprite) {
-    items.push_back(sprite);
+    if (itemCounts.count(sprite.name) == 0) {
+        items.push_back(sprite);
+        itemCounts.insert({sprite.name, 1});
+    } else {
+        itemCounts.at(sprite.name)++;
+    }
 }
 
 void Inventory::AddItem(ItemData itemd) {
-    items.push_back({itemd.width, itemd.height, itemd.image, itemd.name});
+    AddItem({itemd.width, itemd.height, itemd.image, itemd.name});
 }
 
 void Inventory::AddItem(Item item) {
-    items.push_back({item.width, item.height, item.image, item.name});
+    AddItem({item.width, item.height, item.image, item.name});
 }
 
 void Inventory::PopItem(string item_name) {
+    if (itemCounts.count(item_name) == 0)
+        return;
+    if (itemCounts.at(item_name) > 1) {
+        itemCounts.at(item_name)--;
+        return;
+    }
+    itemCounts.erase(item_name);
     for (int i = 0; i < items.size(); i++) {
         if (items.at(i).name.compare(item_name) == 0) {
             // unselect item if removing the selected item
