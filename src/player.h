@@ -13,5 +13,5 @@ public:
     void Render();
     void Deaccelerate();
     void SelectItem(Sprite item);
-    Sprite item;
+    Sprite item{100, 100, "noitem"};
 };

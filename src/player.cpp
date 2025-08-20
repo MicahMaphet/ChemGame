@@ -7,7 +7,6 @@ Player::Player(int x, int y, int width, int height) : Sprite(x, y, width, height
     texture = LoadTexture("images/LuSuit.png");
     maxSpeed = 10;
     acceleration = 0.5;
-    item = Sprite(100, 100, LoadTexture("images/KNO3.png"), "Potasium Nitrate");
 }
 
 void Player::KeyListen() {
