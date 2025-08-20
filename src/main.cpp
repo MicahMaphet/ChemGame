@@ -4,7 +4,7 @@
 #include "player.h"
 #include "work_bench.h"
 #include "inventory.h"
-#include "blackpowder_factory.h"
+#include "factory.h"
 #include "item.h"
 #include <map>
 using std::map;
@@ -40,7 +40,7 @@ int main(int, char**){
     Inventory inventory(800, 800);
     inventory.AddItem(items.at("KNO3"));
 
-    BlackPowderFactory blackPowderFactory;
+    Factory blackPowderFactory{{"KNO3", "C", "S"}};
 
     Sprite* spriteReferences[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&blackPowderFactory};
 

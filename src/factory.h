@@ -8,16 +8,13 @@
 using std::vector;
 using std::map;
 
-class BlackPowderFactory : public Sprite {
+class Factory : public Sprite {
 public:
-    BlackPowderFactory();
+    Factory(vector<string> ingredientsList);
     void Render();
-    map<string, bool> ingredientStatuses{
-        {"S", false}, {"C", false}, {"KNO3", false}
-    };
+    map<string, bool> ingredientStatuses;
     vector<string> ingredients;
-    int filled;
     bool IsFilled();
+    int filled;
     void Place(string ingredient);
-    Texture2D blackPowderImage;
 };
