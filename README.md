@@ -1,5 +1,7 @@
 # Game for Exporing Chemistry
-
+"This world is the will to power—and nothing besides! And you yourselves are also this will to power—and nothing besides!"
+<br />
+― Friedrich Nietzsche, The Will to Power
 ## Collect Chemicals
 Chemicals can be found on levels and picked up
 ![alt text](images/demo/demo.png)
