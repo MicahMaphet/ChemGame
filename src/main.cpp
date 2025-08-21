@@ -11,8 +11,8 @@ using std::map;
 using std::cout;
 
 int main(int, char**){
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
     InitWindow(2000, 1000, "ChemGame");
-    SetWindowState(FLAG_VSYNC_HINT);
 
     vector<ItemData>itemVector{
         {"images/Carbon.png", "Carbon"},
