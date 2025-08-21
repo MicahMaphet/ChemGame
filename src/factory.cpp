@@ -2,11 +2,11 @@
 #include <iostream>
 using std::cout;
 
-Factory::Factory(vector<string> ingredientsList, string productName) : Sprite(1500, 700, 100, 100) {
+Factory::Factory(vector<ItemData> reactantsList, string productName) : Sprite(1500, 700, 125, 100) {
     filled = 0;
-    for (string ingredient : ingredientsList) {
-        reactants.push_back(ingredient);
-        reactantStatuses.insert({ingredient, false});
+    for (ItemData reactant : reactantsList) {
+        reactants.push_back(reactant);
+        reactantStatuses.insert({reactant.name, false});
     }
     product = productName;
     timeFilled = 0;
@@ -24,8 +24,16 @@ void Factory::Render() {
     );
     DrawRectanglePro(
         Rectangle{ (float)0, (float)0, (float)(width*0.8*filled/reactants.size()), (float)(height*0.1) },
-        Vector2{ (float)(-x+0.4*width), (float)(-y-0.3*height) }, rotation, {0, 0, 0, alpha}
+        Vector2{ (float)(-x+0.4*width), (float)(-y-0.3*height) }, rotation, {0, 255, 0, alpha}
     );
+    int rWidth = reactants.size() >= 3 ? 150 / reactants.size() : 50;
+    int ry = y-height/2;
+    for(int i = 0; i < reactants.size(); i++) {
+        int rx = x - (reactants.size() * rWidth/2) + i * rWidth + rWidth/2;
+        bool activated = reactantStatuses.at(reactants.at(i).name);
+        DrawCircle(rx, ry, rWidth/2*sqrt(2), activated ? Color{225, 225, 225, (unsigned char)(alpha*0.9)} : Color{200, 200, 200, (unsigned char)(alpha*0.7f)});
+        Util::RenderImage(activated ? reactants.at(i).highlightedImage : reactants.at(i).image, rx, ry, rWidth, rWidth, 0, 1, alpha);
+    }
 }
 
 bool Factory::IsFilled() {

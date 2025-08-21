@@ -51,9 +51,9 @@ int main(int, char**){
 
     Inventory inventory(800, 800);
 
-    Factory blackPowderFactory{{"Potasium Nitrate", "Carbon", "Sulfer"}, "Black Powder"};
-    Factory nitroglycerinFactory{{"Sulfuric Acid", "Nitric Acid", "Glycerol"}, "Nitroglycerin"};
-    Factory TNTFactory{{"Toluene", "Nitric Acid", "Sulfuric Acid"}, "Trinitrotoluene"};
+    Factory blackPowderFactory{{items.at("Potasium Nitrate"), items.at("Carbon"), items.at("Sulfer")}, "Black Powder"};
+    Factory nitroglycerinFactory{{items.at("Sulfuric Acid"), items.at("Nitric Acid"), items.at("Glycerol")}, "Nitroglycerin"};
+    Factory TNTFactory{{items.at("Toluene"), items.at("Nitric Acid"), items.at("Sulfuric Acid")}, "Trinitrotoluene"};
 
     Factory* factoryRefs[] = {&blackPowderFactory, &nitroglycerinFactory, &TNTFactory};
 
@@ -92,7 +92,7 @@ int main(int, char**){
     levelPositions.push_back({ 
         {&player, {600, 200}},
         {&door, {1500, 700}},
-        {&TNTFactory, {50, 950}}
+        {&TNTFactory, {200, 800}}
     });
     levelRotations.push_back({
         {&door, 90}
@@ -148,13 +148,13 @@ int main(int, char**){
                 player.KeyListen();
                 for (Factory* ref : factoryRefs) {
                     if ((*ref).IsTouching(player.item)) {
-                        for (string reactant : (*ref).reactants) {
-                            if (player.item.name.compare(reactant) == 0) {
-                                (*ref).Place(reactant);
-                                inventory.PopItem(reactant);
+                        for (ItemData reactant : (*ref).reactants) {
+                            if (player.item.name.compare(reactant.name) == 0) {
+                                (*ref).Place(reactant.name);
+                                inventory.PopItem(reactant.name);
                                 player.item.name = "noitem";
                                 if ((*ref).IsFilled())
-                                    placedItems.push_back({(*ref).GetPosition(), items.at((*ref).product)});
+                                    placedItems.push_back({Vector2{(float)(*ref).x, (float)(*ref).y+120.0f}, items.at((*ref).product)});
                             }
                         }
                     }

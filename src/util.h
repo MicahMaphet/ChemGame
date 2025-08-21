@@ -13,7 +13,7 @@ struct State2D {
 
 class Util {
 public:
-    static void RenderImage(Texture2D image, int x, int y, int width, int height, int rotation, int scale);
+    static void RenderImage(Texture2D image, int x, int y, int width, int height, int rotation=0, int scale=1, unsigned char alpha=255);
 };
 
 double sigmoid(double k);

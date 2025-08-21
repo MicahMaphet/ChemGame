@@ -1,6 +1,7 @@
 #pragma once
 
 #include "sprite.h"
+#include "item_data.h"
 #include "raylib.h"
 #include "vector"
 #include <map>
@@ -10,10 +11,10 @@ using std::map;
 
 class Factory : public Sprite {
 public:
-    Factory(vector<string> reactantsList, string product);
+    Factory(vector<ItemData> reactantsList, string product);
     void Render();
     map<string, bool> reactantStatuses;
-    vector<string> reactants;
+    vector<ItemData> reactants;
     bool IsFilled();
     int filled;
     float timeFilled;
