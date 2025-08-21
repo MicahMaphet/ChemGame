@@ -7,7 +7,7 @@ Inventory::Inventory(int width, int height) : Sprite(width, height) {
 }
 
 void Inventory::Render() {
-    Sprite::Render();
+    if (ShowBox) Sprite::RenderBox();
     Rectangle shell = {
         (float)GetScreenWidth()/2 - width/2, (float)GetScreenHeight()/2 - height/2,
         (float)width, (float)height};

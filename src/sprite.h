@@ -32,5 +32,6 @@ public:
     void Render();
     void RenderImage(Texture2D image, float scale = 1);
     void RenderImage(float scale = 1);
+    void RenderBox();
     bool GetOffScreen();
 };

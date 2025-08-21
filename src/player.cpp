@@ -46,7 +46,7 @@ void Player::KeyListen() {
 }
 
 void Player::Render() {
-    Sprite::Render();
+    if (ShowBox) Sprite::RenderBox();
     RenderImage(texture, 1.1);
     x += speedX;
     y += speedY;

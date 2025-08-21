@@ -12,7 +12,7 @@ Item::Item(int x, int y, ItemData data) : Item(x, y, data.width, data.height, da
 Item::Item(Vector2 pose, ItemData data) : Item(pose.x, pose.y, data) {}
 
 void Item::Render() {
-    Sprite::Render();
+    if (ShowBox) Sprite::RenderBox();
     if (IsMouseHover())
         RenderImage(highlightedImage);
     else

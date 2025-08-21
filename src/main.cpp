@@ -22,7 +22,9 @@ int main(int, char**){
         {"images/Glycerol.png", "Glycerol"},
         {"images/HNO3.png", "Nitric Acid"},
         {"images/H2SO4.png", "Sulfuric Acid"},
-        {"images/Default.png", "Nitroglycerin", "C3H5N3O"}
+        {"images/Default.png", "Nitroglycerin", "C3H5N3O"},
+        {"images/TNT.png", "Trinitrotoluene"},
+        {"images/Toluene.png", "Toluene"},
     };
     vector<string>itemNames;
     map<string, ItemData> items;
@@ -51,10 +53,11 @@ int main(int, char**){
 
     Factory blackPowderFactory{{"Potasium Nitrate", "Carbon", "Sulfer"}, "Black Powder"};
     Factory nitroglycerinFactory{{"Sulfuric Acid", "Nitric Acid", "Glycerol"}, "Nitroglycerin"};
+    Factory TNTFactory{{"Toluene", "Nitric Acid", "Sulfuric Acid"}, "Trinitrotoluene"};
 
-    Factory* factoryRefs[] = {&blackPowderFactory, &nitroglycerinFactory};
+    Factory* factoryRefs[] = {&blackPowderFactory, &nitroglycerinFactory, &TNTFactory};
 
-    Sprite* spriteReferences[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&blackPowderFactory, (Sprite*)&nitroglycerinFactory};
+    Sprite* spriteRefs[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&blackPowderFactory, (Sprite*)&nitroglycerinFactory, (Sprite*)&TNTFactory};
 
     vector<map<Sprite*, Vector2>> levelPositions;
     vector<map<Sprite*, float>> levelRotations;
@@ -88,7 +91,8 @@ int main(int, char**){
     // Level 4
     levelPositions.push_back({ 
         {&player, {600, 200}},
-        {&door, {1500, 700}}
+        {&door, {1500, 700}},
+        {&TNTFactory, {50, 950}}
     });
     levelRotations.push_back({
         {&door, 90}
@@ -103,7 +107,7 @@ int main(int, char**){
     });
 
     // set up first level
-    for (Sprite* ref : spriteReferences) {
+    for (Sprite* ref : spriteRefs) {
         if (levelPositions.at(level).count(ref) != 0) {
             (*ref).SetByPose(levelPositions.at(level).at(ref));
             if (levelRotations.at(level).count(ref) != 0)
@@ -126,8 +130,8 @@ int main(int, char**){
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
-        blackPowderFactory.Render();
-        nitroglycerinFactory.Render();
+        for (Factory* ref : factoryRefs)
+            (*ref).Render();
         player.Render();
         door.RenderImage();
         workBench.Render();
@@ -200,7 +204,7 @@ int main(int, char**){
             level++;
             cout << '\n' << level;
             placedItems.clear();
-            for (Sprite* ref : spriteReferences) {
+            for (Sprite* ref : spriteRefs) {
                 if (level >= levelPositions.size())
                     break;
                 if (levelPositions.at(level - 1).count(ref) != 0) {
@@ -224,7 +228,11 @@ int main(int, char**){
                 placedItems.push_back({500, 900, items.at("Carbon")});
                 placedItems.push_back({300, 600, items.at("Potasium Nitrate")});
                 placedItems.push_back({120, 100, items.at("Potasium Nitrate")});
-
+                placedItems.push_back({600, 400, items.at("Nitric Acid")});
+                break;
+                case 4:
+                placedItems.push_back({800, 300, items.at("Toluene")});
+                placedItems.push_back({600, 400, items.at("Sulfuric Acid")});
                 break;
             }
         }

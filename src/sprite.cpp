@@ -51,14 +51,19 @@ double Sprite:: GetMouseDistance() {
     return hypot(GetMouseX() - x, GetMouseY() - y);
 }
 
+void Sprite::RenderBox() {
+    DrawRectanglePro(
+        Rectangle{ (float)-width/2, (float)-height/2, (float)width, (float)height },
+        Vector2{ (float)-x, (float)-y }, rotation, IsMouseHover() ? WHITE : RED
+    );
+}
+
 /** Sprite rendering default: draw hitbox if ShowBox is true */
 void Sprite::Render() {
     if (GetOffScreen()) return;
     if (ShowBox)
-        DrawRectanglePro(
-            Rectangle{ (float)-width/2, (float)-height/2, (float)width, (float)height },
-            Vector2{ (float)-x, (float)-y }, rotation, IsMouseHover() ? WHITE : RED
-        );
+        RenderBox();
+    RenderImage();
 }
 
 void Sprite::RenderImage(Texture2D image, float scale) {
