@@ -155,9 +155,10 @@ int main(int, char**){
                 if (discard.name.compare("noitem") != 0) {
                     placedItems.push_back({discard.x, discard.y-50, items.at(discard.name)});
                 } else {
-                    Sprite claimedProduct = factory.ClaimProductListen();
-                    if (claimedProduct.name.compare("noitem") != 0) {
-                        player.SelectItem(claimedProduct);
+                    if (factory.IsMouseHover() && factory.filled) {
+                        for (Sprite product : factory.React()) {
+                            placedItems.push_back({product.x, product.y, items.at(product.name)});
+                        }
                     }
                 }
             }

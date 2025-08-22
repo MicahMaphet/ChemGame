@@ -17,12 +17,11 @@ struct Chemical {
 struct Equation {
     vector<Chemical> reactants;
     vector<Chemical> products;
-    int fill = 0;
 };
 
 class Factory : public Sprite {
 private:
-    void ShiftPlacedReactants();
+    void ReorgMyEquation();
     map<string, bool> reactantStatuses;
     vector<Equation> equations;
     vector<Chemical> validReactants;
@@ -32,12 +31,11 @@ private:
 public:
     Factory();
     void Render();
-    float timeFilled;
-    bool validReactant;
     bool filled = false;
     bool Place(string reactant);
     void AddEquation(vector<ItemData> reactants, vector<ItemData> products);
+    void ValidateMyEquation();
     void PopReactant(string reactant);
     Sprite DiscardListen();
-    Sprite ClaimProductListen();
+    vector<Sprite> React();
 };

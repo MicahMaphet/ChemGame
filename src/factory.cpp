@@ -2,9 +2,7 @@
 #include <iostream>
 using std::cout;
 
-Factory::Factory() : Sprite(1500, 700, 125, 100) {
-    timeFilled = 0;
-}
+Factory::Factory() : Sprite(1500, 700, 125, 100) {}
 
 void Factory::AddEquation(vector<ItemData> reactants, vector<ItemData> products) {
     equations.push_back({{}, {}});
@@ -28,9 +26,19 @@ void Factory::AddEquation(vector<ItemData> reactants, vector<ItemData> products)
 }
 
 void Factory::Render() {
+    Color color;
+    if (IsMouseHover()) {
+        if (filled) {
+            color = {50, 200, 50, 255};
+        } else {
+            color = {200, 200, 200, 255};
+        }
+    } else {
+        color = {100, 100, 100, 255};
+    }
     DrawRectanglePro(
         Rectangle{ (float)-width/2, (float)-height/2, (float)width, (float)height },
-        Vector2{ (float)-x, (float)-y }, rotation, GRAY
+        Vector2{ (float)-x, (float)-y }, rotation, color
     );
 
     for (Sprite& placedReactant : placedReactants) {
@@ -49,39 +57,7 @@ bool Factory::Place(string item) {
     for (Chemical& validReactant : validReactants) {
         if (item.compare(validReactant.name) == 0) {
             placedReactants.push_back({validReactant.image, validReactant.name});
-            // Find not just an equation that has been fullfilled by all the placed reactants.
-            // Find the longest, most specific equation that has been fullfilled by all the placed reactants.
-            int longestFullfilledEquation = 0;
-            for (Equation& equation : equations) {
-                bool hasFullfilledEquation = true;
-                for (Chemical& reactant : equation.reactants) {
-                    bool fullfilledReactant = false;
-                    for (Sprite& placedReactant : placedReactants) {
-                        if (reactant.name.compare(placedReactant.name) == 0) {
-                            fullfilledReactant = true;
-                            break;
-                        }
-                    }
-                    if (!fullfilledReactant) {
-                        hasFullfilledEquation = false;
-                        break;
-                    }
-                }
-                if (hasFullfilledEquation && equation.reactants.size() > longestFullfilledEquation) {
-                    longestFullfilledEquation = equation.reactants.size();
-                    fullfilledEquation = equation;
-                    filled = true;
-                }
-            }
-            int numProducts = fullfilledEquation.products.size();
-            int pWidth = 100;
-            int py = y + height/2;
-            pendingProducts.clear();
-            for (int i = 0; i < numProducts; i++) {
-                int px = x - (numProducts * pWidth/2) + i * pWidth + pWidth/2;
-                pendingProducts.push_back({px, py, pWidth, pWidth, fullfilledEquation.products.at(i).image, fullfilledEquation.products.at(i).name});
-            }
-            ShiftPlacedReactants();
+            ReorgMyEquation();
             return true;
         }
     }
@@ -97,13 +73,47 @@ void Factory::PopReactant(string reactant) {
                 }
             }
             placedReactants.pop_back();
-            ShiftPlacedReactants();
             return;
         }
     }
 }
 
-void Factory::ShiftPlacedReactants() {
+void Factory::ReorgMyEquation() {
+    int longestFullfilledEquation = 0;
+    for (Equation& equation : equations) {
+        bool hasFullfilledEquation = true;
+        for (Chemical& reactant : equation.reactants) {
+            bool fullfilledReactant = false;
+            for (Sprite& placedReactant : placedReactants) {
+                if (reactant.name.compare(placedReactant.name) == 0) {
+                    fullfilledReactant = true;
+                    break;
+                }
+            }
+            if (!fullfilledReactant) {
+                hasFullfilledEquation = false;
+                break;
+            }
+        }
+        if (hasFullfilledEquation && equation.reactants.size() > longestFullfilledEquation) {
+            longestFullfilledEquation = equation.reactants.size();
+            fullfilledEquation = equation;
+        }
+    }
+    pendingProducts.clear();
+    if (longestFullfilledEquation == 0) {
+        filled = false;
+        fullfilledEquation.products.clear();
+        fullfilledEquation.reactants.clear();
+    } else {
+        filled = true;
+        int pWidth = 100;
+        int py = y + height/2;
+        for (int i = 0; i < fullfilledEquation.products.size(); i++) {
+            int px = x - (fullfilledEquation.products.size() * pWidth/2) + i * pWidth + pWidth/2;
+            pendingProducts.push_back({px, py, pWidth, pWidth, fullfilledEquation.products.at(i).image, fullfilledEquation.products.at(i).name});
+        }
+    }
     int rWidth = placedReactants.size() >= 3 ? 175 / placedReactants.size() : 64;
     float ry = y-height/2;
     for(int i = 0; i < placedReactants.size(); i++) {
@@ -116,18 +126,19 @@ Sprite Factory::DiscardListen() {
     for (Sprite placedReactant : placedReactants) {
         if (placedReactant.IsClicked()) {
             PopReactant(placedReactant.name);
+            ReorgMyEquation();
             return placedReactant;
         }
     }
     return {"noitem"};
 }
 
-Sprite Factory::ClaimProductListen() {
-    for (Sprite pendingProduct : pendingProducts) {
-        if (pendingProduct.IsClicked()) {
-            pendingProducts.clear();
-            return pendingProduct;
-        }
-    }
-    return {"noitem"};
+vector<Sprite> Factory::React() {
+    vector<Sprite> ejectedProducts = pendingProducts;
+    pendingProducts.clear();
+    filled = false;
+    for (Chemical reactant : fullfilledEquation.reactants)
+        PopReactant(reactant.name);
+    ReorgMyEquation();
+    return ejectedProducts;
 }
