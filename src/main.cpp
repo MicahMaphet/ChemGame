@@ -204,7 +204,6 @@ int main(int, char**){
 
         if (door.IsTouching(player)) {
             level++;
-            cout << '\n' << level;
             placedItems.clear();
             for (Sprite* ref : spriteRefs) {
                 if (level >= levelPositions.size())
@@ -217,7 +216,6 @@ int main(int, char**){
                     (*ref).SetByPose({-INFINITY, -INFINITY});
                 }
             }
-            cout << std::endl;
             switch (level) {
                 case 2:
                 placedItems.push_back({1000, 100, items.at("Sulfer")});

@@ -77,7 +77,6 @@ void Inventory::PopItem(string item_name) {
         itemCounts.at(item_name)--;
         return;
     }
-    std::cout << "\nPop item from inventory";
     itemCounts.erase(item_name);
     for (int i = 0; i < items.size(); i++) {
         if (items.at(i).name.compare(item_name) == 0) {
