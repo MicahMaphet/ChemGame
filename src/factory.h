@@ -19,6 +19,12 @@ struct Equation {
     vector<Chemical> products;
 };
 
+class RSprite : public Sprite {
+public:
+    RSprite(Texture2D image, string name);
+    bool inEquation = false;
+};
+
 class Factory : public Sprite {
 private:
     void ReorgMyEquation();
@@ -26,7 +32,7 @@ private:
     vector<Equation> equations;
     vector<Chemical> validReactants;
     Equation fullfilledEquation;
-    vector<Sprite> placedReactants;
+    vector<RSprite> placedReactants;
     vector<Sprite> pendingProducts;
 public:
     Factory();

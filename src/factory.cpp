@@ -29,20 +29,36 @@ void Factory::Render() {
     Color color;
     if (IsMouseHover()) {
         if (filled) {
-            color = {50, 200, 50, 255};
+            color = {80, 140, 80, 255};
         } else {
             color = {200, 200, 200, 255};
         }
     } else {
-        color = {100, 100, 100, 255};
+        if (filled) {
+            color = {90, 90, 140, 255};
+        } else {
+            color = {100, 100, 100, 255};
+        }
     }
     DrawRectanglePro(
         Rectangle{ (float)-width/2, (float)-height/2, (float)width, (float)height },
         Vector2{ (float)-x, (float)-y }, rotation, color
     );
 
-    for (Sprite& placedReactant : placedReactants) {
-        DrawCircle(placedReactant.x, placedReactant.y, placedReactant.width/2, Color{200, 200, 200, 200});
+    for (RSprite& placedReactant : placedReactants) {
+        Color color;
+        if (IsMouseHover()) {
+            if (placedReactant.inEquation)
+                color = {200, 240, 200, 225};
+            else
+                color = {225, 225, 225, 225};
+        } else {
+            if (placedReactant.inEquation)
+                color = {150, 150, 220, 220};
+            else
+                color = {180, 180, 180, 200};
+        }
+        DrawCircle(placedReactant.x, placedReactant.y, placedReactant.width/2, color);
         placedReactant.Render();
     }
 
@@ -119,6 +135,15 @@ void Factory::ReorgMyEquation() {
     for(int i = 0; i < placedReactants.size(); i++) {
         float rx = x - (placedReactants.size() * rWidth/2) + i * rWidth + rWidth/2;
         placedReactants.at(i).SetByState2D({rx, ry, rWidth, rWidth});
+        placedReactants.at(i).inEquation = false;
+        if (filled) {
+            for (Chemical reactant : fullfilledEquation.reactants) {
+                if (placedReactants.at(i).name.compare(reactant.name) == 0) {
+                    placedReactants.at(i).inEquation = true;
+                    break;
+                }
+            }
+        }
     }
 }
 
@@ -142,3 +167,5 @@ vector<Sprite> Factory::React() {
     ReorgMyEquation();
     return ejectedProducts;
 }
+
+RSprite::RSprite(Texture2D image, string name) : Sprite(image, name) {}
