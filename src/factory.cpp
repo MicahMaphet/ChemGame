@@ -2,50 +2,86 @@
 #include <iostream>
 using std::cout;
 
-Factory::Factory(vector<ItemData> reactantsList, string productName) : Sprite(1500, 700, 125, 100) {
-    filled = 0;
-    for (ItemData reactant : reactantsList) {
-        reactants.push_back(reactant);
-        reactantStatuses.insert({reactant.name, false});
-    }
-    product = productName;
+Factory::Factory() : Sprite(1500, 700, 125, 100) {
     timeFilled = 0;
 }
 
+void Factory::AddEquation(vector<ItemData> reactants, vector<ItemData> products) {
+    equations.push_back({{}, {}});
+    for (ItemData& reactant : reactants) {
+        bool alreadyValid = false;
+        for (Chemical& validReactant : validReactants) {
+            if (reactant.name.compare(validReactant.name) == 0) {
+                alreadyValid = true;
+                equations.back().reactants.push_back(validReactant);
+                break;
+            }
+        }
+        if (!alreadyValid) {
+            validReactants.push_back({reactant.name, reactant.image});
+            equations.back().reactants.push_back(validReactants.back());
+        }
+    }
+    for (ItemData product : products) {
+        equations.back().products.push_back({product.name, product.image});
+    }   
+}
+
 void Factory::Render() {
-    if (IsFilled() && GetTime() - timeFilled > timeToFade)
-        return;
-    unsigned char brightness = 100 + 155 * filled/reactants.size();
-    unsigned char alpha = timeFilled == 0 ? 255 : 255 * (timeToFade - GetTime() + timeFilled)/timeToFade;
-    if (alpha < 0) alpha = 0;
     DrawRectanglePro(
         Rectangle{ (float)-width/2, (float)-height/2, (float)width, (float)height },
-        Vector2{ (float)-x, (float)-y }, rotation, Color{brightness, brightness, brightness, alpha}
+        Vector2{ (float)-x, (float)-y }, rotation, GRAY
     );
-    DrawRectanglePro(
-        Rectangle{ (float)0, (float)0, (float)(width*0.8*filled/reactants.size()), (float)(height*0.1) },
-        Vector2{ (float)(-x+0.4*width), (float)(-y-0.3*height) }, rotation, {0, 255, 0, alpha}
-    );
-    int rWidth = reactants.size() >= 3 ? 150 / reactants.size() : 50;
+
+    int rWidth = placedReactants.size() >= 3 ? 150 / placedReactants.size() : 50;
     int ry = y-height/2;
-    for(int i = 0; i < reactants.size(); i++) {
-        int rx = x - (reactants.size() * rWidth/2) + i * rWidth + rWidth/2;
-        bool activated = reactantStatuses.at(reactants.at(i).name);
-        DrawCircle(rx, ry, rWidth/2*sqrt(2), activated ? Color{225, 225, 225, (unsigned char)(alpha*0.9)} : Color{200, 200, 200, (unsigned char)(alpha*0.7f)});
-        Util::RenderImage(activated ? reactants.at(i).highlightedImage : reactants.at(i).image, rx, ry, rWidth, rWidth, 0, 1, alpha);
+    for(int i = 0; i < placedReactants.size(); i++) {
+        int rx = x - (placedReactants.size() * rWidth/2) + i * rWidth + rWidth/2;
+        DrawCircle(rx, ry, rWidth/2*sqrt(2), Color{225, 225, 225, 200});
+        Util::RenderImage(placedReactants.at(i).image, rx, ry, rWidth, rWidth);
+    }
+
+    if (!filled)
+        return;
+    int numProducts = fullfilledEquation.products.size();
+    int pWidth = 50;
+    int py = y+height/2;
+    for (int i = 0; i < numProducts; i++) {
+        int px = x - (numProducts * pWidth/2) + i * pWidth + pWidth/2;
+        Util::RenderImage(fullfilledEquation.products.at(i).image, px, py, pWidth, pWidth);
     }
 }
 
-bool Factory::IsFilled() {
-    return filled == reactants.size();
-}
-
-void Factory::Place(string reactant) {
-    if (IsFilled()) return;
-    if (!reactantStatuses.at(reactant)) {
-        reactantStatuses.at(reactant) = true;
-        filled++;
-        if (IsFilled())
-            timeFilled = GetTime();
+bool Factory::Place(string item) {
+    for (Chemical& validReactant : validReactants) {
+        if (item.compare(validReactant.name) == 0) {
+            placedReactants.push_back(validReactant);
+            // Find not just an equation that has been fullfilled by all the placed reactants.
+            // Find the longest, most specific equation that has been fullfilled by all the placed reactants.
+            int longestFullfilledEquation = 0;
+            for (Equation& equation : equations) {
+                bool hasFullfilledEquation = true;
+                for (Chemical& reactant : equation.reactants) {
+                    bool fullfilledReactant = false;
+                    for (Chemical& placedReactant : placedReactants) {
+                        if (reactant.name.compare(placedReactant.name) == 0) {
+                            fullfilledReactant = true;
+                            break;
+                        }
+                    }
+                    if (!fullfilledReactant) {
+                        hasFullfilledEquation = false;
+                        break;
+                    }
+                }
+                if (hasFullfilledEquation && equation.reactants.size() > longestFullfilledEquation) {
+                    longestFullfilledEquation = equation.reactants.size();
+                    fullfilledEquation = equation;
+                    filled = true;
+                }
+            }
+            return true;
+        }
     }
+    return false;
 }

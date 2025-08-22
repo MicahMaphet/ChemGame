@@ -51,13 +51,12 @@ int main(int, char**){
 
     Inventory inventory(800, 800);
 
-    Factory blackPowderFactory{{items.at("Potasium Nitrate"), items.at("Carbon"), items.at("Sulfer")}, "Black Powder"};
-    Factory nitroglycerinFactory{{items.at("Sulfuric Acid"), items.at("Nitric Acid"), items.at("Glycerol")}, "Nitroglycerin"};
-    Factory TNTFactory{{items.at("Toluene"), items.at("Nitric Acid"), items.at("Sulfuric Acid")}, "Trinitrotoluene"};
+    Factory factory;
+    factory.AddEquation({items.at("Potasium Nitrate"), items.at("Carbon"), items.at("Sulfer")}, {items.at("Black Powder")});
+    factory.AddEquation({items.at("Sulfuric Acid"), items.at("Nitric Acid"), items.at("Glycerol")},  {items.at("Nitroglycerin")});
+    factory.AddEquation({items.at("Toluene"), items.at("Nitric Acid"), items.at("Sulfuric Acid")}, {items.at("Trinitrotoluene")});
 
-    Factory* factoryRefs[] = {&blackPowderFactory, &nitroglycerinFactory, &TNTFactory};
-
-    Sprite* spriteRefs[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&blackPowderFactory, (Sprite*)&nitroglycerinFactory, (Sprite*)&TNTFactory};
+    Sprite* spriteRefs[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&factory};
 
     vector<map<Sprite*, Vector2>> levelPositions;
     vector<map<Sprite*, float>> levelRotations;
@@ -74,7 +73,7 @@ int main(int, char**){
     levelPositions.push_back({ 
         {&player, {0, 0}},
         {&door, {500, 500}},
-        {&nitroglycerinFactory, {1000, 700}}
+        {&factory, {1000, 700}}
     });
     levelRotations.push_back({
         {&door, 90}
@@ -83,7 +82,7 @@ int main(int, char**){
     levelPositions.push_back({ 
         {&player, {500, 500}},
         {&door, {1700, 500}},
-        {&blackPowderFactory, {1000, 500}}
+        {&factory, {1000, 500}}
     });
     levelRotations.push_back({
         {&door, 0}
@@ -92,7 +91,7 @@ int main(int, char**){
     levelPositions.push_back({ 
         {&player, {600, 200}},
         {&door, {1500, 700}},
-        {&TNTFactory, {200, 800}}
+        {&factory, {200, 800}}
     });
     levelRotations.push_back({
         {&door, 90}
@@ -130,8 +129,7 @@ int main(int, char**){
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
-        for (Factory* ref : factoryRefs)
-            (*ref).Render();
+        factory.Render();
         player.Render();
         door.RenderImage();
         workBench.Render();
@@ -146,18 +144,9 @@ int main(int, char**){
         switch (gameState) {
             case Moving:
                 player.KeyListen();
-                for (Factory* ref : factoryRefs) {
-                    if ((*ref).IsTouching(player.item)) {
-                        for (ItemData reactant : (*ref).reactants) {
-                            if (player.item.name.compare(reactant.name) == 0) {
-                                (*ref).Place(reactant.name);
-                                inventory.PopItem(reactant.name);
-                                player.item.name = "noitem";
-                                if ((*ref).IsFilled())
-                                    placedItems.push_back({Vector2{(float)(*ref).x, (float)(*ref).y+120.0f}, items.at((*ref).product)});
-                            }
-                        }
-                    }
+                if (factory.IsTouching(player.item) && factory.Place(player.item.name)) {
+                    inventory.PopItem(player.item.name);
+                    player.item.name = "noitem";
                 }
 
                 if (IsMouseButtonPressed(0)) {
