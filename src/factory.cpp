@@ -33,12 +33,9 @@ void Factory::Render() {
         Vector2{ (float)-x, (float)-y }, rotation, GRAY
     );
 
-    int rWidth = placedReactants.size() >= 3 ? 150 / placedReactants.size() : 50;
-    int ry = y-height/2;
-    for(int i = 0; i < placedReactants.size(); i++) {
-        int rx = x - (placedReactants.size() * rWidth/2) + i * rWidth + rWidth/2;
-        DrawCircle(rx, ry, rWidth/2*sqrt(2), Color{225, 225, 225, 200});
-        Util::RenderImage(placedReactants.at(i).image, rx, ry, rWidth, rWidth);
+    for (Sprite& placedReactant : placedReactants) {
+        DrawCircle(placedReactant.x, placedReactant.y, placedReactant.width/2, Color{200, 200, 200, 200});
+        placedReactant.Render();
     }
 
     if (!filled)
@@ -55,7 +52,7 @@ void Factory::Render() {
 bool Factory::Place(string item) {
     for (Chemical& validReactant : validReactants) {
         if (item.compare(validReactant.name) == 0) {
-            placedReactants.push_back(validReactant);
+            placedReactants.push_back({validReactant.image, validReactant.name});
             // Find not just an equation that has been fullfilled by all the placed reactants.
             // Find the longest, most specific equation that has been fullfilled by all the placed reactants.
             int longestFullfilledEquation = 0;
@@ -63,7 +60,7 @@ bool Factory::Place(string item) {
                 bool hasFullfilledEquation = true;
                 for (Chemical& reactant : equation.reactants) {
                     bool fullfilledReactant = false;
-                    for (Chemical& placedReactant : placedReactants) {
+                    for (Sprite& placedReactant : placedReactants) {
                         if (reactant.name.compare(placedReactant.name) == 0) {
                             fullfilledReactant = true;
                             break;
@@ -79,6 +76,12 @@ bool Factory::Place(string item) {
                     fullfilledEquation = equation;
                     filled = true;
                 }
+            }
+            int rWidth = placedReactants.size() >= 3 ? 175 / placedReactants.size() : 64;
+            float ry = y-height/2;
+            for(int i = 0; i < placedReactants.size(); i++) {
+                float rx = x - (placedReactants.size() * rWidth/2) + i * rWidth + rWidth/2;
+                placedReactants.at(i).SetByState2D({rx, ry, rWidth, rWidth});
             }
             return true;
         }

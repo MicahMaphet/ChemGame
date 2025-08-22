@@ -27,7 +27,7 @@ public:
     map<string, bool> reactantStatuses;
     vector<Equation> equations;
     vector<Chemical> validReactants;
-    vector<Chemical> placedReactants;
+    vector<Sprite> placedReactants;
 
     float timeFilled;
     bool validReactant;

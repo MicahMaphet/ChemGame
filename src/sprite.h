@@ -15,6 +15,7 @@ public:
     Sprite(int x, int y, int width, int height, Texture2D img, string name);
     Sprite(int width, int height);
     Sprite(int width, int height, Texture2D img, string name);
+    Sprite(Texture2D img, string name);
     Sprite(int width, int height, string name);
     Sprite();
     int x, y, width, height;
