@@ -9,17 +9,39 @@
 using std::vector;
 using std::map;
 
-class Factory : public Sprite {
+struct Chemical {
+    string name;
+    Texture2D image;
+};
+
+struct Equation {
+    vector<Chemical> reactants;
+    vector<Chemical> products;
+};
+
+class RSprite : public Sprite {
 public:
-    Factory(vector<ItemData> reactantsList, string product);
-    void Render();
+    RSprite(Texture2D image, string name);
+    bool inEquation = false;
+};
+
+class Factory : public Sprite {
+private:
+    void ReorgMyEquation();
     map<string, bool> reactantStatuses;
-    vector<ItemData> reactants;
-    bool IsFilled();
-    int filled;
-    float timeFilled;
-    float timeToFade = 5;
-    string product;
-    void Place(string reactant);
-    bool SniffItem(Sprite &item);
+    vector<Equation> equations;
+    vector<Chemical> validReactants;
+    Equation fullfilledEquation;
+    vector<RSprite> placedReactants;
+    vector<Sprite> pendingProducts;
+public:
+    Factory();
+    void Render();
+    bool filled = false;
+    bool Place(string reactant);
+    void AddEquation(vector<ItemData> reactants, vector<ItemData> products);
+    void ValidateMyEquation();
+    void PopReactant(string reactant);
+    Sprite DiscardListen();
+    vector<Sprite> React();
 };

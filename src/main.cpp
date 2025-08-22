@@ -11,8 +11,8 @@ using std::map;
 using std::cout;
 
 int main(int, char**){
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
     InitWindow(2000, 1000, "ChemGame");
-    SetWindowState(FLAG_VSYNC_HINT);
 
     vector<ItemData>itemVector{
         {"images/Carbon.png", "Carbon"},
@@ -51,13 +51,12 @@ int main(int, char**){
 
     Inventory inventory(800, 800);
 
-    Factory blackPowderFactory{{items.at("Potasium Nitrate"), items.at("Carbon"), items.at("Sulfer")}, "Black Powder"};
-    Factory nitroglycerinFactory{{items.at("Sulfuric Acid"), items.at("Nitric Acid"), items.at("Glycerol")}, "Nitroglycerin"};
-    Factory TNTFactory{{items.at("Toluene"), items.at("Nitric Acid"), items.at("Sulfuric Acid")}, "Trinitrotoluene"};
+    Factory factory;
+    factory.AddEquation({items.at("Potasium Nitrate"), items.at("Carbon"), items.at("Sulfer")}, {items.at("Black Powder")});
+    factory.AddEquation({items.at("Sulfuric Acid"), items.at("Nitric Acid"), items.at("Glycerol")},  {items.at("Nitroglycerin")});
+    factory.AddEquation({items.at("Toluene"), items.at("Nitric Acid"), items.at("Sulfuric Acid")}, {items.at("Trinitrotoluene")});
 
-    Factory* factoryRefs[] = {&blackPowderFactory, &nitroglycerinFactory, &TNTFactory};
-
-    Sprite* spriteRefs[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&blackPowderFactory, (Sprite*)&nitroglycerinFactory, (Sprite*)&TNTFactory};
+    Sprite* spriteRefs[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&factory};
 
     vector<map<Sprite*, Vector2>> levelPositions;
     vector<map<Sprite*, float>> levelRotations;
@@ -74,7 +73,7 @@ int main(int, char**){
     levelPositions.push_back({ 
         {&player, {0, 0}},
         {&door, {500, 500}},
-        {&nitroglycerinFactory, {1000, 700}}
+        {&factory, {1000, 700}}
     });
     levelRotations.push_back({
         {&door, 90}
@@ -83,7 +82,7 @@ int main(int, char**){
     levelPositions.push_back({ 
         {&player, {500, 500}},
         {&door, {1700, 500}},
-        {&blackPowderFactory, {1000, 500}}
+        {&factory, {1000, 500}}
     });
     levelRotations.push_back({
         {&door, 0}
@@ -92,7 +91,7 @@ int main(int, char**){
     levelPositions.push_back({ 
         {&player, {600, 200}},
         {&door, {1500, 700}},
-        {&TNTFactory, {200, 800}}
+        {&factory, {200, 800}}
     });
     levelRotations.push_back({
         {&door, 90}
@@ -130,8 +129,7 @@ int main(int, char**){
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
-        for (Factory* ref : factoryRefs)
-            (*ref).Render();
+        factory.Render();
         player.Render();
         door.RenderImage();
         workBench.Render();
@@ -143,57 +141,61 @@ int main(int, char**){
             }
             item.Render();
         }
+
         switch (gameState) {
-            case Moving:
-                player.KeyListen();
-                for (Factory* ref : factoryRefs) {
-                    if ((*ref).IsTouching(player.item)) {
-                        for (ItemData reactant : (*ref).reactants) {
-                            if (player.item.name.compare(reactant.name) == 0) {
-                                (*ref).Place(reactant.name);
-                                inventory.PopItem(reactant.name);
-                                player.item.name = "noitem";
-                                if ((*ref).IsFilled())
-                                    placedItems.push_back({Vector2{(float)(*ref).x, (float)(*ref).y+120.0f}, items.at((*ref).product)});
-                            }
-                        }
-                    }
-                }
-
-                if (IsMouseButtonPressed(0)) {
-                    for (string item_name : itemNames) {
-                        if (player.item.name.compare(item_name) == 0) {
-                            placedItems.push_back({GetMousePosition(), items.at(item_name)});
-                            inventory.PopItem(item_name);
-                            player.item.name = "noitem";
-                        }
-                    }
-                }
-
-                if (workBench.IsClicked()) {
-                    gameState = Labing;
-                    workBench.Display();
-                }
-                if (IsKeyPressed(KEY_E))
-                    gameState = Inventory;
-                break;
-            case Labing:
-                if (completeButton.IsMouseHover()) {
-                    completeButton.RenderImage(completeButtonImages.highlight);
-                    if (IsMouseButtonReleased(0)) {
-                        gameState = Moving;
-                        workBench.EndDisplay();
-                    }
-                }
-                else completeButton.RenderImage(completeButtonImages.idle);
-                break;
-            case Inventory:
-                inventory.Render();
-                player.SelectItem(inventory.GetSelectedItem());
-                if (IsKeyPressed(KEY_E)) {
-                    gameState = Moving;
-                break;
+        // I have enough indentation already
+        case Moving: {
+            player.KeyListen();
+            if (factory.IsTouching(player.item) && factory.Place(player.item.name)) {
+                inventory.PopItem(player.item.name);
+                player.item.name = "noitem";
             }
+            if (IsMouseButtonReleased(0)) {
+                Sprite discard = factory.DiscardListen();
+                if (discard.name.compare("noitem") != 0) {
+                    placedItems.push_back({discard.x, discard.y-50, items.at(discard.name)});
+                } else {
+                    if (factory.IsMouseHover() && factory.filled) {
+                        for (Sprite product : factory.React()) {
+                            placedItems.push_back({product.x, product.y, items.at(product.name)});
+                        }
+                    }
+                }
+            }
+            if (IsMouseButtonPressed(0)) {
+                for (string item_name : itemNames) {
+                    if (player.item.name.compare(item_name) == 0) {
+                        placedItems.push_back({GetMousePosition(), items.at(item_name)});
+                        inventory.PopItem(item_name);
+                        player.item.name = "noitem";
+                    }
+                }
+            }
+            if (workBench.IsClicked()) {
+                gameState = Labing;
+                workBench.Display();
+            }
+            if (IsKeyPressed(KEY_E))
+                gameState = Inventory;
+            break;
+        }
+        case Labing:
+            if (completeButton.IsMouseHover()) {
+                completeButton.RenderImage(completeButtonImages.highlight);
+                if (IsMouseButtonReleased(0)) {
+                    gameState = Moving;
+                    workBench.EndDisplay();
+                }
+            }
+            else completeButton.RenderImage(completeButtonImages.idle);
+            break;
+        case Inventory:
+            inventory.Render();
+            player.SelectItem(inventory.GetSelectedItem());
+            if (IsKeyPressed(KEY_E)) {
+                gameState = Moving;
+            }
+            break;
         }
 
         if (gameState != Moving) {
@@ -202,7 +204,6 @@ int main(int, char**){
 
         if (door.IsTouching(player)) {
             level++;
-            cout << '\n' << level;
             placedItems.clear();
             for (Sprite* ref : spriteRefs) {
                 if (level >= levelPositions.size())
@@ -215,7 +216,6 @@ int main(int, char**){
                     (*ref).SetByPose({-INFINITY, -INFINITY});
                 }
             }
-            cout << std::endl;
             switch (level) {
                 case 2:
                 placedItems.push_back({1000, 100, items.at("Sulfer")});

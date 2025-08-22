@@ -20,7 +20,11 @@ Sprite::Sprite(int x, int y, int width, int height, Texture2D img, string name="
 
 Sprite::Sprite(int width, int height, Texture2D img, string name="") : Sprite(0, 0, width, height, img, name) {}
 
+Sprite::Sprite(Texture2D image, string name) : Sprite(0, 0, 0, 0, image, name) {}
+
 Sprite::Sprite(int width, int height, string name) : Sprite(0, 0, width, height, name) {}
+
+Sprite::Sprite(string name) : Sprite(0, 0, 0, 0, name) {}
 
 Sprite::Sprite() : Sprite(0, 0, 0, 0) {}
 

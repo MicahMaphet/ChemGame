@@ -2,50 +2,170 @@
 #include <iostream>
 using std::cout;
 
-Factory::Factory(vector<ItemData> reactantsList, string productName) : Sprite(1500, 700, 125, 100) {
-    filled = 0;
-    for (ItemData reactant : reactantsList) {
-        reactants.push_back(reactant);
-        reactantStatuses.insert({reactant.name, false});
+Factory::Factory() : Sprite(1500, 700, 125, 100) {}
+
+void Factory::AddEquation(vector<ItemData> reactants, vector<ItemData> products) {
+    equations.push_back({{}, {}});
+    for (ItemData& reactant : reactants) {
+        bool alreadyValid = false;
+        for (Chemical& validReactant : validReactants) {
+            if (reactant.name.compare(validReactant.name) == 0) {
+                alreadyValid = true;
+                equations.back().reactants.push_back(validReactant);
+                break;
+            }
+        }
+        if (!alreadyValid) {
+            validReactants.push_back({reactant.name, reactant.image});
+            equations.back().reactants.push_back(validReactants.back());
+        }
     }
-    product = productName;
-    timeFilled = 0;
+    for (ItemData product : products) {
+        equations.back().products.push_back({product.name, product.image});
+    }   
 }
 
 void Factory::Render() {
-    if (IsFilled() && GetTime() - timeFilled > timeToFade)
-        return;
-    unsigned char brightness = 100 + 155 * filled/reactants.size();
-    unsigned char alpha = timeFilled == 0 ? 255 : 255 * (timeToFade - GetTime() + timeFilled)/timeToFade;
-    if (alpha < 0) alpha = 0;
+    Color color;
+    if (IsMouseHover()) {
+        if (filled) {
+            color = {80, 140, 80, 255};
+        } else {
+            color = {200, 200, 200, 255};
+        }
+    } else {
+        if (filled) {
+            color = {90, 90, 140, 255};
+        } else {
+            color = {100, 100, 100, 255};
+        }
+    }
     DrawRectanglePro(
         Rectangle{ (float)-width/2, (float)-height/2, (float)width, (float)height },
-        Vector2{ (float)-x, (float)-y }, rotation, Color{brightness, brightness, brightness, alpha}
+        Vector2{ (float)-x, (float)-y }, rotation, color
     );
-    DrawRectanglePro(
-        Rectangle{ (float)0, (float)0, (float)(width*0.8*filled/reactants.size()), (float)(height*0.1) },
-        Vector2{ (float)(-x+0.4*width), (float)(-y-0.3*height) }, rotation, {0, 255, 0, alpha}
-    );
-    int rWidth = reactants.size() >= 3 ? 150 / reactants.size() : 50;
-    int ry = y-height/2;
-    for(int i = 0; i < reactants.size(); i++) {
-        int rx = x - (reactants.size() * rWidth/2) + i * rWidth + rWidth/2;
-        bool activated = reactantStatuses.at(reactants.at(i).name);
-        DrawCircle(rx, ry, rWidth/2*sqrt(2), activated ? Color{225, 225, 225, (unsigned char)(alpha*0.9)} : Color{200, 200, 200, (unsigned char)(alpha*0.7f)});
-        Util::RenderImage(activated ? reactants.at(i).highlightedImage : reactants.at(i).image, rx, ry, rWidth, rWidth, 0, 1, alpha);
+
+    for (RSprite& placedReactant : placedReactants) {
+        Color color;
+        if (IsMouseHover()) {
+            if (placedReactant.inEquation)
+                color = {200, 240, 200, 225};
+            else
+                color = {225, 225, 225, 225};
+        } else {
+            if (placedReactant.inEquation)
+                color = {150, 150, 220, 220};
+            else
+                color = {180, 180, 180, 200};
+        }
+        DrawCircle(placedReactant.x, placedReactant.y, placedReactant.width/2, color);
+        placedReactant.Render();
+    }
+
+    if (!filled)
+        return;
+    for (Sprite& pendingProduct : pendingProducts) {
+        pendingProduct.Render();
     }
 }
 
-bool Factory::IsFilled() {
-    return filled == reactants.size();
+bool Factory::Place(string item) {
+    for (Chemical& validReactant : validReactants) {
+        if (item.compare(validReactant.name) == 0) {
+            placedReactants.push_back({validReactant.image, validReactant.name});
+            ReorgMyEquation();
+            return true;
+        }
+    }
+    return false;
 }
 
-void Factory::Place(string reactant) {
-    if (IsFilled()) return;
-    if (!reactantStatuses.at(reactant)) {
-        reactantStatuses.at(reactant) = true;
-        filled++;
-        if (IsFilled())
-            timeFilled = GetTime();
+void Factory::PopReactant(string reactant) {
+    for (int i = 0; i < placedReactants.size(); i++) {
+        if (placedReactants.at(i).name.compare(reactant) == 0) {
+            if (i < placedReactants.size() - 1) {
+                for (int j = i; j < placedReactants.size()-1; j++) {
+                    placedReactants.at(j) = placedReactants.at(j+1);
+                }
+            }
+            placedReactants.pop_back();
+            return;
+        }
     }
 }
+
+void Factory::ReorgMyEquation() {
+    int longestFullfilledEquation = 0;
+    for (Equation& equation : equations) {
+        bool hasFullfilledEquation = true;
+        for (Chemical& reactant : equation.reactants) {
+            bool fullfilledReactant = false;
+            for (Sprite& placedReactant : placedReactants) {
+                if (reactant.name.compare(placedReactant.name) == 0) {
+                    fullfilledReactant = true;
+                    break;
+                }
+            }
+            if (!fullfilledReactant) {
+                hasFullfilledEquation = false;
+                break;
+            }
+        }
+        if (hasFullfilledEquation && equation.reactants.size() > longestFullfilledEquation) {
+            longestFullfilledEquation = equation.reactants.size();
+            fullfilledEquation = equation;
+        }
+    }
+    pendingProducts.clear();
+    if (longestFullfilledEquation == 0) {
+        filled = false;
+        fullfilledEquation.products.clear();
+        fullfilledEquation.reactants.clear();
+    } else {
+        filled = true;
+        int pWidth = 100;
+        int py = y + height/2;
+        for (int i = 0; i < fullfilledEquation.products.size(); i++) {
+            int px = x - (fullfilledEquation.products.size() * pWidth/2) + i * pWidth + pWidth/2;
+            pendingProducts.push_back({px, py, pWidth, pWidth, fullfilledEquation.products.at(i).image, fullfilledEquation.products.at(i).name});
+        }
+    }
+    int rWidth = placedReactants.size() >= 3 ? 175 / placedReactants.size() : 64;
+    float ry = y-height/2;
+    for(int i = 0; i < placedReactants.size(); i++) {
+        float rx = x - (placedReactants.size() * rWidth/2) + i * rWidth + rWidth/2;
+        placedReactants.at(i).SetByState2D({rx, ry, rWidth, rWidth});
+        placedReactants.at(i).inEquation = false;
+        if (filled) {
+            for (Chemical reactant : fullfilledEquation.reactants) {
+                if (placedReactants.at(i).name.compare(reactant.name) == 0) {
+                    placedReactants.at(i).inEquation = true;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+Sprite Factory::DiscardListen() {
+    for (Sprite placedReactant : placedReactants) {
+        if (placedReactant.IsClicked()) {
+            PopReactant(placedReactant.name);
+            ReorgMyEquation();
+            return placedReactant;
+        }
+    }
+    return {"noitem"};
+}
+
+vector<Sprite> Factory::React() {
+    vector<Sprite> ejectedProducts = pendingProducts;
+    pendingProducts.clear();
+    filled = false;
+    for (Chemical reactant : fullfilledEquation.reactants)
+        PopReactant(reactant.name);
+    ReorgMyEquation();
+    return ejectedProducts;
+}
+
+RSprite::RSprite(Texture2D image, string name) : Sprite(image, name) {}
