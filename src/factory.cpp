@@ -117,31 +117,36 @@ void Factory::ReorgMyEquation() {
         }
     }
     pendingProducts.clear();
-    if (longestFullfilledEquation == 0) {
-        filled = false;
-        fullfilledEquation.products.clear();
-        fullfilledEquation.reactants.clear();
-    } else {
-        filled = true;
-        int pWidth = 100;
+    filled = longestFullfilledEquation > 0;
+    if (filled) {
+        int pWidth = 72; // magic number (if you change it everything breaks)
         int py = y + height/2;
         for (int i = 0; i < fullfilledEquation.products.size(); i++) {
             int px = x - (fullfilledEquation.products.size() * pWidth/2) + i * pWidth + pWidth/2;
             pendingProducts.push_back({px, py, pWidth, pWidth, fullfilledEquation.products.at(i).image, fullfilledEquation.products.at(i).name});
         }
+    } else {
+        fullfilledEquation.products.clear();
+        fullfilledEquation.reactants.clear();
     }
+
+    vector<Chemical> claimedReactants = fullfilledEquation.reactants;
     int rWidth = placedReactants.size() >= 3 ? 175 / placedReactants.size() : 64;
     float ry = y-height/2;
     for(int i = 0; i < placedReactants.size(); i++) {
+        RSprite& placedChem = placedReactants.at(i);
         float rx = x - (placedReactants.size() * rWidth/2) + i * rWidth + rWidth/2;
-        placedReactants.at(i).SetByState2D({rx, ry, rWidth, rWidth});
-        placedReactants.at(i).inEquation = false;
-        if (filled) {
-            for (Chemical reactant : fullfilledEquation.reactants) {
-                if (placedReactants.at(i).name.compare(reactant.name) == 0) {
-                    placedReactants.at(i).inEquation = true;
-                    break;
-                }
+        placedChem.SetByState2D({rx, ry, rWidth, rWidth});
+        placedChem.inEquation = false;
+        // only runs if a fullfilled equation has been founded
+        for (int j = 0; j < claimedReactants.size(); j++) {
+            if (claimedReactants.at(j).name.compare(placedChem.name) == 0) {
+                placedChem.inEquation = true;
+                // this does not cause problems if claimedReactants has 1 or 0 elements, trust me
+                for (int i = j; j < claimedReactants.size() - 1; j++)
+                    claimedReactants.at(j) = claimedReactants.at(j+1);
+                claimedReactants.pop_back();
+                break;
             }
         }
     }
