@@ -77,14 +77,43 @@ bool Factory::Place(string item) {
                     filled = true;
                 }
             }
-            int rWidth = placedReactants.size() >= 3 ? 175 / placedReactants.size() : 64;
-            float ry = y-height/2;
-            for(int i = 0; i < placedReactants.size(); i++) {
-                float rx = x - (placedReactants.size() * rWidth/2) + i * rWidth + rWidth/2;
-                placedReactants.at(i).SetByState2D({rx, ry, rWidth, rWidth});
-            }
+            ShiftPlacedReactants();
             return true;
         }
     }
     return false;
+}
+
+void Factory::PopReactant(string reactant) {
+    for (int i = 0; i < placedReactants.size(); i++) {
+        if (placedReactants.at(i).name.compare(reactant) == 0) {
+            if (i < placedReactants.size() - 1) {
+                for (int j = i; j < placedReactants.size()-1; j++) {
+                    placedReactants.at(j) = placedReactants.at(j+1);
+                }
+            }
+            placedReactants.pop_back();
+            ShiftPlacedReactants();
+            return;
+        }
+    }
+}
+
+void Factory::ShiftPlacedReactants() {
+    int rWidth = placedReactants.size() >= 3 ? 175 / placedReactants.size() : 64;
+    float ry = y-height/2;
+    for(int i = 0; i < placedReactants.size(); i++) {
+        float rx = x - (placedReactants.size() * rWidth/2) + i * rWidth + rWidth/2;
+        placedReactants.at(i).SetByState2D({rx, ry, rWidth, rWidth});
+    }
+}
+
+Sprite Factory::DiscardListen() {
+    for (Sprite placedReactant : placedReactants) {
+        if (placedReactant.IsClicked()) {
+            PopReactant(placedReactant.name);
+            return placedReactant;
+        }
+    }
+    return Sprite{"noitem"};
 }

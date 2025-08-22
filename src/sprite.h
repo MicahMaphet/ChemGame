@@ -17,6 +17,7 @@ public:
     Sprite(int width, int height, Texture2D img, string name);
     Sprite(Texture2D img, string name);
     Sprite(int width, int height, string name);
+    Sprite(string name);
     Sprite();
     int x, y, width, height;
     double heading, rotation, speed, speedX, speedY, maxSpeed, speedDeadband, acceleration;

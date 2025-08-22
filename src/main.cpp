@@ -141,48 +141,55 @@ int main(int, char**){
             }
             item.Render();
         }
+
         switch (gameState) {
-            case Moving:
-                player.KeyListen();
-                if (factory.IsTouching(player.item) && factory.Place(player.item.name)) {
-                    inventory.PopItem(player.item.name);
-                    player.item.name = "noitem";
-                }
-
-                if (IsMouseButtonPressed(0)) {
-                    for (string item_name : itemNames) {
-                        if (player.item.name.compare(item_name) == 0) {
-                            placedItems.push_back({GetMousePosition(), items.at(item_name)});
-                            inventory.PopItem(item_name);
-                            player.item.name = "noitem";
-                        }
-                    }
-                }
-
-                if (workBench.IsClicked()) {
-                    gameState = Labing;
-                    workBench.Display();
-                }
-                if (IsKeyPressed(KEY_E))
-                    gameState = Inventory;
-                break;
-            case Labing:
-                if (completeButton.IsMouseHover()) {
-                    completeButton.RenderImage(completeButtonImages.highlight);
-                    if (IsMouseButtonReleased(0)) {
-                        gameState = Moving;
-                        workBench.EndDisplay();
-                    }
-                }
-                else completeButton.RenderImage(completeButtonImages.idle);
-                break;
-            case Inventory:
-                inventory.Render();
-                player.SelectItem(inventory.GetSelectedItem());
-                if (IsKeyPressed(KEY_E)) {
-                    gameState = Moving;
-                break;
+        // I have enough indentation already
+        case Moving: {
+            player.KeyListen();
+            if (factory.IsTouching(player.item) && factory.Place(player.item.name)) {
+                inventory.PopItem(player.item.name);
+                player.item.name = "noitem";
             }
+            if (IsMouseButtonReleased(0)) {
+                Sprite discard = factory.DiscardListen();
+                if (discard.name.compare("noitem") != 0) {
+                    placedItems.push_back({discard.x, discard.y-50, items.at(discard.name)});
+                }
+            }
+            if (IsMouseButtonPressed(0)) {
+                for (string item_name : itemNames) {
+                    if (player.item.name.compare(item_name) == 0) {
+                        placedItems.push_back({GetMousePosition(), items.at(item_name)});
+                        inventory.PopItem(item_name);
+                        player.item.name = "noitem";
+                    }
+                }
+            }
+            if (workBench.IsClicked()) {
+                gameState = Labing;
+                workBench.Display();
+            }
+            if (IsKeyPressed(KEY_E))
+                gameState = Inventory;
+            break;
+        }
+        case Labing:
+            if (completeButton.IsMouseHover()) {
+                completeButton.RenderImage(completeButtonImages.highlight);
+                if (IsMouseButtonReleased(0)) {
+                    gameState = Moving;
+                    workBench.EndDisplay();
+                }
+            }
+            else completeButton.RenderImage(completeButtonImages.idle);
+            break;
+        case Inventory:
+            inventory.Render();
+            player.SelectItem(inventory.GetSelectedItem());
+            if (IsKeyPressed(KEY_E)) {
+                gameState = Moving;
+            }
+            break;
         }
 
         if (gameState != Moving) {

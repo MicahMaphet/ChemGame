@@ -24,6 +24,8 @@ Sprite::Sprite(Texture2D image, string name) : Sprite(0, 0, 0, 0, image, name) {
 
 Sprite::Sprite(int width, int height, string name) : Sprite(0, 0, width, height, name) {}
 
+Sprite::Sprite(string name) : Sprite(0, 0, 0, 0, name) {}
+
 Sprite::Sprite() : Sprite(0, 0, 0, 0) {}
 
 bool Sprite::IsTouching(Sprite sprite) {
