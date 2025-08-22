@@ -40,12 +40,8 @@ void Factory::Render() {
 
     if (!filled)
         return;
-    int numProducts = fullfilledEquation.products.size();
-    int pWidth = 50;
-    int py = y+height/2;
-    for (int i = 0; i < numProducts; i++) {
-        int px = x - (numProducts * pWidth/2) + i * pWidth + pWidth/2;
-        Util::RenderImage(fullfilledEquation.products.at(i).image, px, py, pWidth, pWidth);
+    for (Sprite& pendingProduct : pendingProducts) {
+        pendingProduct.Render();
     }
 }
 
@@ -76,6 +72,14 @@ bool Factory::Place(string item) {
                     fullfilledEquation = equation;
                     filled = true;
                 }
+            }
+            int numProducts = fullfilledEquation.products.size();
+            int pWidth = 100;
+            int py = y + height/2;
+            pendingProducts.clear();
+            for (int i = 0; i < numProducts; i++) {
+                int px = x - (numProducts * pWidth/2) + i * pWidth + pWidth/2;
+                pendingProducts.push_back({px, py, pWidth, pWidth, fullfilledEquation.products.at(i).image, fullfilledEquation.products.at(i).name});
             }
             ShiftPlacedReactants();
             return true;
@@ -115,5 +119,15 @@ Sprite Factory::DiscardListen() {
             return placedReactant;
         }
     }
-    return Sprite{"noitem"};
+    return {"noitem"};
+}
+
+Sprite Factory::ClaimProductListen() {
+    for (Sprite pendingProduct : pendingProducts) {
+        if (pendingProduct.IsClicked()) {
+            pendingProducts.clear();
+            return pendingProduct;
+        }
+    }
+    return {"noitem"};
 }

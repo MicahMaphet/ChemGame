@@ -154,6 +154,11 @@ int main(int, char**){
                 Sprite discard = factory.DiscardListen();
                 if (discard.name.compare("noitem") != 0) {
                     placedItems.push_back({discard.x, discard.y-50, items.at(discard.name)});
+                } else {
+                    Sprite claimedProduct = factory.ClaimProductListen();
+                    if (claimedProduct.name.compare("noitem") != 0) {
+                        player.SelectItem(claimedProduct);
+                    }
                 }
             }
             if (IsMouseButtonPressed(0)) {
