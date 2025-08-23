@@ -126,7 +126,9 @@ int main(int, char**){
 
     vector<Item> placedItems;
 
+    bool haltItemAction = false;
     while (!WindowShouldClose()) {
+        haltItemAction = false;
         BeginDrawing();
         ClearBackground(BLACK);
         factory.Render();
@@ -134,12 +136,25 @@ int main(int, char**){
         door.RenderImage();
         workBench.Render();
         for (int i = 0; i < placedItems.size(); i++) {
+            if (haltItemAction) {
+                break;
+            }
             Item &item = placedItems.at(i);
-            if (item.IsMouseHover() && IsMouseButtonPressed(0)) {
+            if (player.IsTouching(item)) {
                 inventory.AddItem(item);
                 placedItems.erase(placedItems.begin() + i);
+                haltItemAction = true;
+            }
+            if (item.IsMouseHover() && IsMouseButtonPressed(0) && player.item.name.compare("noitem") == 0) {
+                player.SelectItem(item);
+                placedItems.erase(placedItems.begin() + i);
+                haltItemAction = true;
             }
             item.Render();
+        }
+        if (haltItemAction) {
+            EndDrawing();
+            continue;
         }
 
         switch (gameState) {
@@ -162,10 +177,10 @@ int main(int, char**){
                     }
                 }
             }
-            if (IsMouseButtonPressed(0)) {
+            if (IsKeyDown(KEY_Q)) {
                 for (string item_name : itemNames) {
                     if (player.item.name.compare(item_name) == 0) {
-                        placedItems.push_back({GetMousePosition(), items.at(item_name)});
+                        placedItems.push_back({player.item.GetPosition(), items.at(item_name)});
                         inventory.PopItem(item_name);
                         player.item.name = "noitem";
                     }
