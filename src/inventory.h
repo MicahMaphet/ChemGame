@@ -15,6 +15,7 @@ public:
     Inventory(int width, int height);
     void Render();
     Sprite GetSelectedItem();
+    void SelectItem(string item_name);
     void AddItem(Sprite sprite);
     void AddItem(Item item);
     void AddItem(ItemData itemd);

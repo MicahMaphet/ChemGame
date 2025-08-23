@@ -47,7 +47,10 @@ void Factory::Render() {
 
     for (RSprite& placedReactant : placedReactants) {
         Color color;
-        if (IsMouseHover()) {
+        if (placedReactant.IsMouseHover()) {
+            color = WHITE;
+
+        } else if (IsMouseHover()) {
             if (placedReactant.inEquation)
                 color = {200, 240, 200, 225};
             else

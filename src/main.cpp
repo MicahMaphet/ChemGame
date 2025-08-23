@@ -63,7 +63,7 @@ int main(int, char**){
     /** A position must be set for the sprite to appear on the level */
     // Level 1
     levelPositions.push_back({
-            {&player, {100, 100}},
+            {&player, {600, 500}},
             {&door, {1000, 500}}
     });
     levelRotations.push_back({
@@ -145,8 +145,10 @@ int main(int, char**){
                 placedItems.erase(placedItems.begin() + i);
                 haltItemAction = true;
             }
-            if (item.IsMouseHover() && IsMouseButtonPressed(0) && player.item.name.compare("noitem") == 0) {
+            if (item.IsClicked() && player.item.name.compare("noitem") == 0) {
                 player.SelectItem(item);
+                inventory.AddItem(item);
+                inventory.SelectItem(item.name);
                 placedItems.erase(placedItems.begin() + i);
                 haltItemAction = true;
             }
@@ -161,9 +163,10 @@ int main(int, char**){
         // I have enough indentation already
         case Moving: {
             player.KeyListen();
-            if (factory.IsTouching(player.item) && factory.Place(player.item.name)) {
+            if (factory.IsClicked() && factory.IsTouching(player.item) && factory.Place(player.item.name)) {
                 inventory.PopItem(player.item.name);
                 player.item.name = "noitem";
+                break;
             }
             if (IsMouseButtonReleased(0)) {
                 Sprite discard = factory.DiscardListen();

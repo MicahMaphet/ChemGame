@@ -53,6 +53,16 @@ Sprite Inventory::GetSelectedItem() {
     return items.at(selectedItemIndex);
 }
 
+void Inventory::SelectItem(string item_name) {
+    for (int i = 0; i < items.size(); i++) {
+        if (item_name.compare(items.at(i).name) == 0) {
+            selectedItemIndex = i;
+            return;
+        }
+    }
+    selectedItemIndex = -1;
+}
+
 void Inventory::AddItem(Sprite sprite) {
     if (itemCounts.count(sprite.name) == 0) {
         items.push_back(sprite);
