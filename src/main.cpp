@@ -6,6 +6,7 @@
 #include "inventory.h"
 #include "factory.h"
 #include "item.h"
+#include "explosion.h"
 #include <map>
 using std::map;
 using std::cout;
@@ -28,6 +29,7 @@ int main(int, char**){
         {"images/Ethanol.png", "Ethanol"},
         {"images/Hg.png", "Mercury"},
         {"images/Hg(CNO)2.png", "Mercury Fulminate"},
+        {"images/match.png", "Match"},
     };
     vector<string>itemNames;
     map<string, ItemData> items;
@@ -37,6 +39,7 @@ int main(int, char**){
     }
 
     Player player(0, 0, 120, 180);
+    player.SelectItem({items.at("Match").image, "Match"});
     
     Sprite door{1000, 200, 120, 40};
     door.image = LoadTexture("images/Door.png");
@@ -129,6 +132,7 @@ int main(int, char**){
     GameState gameState = Moving;
 
     vector<Item> placedItems;
+    vector<Explosion> activeExplosions;
 
     bool haltItemAction = false;
     while (!WindowShouldClose()) {
@@ -148,15 +152,40 @@ int main(int, char**){
                 inventory.AddItem(item);
                 placedItems.erase(placedItems.begin() + i);
                 haltItemAction = true;
-            }
-            if (item.IsClicked() && player.item.name.compare("noitem") == 0) {
+            } else if (item.IsClicked() && player.item.name.compare("noitem") == 0) {
                 player.SelectItem(item);
                 inventory.AddItem(item);
                 inventory.SelectItem(item.name);
                 placedItems.erase(placedItems.begin() + i);
                 haltItemAction = true;
+            } else if (IsMouseButtonReleased(0) && player.item.name.compare("Match") == 0 && item.IsTouching(player.item)) {
+                for (string exName : {"Mercury Fulminate", "Nitroglycerin", "Black Powder", "Trinitrotoluene"}) {
+                    if (item.name.compare(exName) == 0) {
+                        activeExplosions.push_back({item.GetPosition(), 64, 5});
+                        for (int j = i; j < placedItems.size() - 1; j++) {
+                            placedItems.at(j) = placedItems.at(j+1);
+                        }
+                        placedItems.pop_back();
+                        i = 0;
+                        break;
+                    }
+                }
             }
+
             item.Render();
+        }
+
+        for (int i = 0; i < activeExplosions.size(); i++) {
+            Explosion& explosion = activeExplosions.at(i);
+            if (explosion.IsFinished()) {
+                for (int j = i; j < activeExplosions.size() - 1; j++) {
+                    activeExplosions.at(j) = activeExplosions.at(j+1);
+                }
+                activeExplosions.pop_back();
+                i = 0; // this bad
+            } else {
+                explosion.Render();
+            }
         }
         if (haltItemAction) {
             EndDrawing();
@@ -184,7 +213,7 @@ int main(int, char**){
                     }
                 }
             }
-            if (IsKeyDown(KEY_Q)) {
+            if (IsKeyReleased(KEY_Q)) {
                 for (string item_name : itemNames) {
                     if (player.item.name.compare(item_name) == 0) {
                         placedItems.push_back({player.item.GetPosition(), items.at(item_name)});
@@ -193,6 +222,7 @@ int main(int, char**){
                     }
                 }
             }
+
             if (workBench.IsClicked()) {
                 gameState = Labing;
                 workBench.Display();

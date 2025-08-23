@@ -31,6 +31,7 @@ public:
     double GetMouseAngle();
     double GetMouseDistance();
     Vector2 GetPosition();
+    Dimentions GetDims();
     void Render();
     void RenderImage(Texture2D image, float scale = 1);
     void RenderImage(float scale = 1);

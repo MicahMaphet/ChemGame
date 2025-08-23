@@ -106,3 +106,7 @@ bool Sprite::GetOffScreen() {
 Vector2 Sprite::GetPosition() {
     return {(float)x, (float)y};
 }
+
+Dimentions Sprite::GetDims() {
+    return {width, height};
+}
