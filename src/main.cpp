@@ -7,6 +7,7 @@
 #include "factory.h"
 #include "item.h"
 #include "explosion.h"
+#include "enemy.h"
 #include <map>
 using std::map;
 using std::cout;
@@ -133,6 +134,7 @@ int main(int, char**){
 
     vector<Item> placedItems;
     vector<Explosion> activeExplosions;
+    vector<Enemy> enemies;
 
     bool haltItemAction = false;
     while (!WindowShouldClose()) {
@@ -184,12 +186,28 @@ int main(int, char**){
                 activeExplosions.pop_back();
                 i = 0; // this bad
             } else {
+                for (int j = 0; j < enemies.size(); j++) {
+                    Enemy& enemy = enemies.at(j);
+                    if (enemy.IsTouching({explosion.x, explosion.y, explosion.radius*2, explosion.radius*2})) {
+                        for (int k = j; k < enemies.size() - 1; k++) {
+                            enemies.at(k) = enemies.at(k+1);
+                        }
+                        enemies.pop_back();
+                        j = 0;
+                    }
+                }
                 explosion.Render();
             }
         }
         if (haltItemAction) {
             EndDrawing();
             continue;
+        }
+
+        for (int i = 0; i < enemies.size(); i++) {
+            Enemy& enemy = enemies.at(i);
+            enemy.SetTarget(player.GetPosition());
+            enemy.Render();
         }
 
         switch (gameState) {
@@ -280,6 +298,7 @@ int main(int, char**){
                 placedItems.push_back({250, 200, items.at("Mercury Fulminate")});
                 placedItems.push_back({700, 120, items.at("Ethanol")});
                 placedItems.push_back({700, 200, items.at("Mercury")});
+                enemies.push_back({1800, 800, 100, 100});
                 break;
                 case 3:
                 placedItems.push_back({500, 900, items.at("Carbon")});
