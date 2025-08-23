@@ -25,6 +25,9 @@ int main(int, char**){
         {"images/Default.png", "Nitroglycerin", "C3H5N3O"},
         {"images/TNT.png", "Trinitrotoluene"},
         {"images/Toluene.png", "Toluene"},
+        {"images/Ethanol.png", "Ethanol"},
+        {"images/Hg.png", "Mercury"},
+        {"images/Hg(CNO)2.png", "Mercury Fulminate"},
     };
     vector<string>itemNames;
     map<string, ItemData> items;
@@ -55,6 +58,7 @@ int main(int, char**){
     factory.AddEquation({items.at("Potasium Nitrate"), items.at("Carbon"), items.at("Sulfer")}, {items.at("Black Powder")});
     factory.AddEquation({items.at("Sulfuric Acid"), items.at("Nitric Acid"), items.at("Glycerol")},  {items.at("Nitroglycerin")});
     factory.AddEquation({items.at("Toluene"), items.at("Nitric Acid"), items.at("Sulfuric Acid")}, {items.at("Trinitrotoluene")});
+    factory.AddEquation({items.at("Ethanol"), items.at("Mercury"), items.at("Nitric Acid")}, {items.at("Mercury Fulminate")});
 
     Sprite* spriteRefs[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&factory};
 
@@ -168,7 +172,7 @@ int main(int, char**){
                 player.item.name = "noitem";
                 break;
             }
-            if (IsMouseButtonReleased(0)) {
+            if (IsMouseButtonReleased(0) && player.item.name.compare("noitem") == 0) {
                 Sprite discard = factory.DiscardListen();
                 if (discard.name.compare("noitem") != 0) {
                     placedItems.push_back({discard.x, discard.y-50, items.at(discard.name)});
@@ -241,6 +245,11 @@ int main(int, char**){
                 placedItems.push_back({300, 900, items.at("Potasium Nitrate")});
                 placedItems.push_back({1500, 200, items.at("Sulfuric Acid")});
                 placedItems.push_back({1500, 400, items.at("Nitric Acid")});
+                placedItems.push_back({800, 400, items.at("Nitric Acid")});
+                placedItems.push_back({150, 200, items.at("Nitric Acid")});
+                placedItems.push_back({250, 200, items.at("Mercury Fulminate")});
+                placedItems.push_back({700, 120, items.at("Ethanol")});
+                placedItems.push_back({700, 200, items.at("Mercury")});
                 break;
                 case 3:
                 placedItems.push_back({500, 900, items.at("Carbon")});
