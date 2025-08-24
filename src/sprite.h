@@ -37,4 +37,5 @@ public:
     void RenderImage(float scale = 1);
     void RenderBox();
     bool GetOffScreen();
+    void SetByPositionRotation(PositionRotation poserot);
 };

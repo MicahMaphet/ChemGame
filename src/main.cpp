@@ -56,62 +56,43 @@ int main(int, char**){
 
     Sprite* spriteRefs[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&factory};
 
-    vector<map<Sprite*, Vector2>> levelPositions;
-    vector<map<Sprite*, float>> levelRotations;
+    vector<map<Sprite*, PositionRotation>> levelLayout;
     /** A position must be set for the sprite to appear on the level */
     // Level 1
-    levelPositions.push_back({
-            {&player, {600, 500}},
-            {&door, {1000, 500}}
-    });
-    levelRotations.push_back({
-        {&door, 90}
+    levelLayout.push_back({
+        {&player, {600, 500}},
+        {&door, {1000, 500, 90}}
     });
     // Level 2
-    levelPositions.push_back({ 
+    levelLayout.push_back({ 
         {&player, {0, 0}},
-        {&door, {500, 500}},
+        {&door, {500, 500, 90}},
         {&factory, {1000, 700}}
     });
-    levelRotations.push_back({
-        {&door, 90}
-    });
     // Level 3
-    levelPositions.push_back({ 
+    levelLayout.push_back({ 
         {&player, {500, 500}},
         {&door, {1700, 500}},
         {&factory, {1000, 500}}
     });
-    levelRotations.push_back({
-        {&door, 0}
-    });
     // Level 4
-    levelPositions.push_back({ 
+    levelLayout.push_back({ 
         {&player, {600, 200}},
-        {&door, {1500, 700}},
+        {&door, {1500, 700, 90}},
         {&factory, {200, 800}}
     });
-    levelRotations.push_back({
-        {&door, 90}
-    });
     // Level 5;
-    levelPositions.push_back({ 
+    levelLayout.push_back({ 
         {&player, {100, 500}},
         {&door, {50, 500}}
-    });
-    levelRotations.push_back({
-        {&door, 0}
     });
 
     // set up first level
     for (Sprite* ref : spriteRefs) {
-        if (levelPositions.at(level).count(ref) != 0) {
-            (*ref).SetByPose(levelPositions.at(level).at(ref));
-            if (levelRotations.at(level).count(ref) != 0)
-                (*ref).rotation = levelRotations.at(level).at(ref);
-        }
+        if (levelLayout.at(level).count(ref) != 0)
+            (*ref).SetByPositionRotation(levelLayout.at(level).at(ref));
         else
-            (*ref).SetByPose({-INFINITY, -INFINITY});
+            (*ref).SetByPose({-INFINITY, -INFINITY}); // is infinity a place...
     }
     level = 1;
 
@@ -250,15 +231,12 @@ int main(int, char**){
             level++;
             placedItems.clear();
             for (Sprite* ref : spriteRefs) {
-                if (level >= levelPositions.size())
+                if (level >= levelLayout.size())
                     break;
-                if (levelPositions.at(level - 1).count(ref) != 0) {
-                    (*ref).SetByPose(levelPositions.at(level - 1).at(ref));
-                    if (levelRotations.at(level).count(ref) != 0)
-                        (*ref).rotation = levelRotations.at(level).at(ref);
-                } else {
-                    (*ref).SetByPose({-INFINITY, -INFINITY});
-                }
+                if (levelLayout.at(level - 1).count(ref) != 0) 
+                    (*ref).SetByPositionRotation(levelLayout.at(level - 1).at(ref));
+                else
+                    (*ref).SetByPositionRotation({-INFINITY, -INFINITY});
             }
             switch (level) {
                 case 2:

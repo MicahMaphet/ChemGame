@@ -51,7 +51,7 @@ double Sprite::GetMouseAngle() {
     return atan2(GetMouseY() - y, GetMouseX() - x);
 }
 
-double Sprite:: GetMouseDistance() {
+double Sprite::GetMouseDistance() {
     return hypot(GetMouseX() - x, GetMouseY() - y);
 }
 
@@ -97,6 +97,12 @@ void Sprite::SetByState2D(State2D state2D) {
     SetByPose(state2D.pose);
     SetByDims(state2D.dims);
     rotation = state2D.rotation;
+}
+
+void Sprite::SetByPositionRotation(PositionRotation poserot) {
+    x = poserot.x;
+    y = poserot.y;
+    rotation = poserot.rotation;
 }
 
 bool Sprite::GetOffScreen() {
