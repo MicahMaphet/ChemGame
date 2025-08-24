@@ -2,7 +2,6 @@
 #include <string.h>
 #include "raylib.h"
 #include "player.h"
-#include "work_bench.h"
 #include "inventory.h"
 #include "factory.h"
 #include "item.h"
@@ -46,15 +45,6 @@ int main(int, char**){
     door.image = LoadTexture("images/Door.png");
     int level = 0;
 
-    Sprite completeButton(GetScreenWidth() - 200, GetScreenHeight() - 200, 100, 100);
-
-    struct CompleteButtonImages {
-        Texture2D idle = LoadTexture("images/CompleteButton.png");
-        Texture2D highlight = LoadTexture("images/CompleteButtonHighlight.png");
-    };
-    CompleteButtonImages completeButtonImages;
-
-    WorkBench workBench(1000, 800, 175, 100);
 
     Inventory inventory(800, 800);
 
@@ -64,7 +54,7 @@ int main(int, char**){
     factory.AddEquation({items.at("Toluene"), items.at("Nitric Acid"), items.at("Sulfuric Acid")}, {items.at("Trinitrotoluene")});
     factory.AddEquation({items.at("Ethanol"), items.at("Mercury"), items.at("Nitric Acid")}, {items.at("Mercury Fulminate")});
 
-    Sprite* spriteRefs[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&workBench, (Sprite*)&factory};
+    Sprite* spriteRefs[] = {(Sprite*)&player, (Sprite*)&door, (Sprite*)&factory};
 
     vector<map<Sprite*, Vector2>> levelPositions;
     vector<map<Sprite*, float>> levelRotations;
@@ -127,7 +117,6 @@ int main(int, char**){
 
     enum GameState {
         Moving,
-        Labing,
         Inventory
     };
     GameState gameState = Moving;
@@ -144,7 +133,6 @@ int main(int, char**){
         factory.Render();
         player.Render();
         door.RenderImage();
-        workBench.Render();
         for (int i = 0; i < placedItems.size(); i++) {
             if (haltItemAction) {
                 break;
@@ -241,24 +229,10 @@ int main(int, char**){
                 }
             }
 
-            if (workBench.IsClicked()) {
-                gameState = Labing;
-                workBench.Display();
-            }
             if (IsKeyPressed(KEY_E))
                 gameState = Inventory;
             break;
         }
-        case Labing:
-            if (completeButton.IsMouseHover()) {
-                completeButton.RenderImage(completeButtonImages.highlight);
-                if (IsMouseButtonReleased(0)) {
-                    gameState = Moving;
-                    workBench.EndDisplay();
-                }
-            }
-            else completeButton.RenderImage(completeButtonImages.idle);
-            break;
         case Inventory:
             inventory.Render();
             player.SelectItem(inventory.GetSelectedItem());
