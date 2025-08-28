@@ -3,5 +3,5 @@ project(ChemGame VERSION 0.1.0 LANGUAGES C CXX)
 
 find_package(raylib REQUIRED)
 
-add_executable(ChemGame src/main.cpp src/util.cpp src/sprite.cpp src/player.cpp src/work_bench.cpp src/inventory.cpp src/factory.cpp src/item.cpp src/item_data.cpp src/explosion.cpp src/enemy.cpp)
+add_executable(ChemGame src/main.cpp src/util.cpp src/sprite.cpp src/player.cpp src/work_bench.cpp src/inventory.cpp src/factory.cpp src/item.cpp src/item_data.cpp src/explosion.cpp src/enemy.cpp src/game.cpp)
 target_link_libraries(ChemGame PRIVATE raylib)

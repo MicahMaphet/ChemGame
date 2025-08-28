@@ -1,7 +1,7 @@
 #include "inventory.h"
 #include <iostream>
 
-Inventory::Inventory(int width, int height) : Sprite(width, height) {
+Inventory::Inventory() : Sprite(800, 800) {
     noitem.name = "noitem";
     selectedItemIndex = -1;
 }

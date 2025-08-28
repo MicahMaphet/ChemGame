@@ -12,7 +12,7 @@ private:
     Texture2D noimage;
     int selectedItemIndex;
 public:
-    Inventory(int width, int height);
+    Inventory();
     void Render();
     Sprite GetSelectedItem();
     void SelectItem(string item_name);

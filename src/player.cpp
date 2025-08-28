@@ -3,7 +3,7 @@
 #include <cmath>
 #include <iostream>
 
-Player::Player(int x, int y, int width, int height) : Sprite(x, y, width, height) {
+Player::Player() : Sprite(0, 0, 120, 180) {
     texture = LoadTexture("images/LuSuit.png");
     maxSpeed = 10;
     acceleration = 0.5;

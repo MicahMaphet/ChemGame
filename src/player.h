@@ -8,7 +8,7 @@ private:
     Texture2D texture;
     void Hold();
 public:
-    Player(int x, int y, int width, int height);
+    Player();
     void KeyListen();
     void Render();
     void Deaccelerate();
